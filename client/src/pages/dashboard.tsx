@@ -38,6 +38,7 @@ import {
 import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { AnimatedStatsCard } from "@/components/AnimatedStatsCard";
 import { AddToQueueDialog } from "@/components/AddToQueueDialog";
+import { StaffPhotoUpload } from "@/components/StaffPhotoUpload";
 import type { Store, Staff } from "@shared/schema";
 
 export default function DashboardPage() {
@@ -298,8 +299,16 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
-                <StoreIcon className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg overflow-hidden">
+                {currentStore?.logoUrl ? (
+                  <img 
+                    src={currentStore.logoUrl} 
+                    alt={`${currentStore.name} logo`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <StoreIcon className="w-6 h-6 text-white" />
+                )}
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white flex items-center gap-2">
@@ -313,7 +322,6 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <DarkModeToggle />
               <div className="hidden md:flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
                 <User className="w-4 h-4 mr-2" />
                 {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
@@ -392,16 +400,19 @@ export default function DashboardPage() {
                 </DialogContent>
               </Dialog>
               
-              <Button 
-                onClick={() => logoutMutation.mutate()} 
-                variant="ghost"
-                size="sm"
-                className="text-white hover:bg-white/20 rounded-xl"
-                disabled={logoutMutation.isPending}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  onClick={() => logoutMutation.mutate()} 
+                  variant="ghost"
+                  size="sm"
+                  className="text-white hover:bg-white/20 rounded-xl"
+                  disabled={logoutMutation.isPending}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
+                </Button>
+                <DarkModeToggle />
+              </div>
             </div>
           </div>
         </div>
@@ -526,16 +537,11 @@ export default function DashboardPage() {
                           className="input-field"
                         />
                       </div>
-                      <div>
-                        <Label htmlFor="staff-photo">Photo URL</Label>
-                        <Input
-                          id="staff-photo"
-                          type="url"
-                          value={newStaff.photoUrl}
-                          onChange={(e) => setNewStaff(prev => ({ ...prev, photoUrl: e.target.value }))}
-                          className="input-field"
-                        />
-                      </div>
+                      <StaffPhotoUpload
+                        currentPhotoUrl={newStaff.photoUrl}
+                        onPhotoChange={(photoUrl) => setNewStaff(prev => ({ ...prev, photoUrl }))}
+                        staffName={newStaff.name}
+                      />
                       <Button type="submit" className="w-full btn-primary" disabled={addStaffMutation.isPending}>
                         {addStaffMutation.isPending ? "Adding..." : "Add Staff Member"}
                       </Button>
@@ -632,7 +638,7 @@ export default function DashboardPage() {
                         <Input
                           id="open-time"
                           type="time"
-                          defaultValue={currentStore.workingHours?.openTime || "09:00"}
+                          defaultValue={currentStore.workingHours?.monday?.open || "09:00"}
                           className="input-field"
                         />
                       </div>
@@ -641,7 +647,7 @@ export default function DashboardPage() {
                         <Input
                           id="close-time"
                           type="time"
-                          defaultValue={currentStore.workingHours?.closeTime || "17:00"}
+                          defaultValue={currentStore.workingHours?.monday?.close || "17:00"}
                           className="input-field"
                         />
                       </div>
@@ -680,7 +686,7 @@ export default function DashboardPage() {
                     <div className="text-center mb-4">
                       <div className="inline-block p-4 bg-gray-100 rounded-xl">
                         <QRCodeGenerator 
-                          value={`${window.location.origin}/store/${currentStore.slug}`}
+                          value={`https://${window.location.hostname}/store/${currentStore.slug}`}
                           size={160}
                         />
                       </div>
@@ -688,7 +694,7 @@ export default function DashboardPage() {
                     
                     <div className="space-y-3">
                       <div className="text-sm text-gray-600">
-                        <strong>URL:</strong> {window.location.origin}/store/{currentStore.slug}
+                        <strong>URL:</strong> https://{window.location.hostname}/store/{currentStore.slug}
                       </div>
                       <div className="flex space-x-2">
                         <Button className="flex-1 btn-primary">
@@ -717,7 +723,7 @@ export default function DashboardPage() {
                     <div className="text-center mb-4">
                       <div className="inline-block p-4 bg-gray-100 rounded-xl">
                         <QRCodeGenerator 
-                          value={`${window.location.origin}/store/${currentStore.slug}/display`}
+                          value={`https://${window.location.hostname}/store/${currentStore.slug}/display`}
                           size={160}
                         />
                       </div>
@@ -725,7 +731,7 @@ export default function DashboardPage() {
                     
                     <div className="space-y-3">
                       <div className="text-sm text-gray-600">
-                        <strong>URL:</strong> {window.location.origin}/store/{currentStore.slug}/display
+                        <strong>URL:</strong> https://{window.location.hostname}/store/{currentStore.slug}/display
                       </div>
                       <div className="flex space-x-2">
                         <Button className="flex-1 btn-primary">

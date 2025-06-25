@@ -111,8 +111,8 @@ export default function CustomerQueuePage() {
               <div className="flex items-center mt-2 text-sm text-gray-500">
                 <Clock className="w-4 h-4 mr-1" />
                 <span>
-                  {store.workingHours ? 
-                    `${store.workingHours.openTime} - ${store.workingHours.closeTime}` : 
+                  {store.workingHours?.monday ? 
+                    `${store.workingHours.monday.open} - ${store.workingHours.monday.close}` : 
                     "Hours not set"
                   }
                 </span>

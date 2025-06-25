@@ -24,9 +24,13 @@ export const stores = pgTable("stores", {
   address: text("address"),
   phone: text("phone"),
   workingHours: json("working_hours").$type<{
-    openTime: string;
-    closeTime: string;
-    days: string[];
+    monday: { open: string; close: string; isOpen: boolean };
+    tuesday: { open: string; close: string; isOpen: boolean };
+    wednesday: { open: string; close: string; isOpen: boolean };
+    thursday: { open: string; close: string; isOpen: boolean };
+    friday: { open: string; close: string; isOpen: boolean };
+    saturday: { open: string; close: string; isOpen: boolean };
+    sunday: { open: string; close: string; isOpen: boolean };
   }>(),
   services: text("services").array(),
   theme: json("theme").$type<{

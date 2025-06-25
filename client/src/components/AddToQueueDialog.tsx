@@ -55,7 +55,7 @@ export function AddToQueueDialog({ storeId, staff }: AddToQueueDialogProps) {
       storeId,
       customerName: customerData.name,
       contactInfo: customerData.contact || undefined,
-      staffId: customerData.staffId || undefined
+      staffId: customerData.staffId === "any" ? undefined : customerData.staffId || undefined
     });
   };
 
@@ -108,7 +108,7 @@ export function AddToQueueDialog({ storeId, staff }: AddToQueueDialogProps) {
                 <SelectValue placeholder="Any available staff" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Any available staff</SelectItem>
+                <SelectItem value="any">Any available staff</SelectItem>
                 {staff.filter(s => s.status === "available").map((member) => (
                   <SelectItem key={member.id} value={member.id}>
                     {member.name} - {member.title}
