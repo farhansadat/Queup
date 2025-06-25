@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +47,6 @@ function SortableItem({ id, customer, index, staff, onServe, onCancel }: Sortabl
     setNodeRef,
     transform,
     transition,
-    isDragging,
   } = useSortable({ id });
 
   const style = {
@@ -56,61 +54,50 @@ function SortableItem({ id, customer, index, staff, onServe, onCancel }: Sortabl
     transition,
   };
 
-  const staffMember = staff.find(s => s.id === customer.staffId);
+  const assignedStaff = staff.find(s => s.id === customer.staffId);
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors ${
-        isDragging ? "opacity-50 transform rotate-2" : ""
-      }`}
+      className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm"
     >
-      <div className="flex items-center space-x-4">
-        <div
-          className="cursor-move text-gray-400 hover:text-gray-600"
-          {...attributes}
-          {...listeners}
-        >
-          <GripVertical className="w-5 h-5" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
+            <GripVertical className="w-5 h-5 text-gray-400" />
+          </div>
+          <div>
+            <div className="flex items-center space-x-2">
+              <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
+              <span className="font-medium text-gray-900">{customer.customerName}</span>
+            </div>
+            {customer.contactInfo && (
+              <p className="text-sm text-gray-500 mt-1">{customer.contactInfo}</p>
+            )}
+            {assignedStaff && (
+              <p className="text-sm text-blue-600 mt-1">Staff: {assignedStaff.name}</p>
+            )}
+          </div>
         </div>
-        <div className={`w-10 h-10 text-white rounded-full flex items-center justify-center font-medium ${
-          index === 0 ? "bg-primary" :
-          index === 1 ? "bg-orange-500" :
-          index === 2 ? "bg-purple-500" : "bg-gray-500"
-        }`}>
-          {index + 1}
+        <div className="flex items-center space-x-2">
+          <Button
+            size="sm"
+            className="btn-accent"
+            onClick={() => onServe(customer.id)}
+          >
+            <Check className="w-4 h-4 mr-1" />
+            Served
+          </Button>
+          <Button
+            size="sm"
+            className="btn-danger"
+            onClick={() => onCancel(customer.id)}
+          >
+            <X className="w-4 h-4 mr-1" />
+            Cancel
+          </Button>
         </div>
-        <div>
-          <p className="font-medium text-gray-900">
-            {customer.customerName || "Anonymous"}
-          </p>
-          <p className="text-sm text-gray-600">
-            with {staffMember?.name || "First Available"} • 
-            Joined: {new Date(customer.joinedAt).toLocaleTimeString([], { 
-              hour: '2-digit', 
-              minute: '2-digit' 
-            })}
-          </p>
-        </div>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Button
-          size="sm"
-          className="btn-accent"
-          onClick={() => onServe(customer.id)}
-        >
-          <Check className="w-4 h-4 mr-1" />
-          Served
-        </Button>
-        <Button
-          size="sm"
-          className="btn-danger"
-          onClick={() => onCancel(customer.id)}
-        >
-          <X className="w-4 h-4 mr-1" />
-          Cancel
-        </Button>
       </div>
     </div>
   );
@@ -119,19 +106,8 @@ function SortableItem({ id, customer, index, staff, onServe, onCancel }: Sortabl
 export function DragDropQueue({ storeId }: DragDropQueueProps) {
   const { toast } = useToast();
   const { queue, isLoading } = useRealTimeQueue(storeId);
-  const [items, setItems] = useState<Queue[]>([]);
 
-  const { data: staff = [] } = useQuery<Staff[]>({
-    queryKey: [`/api/stores/${storeId}/staff`],
-    enabled: !!storeId
-  });
-
-  // Update local items when queue changes
-  useEffect(() => {
-    if (queue) {
-      setItems(queue);
-    }
-  }, [queue]);
+  const activeQueue = queue?.filter(item => item.status === 'waiting') || [];
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -149,7 +125,7 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
       queryClient.invalidateQueries({ queryKey: [`/api/stores/${storeId}/queue`] });
     },
     onError: () => {
-      toast({ title: "Error", description: "Failed to update queue.", variant: "destructive" });
+      toast({ title: "Error", description: "Failed to update queue", variant: "destructive" });
     }
   });
 
@@ -164,8 +140,7 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
 
   const clearQueueMutation = useMutation({
     mutationFn: async () => {
-      // Mark all entries as canceled
-      const promises = items.map(item => 
+      const promises = activeQueue.map(item => 
         updateQueueMutation.mutateAsync({ action: "cancel", entryId: item.id })
       );
       await Promise.all(promises);
@@ -179,13 +154,11 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      const oldIndex = items.findIndex(item => item.id === active.id);
-      const newIndex = items.findIndex(item => item.id === over.id);
+      const oldIndex = activeQueue.findIndex(item => item.id === active.id);
+      const newIndex = activeQueue.findIndex(item => item.id === over.id);
       
-      const newItems = arrayMove(items, oldIndex, newIndex);
-      setItems(newItems);
+      const newItems = arrayMove(activeQueue, oldIndex, newIndex);
 
-      // Create reorder data
       const newOrder = newItems.map((item, index) => ({
         id: item.id,
         position: index + 1
@@ -208,10 +181,9 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
   if (isLoading) {
     return (
       <Card>
-        <CardContent className="pt-6">
-          <div className="text-center py-8">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading queue...</p>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center py-8">
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
         </CardContent>
       </Card>
@@ -223,7 +195,7 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold text-gray-900">
-            Current Queue ({items.length} customers)
+            Current Queue ({activeQueue.length} customers)
           </CardTitle>
           <div className="flex items-center space-x-3">
             <Button
@@ -239,7 +211,7 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
               variant="destructive"
               size="sm"
               onClick={() => clearQueueMutation.mutate()}
-              disabled={clearQueueMutation.isPending || items.length === 0}
+              disabled={clearQueueMutation.isPending || activeQueue.length === 0}
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Clear All
@@ -248,21 +220,21 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
         </div>
       </CardHeader>
       <CardContent>
-        {items.length > 0 ? (
+        {activeQueue.length > 0 ? (
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext items={items.map(item => item.id)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={activeQueue.map(item => item.id)} strategy={verticalListSortingStrategy}>
               <div className="space-y-3">
-                {items.map((customer, index) => (
+                {activeQueue.map((customer, index) => (
                   <SortableItem
                     key={customer.id}
                     id={customer.id}
                     customer={customer}
                     index={index}
-                    staff={staff}
+                    staff={[]}
                     onServe={handleServe}
                     onCancel={handleCancel}
                   />
@@ -275,8 +247,8 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <GripVertical className="w-8 h-8 text-gray-300" />
             </div>
-            <p className="text-lg font-medium">No customers in queue</p>
-            <p className="text-sm">Customers will appear here when they join</p>
+            <p className="text-lg font-medium mb-2">No customers in queue</p>
+            <p className="text-sm">Queue is currently empty</p>
           </div>
         )}
       </CardContent>

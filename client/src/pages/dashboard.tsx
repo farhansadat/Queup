@@ -632,25 +632,34 @@ export default function DashboardPage() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="open-time">Opening Time</Label>
-                        <Input
-                          id="open-time"
-                          type="time"
-                          defaultValue={currentStore.workingHours?.monday?.open || "09:00"}
-                          className="input-field"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="close-time">Closing Time</Label>
-                        <Input
-                          id="close-time"
-                          type="time"
-                          defaultValue={currentStore.workingHours?.monday?.close || "17:00"}
-                          className="input-field"
-                        />
-                      </div>
+                    <div>
+                      <Label className="text-lg font-semibold mb-4 block">Weekly Operating Hours</Label>
+                      {currentStore.workingHours && (
+                        <div className="space-y-3">
+                          {Object.entries(currentStore.workingHours).map(([day, hours]: [string, any]) => (
+                            <div key={day} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                              <span className="font-medium capitalize">{day}</span>
+                              {hours?.isOpen ? (
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-sm text-gray-600">{hours.open}</span>
+                                  <span className="text-gray-400">to</span>
+                                  <span className="text-sm text-gray-600">{hours.close}</span>
+                                  <Badge variant="default" className="ml-2">Open</Badge>
+                                </div>
+                              ) : (
+                                <Badge variant="secondary">Closed</Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {!currentStore.workingHours && (
+                        <div className="text-center py-8 text-gray-500">
+                          <Clock className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                          <p>No operating hours set</p>
+                          <p className="text-sm">Configure your weekly schedule during store setup</p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex justify-end">
@@ -686,7 +695,7 @@ export default function DashboardPage() {
                     <div className="text-center mb-4">
                       <div className="inline-block p-4 bg-gray-100 rounded-xl">
                         <QRCodeGenerator 
-                          value={`https://${window.location.hostname}/store/${currentStore.slug}`}
+                          value={`${window.location.protocol}//${window.location.host}/store/${currentStore.slug}`}
                           size={160}
                         />
                       </div>
@@ -694,7 +703,7 @@ export default function DashboardPage() {
                     
                     <div className="space-y-3">
                       <div className="text-sm text-gray-600">
-                        <strong>URL:</strong> https://{window.location.hostname}/store/{currentStore.slug}
+                        <strong>URL:</strong> {window.location.protocol}//{window.location.host}/store/{currentStore.slug}
                       </div>
                       <div className="flex space-x-2">
                         <Button className="flex-1 btn-primary">
