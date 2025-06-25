@@ -6,7 +6,7 @@ export function connectWebSocket(): WebSocket {
   }
 
   const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-  const wsUrl = `${protocol}//${window.location.hostname}:5001`;
+  const wsUrl = `${protocol}//${window.location.hostname}:5002`;
   
   ws = new WebSocket(wsUrl);
   

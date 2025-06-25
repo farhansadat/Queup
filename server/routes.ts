@@ -310,8 +310,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const httpServer = createServer(app);
   
-  // WebSocket setup on a different port to avoid conflicts with Vite
-  const wss = new WebSocketServer({ port: 5001 });
+  // WebSocket setup on different port to avoid Vite dev server conflicts
+  const wss = new WebSocketServer({ port: 5002 });
   
   wss.on("connection", (ws: any) => {
     ws.on("message", (message: any) => {
