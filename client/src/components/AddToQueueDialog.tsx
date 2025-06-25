@@ -25,7 +25,7 @@ export function AddToQueueDialog({ storeId, staff }: AddToQueueDialogProps) {
   const { toast } = useToast();
 
   const addToQueueMutation = useMutation({
-    mutationFn: async (data: { storeId: string; customerName: string; contactInfo?: string; staffId?: string }) => {
+    mutationFn: async (data: { storeId: string; customerName: string; contactInfo?: string; staffId?: string; position: number }) => {
       const response = await apiRequest("POST", "/api/queue", data);
       return response.json();
     },
@@ -47,16 +47,30 @@ export function AddToQueueDialog({ storeId, staff }: AddToQueueDialogProps) {
     }
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerData.name.trim()) return;
 
-    addToQueueMutation.mutate({
-      storeId,
-      customerName: customerData.name,
-      contactInfo: customerData.contact || undefined,
-      staffId: customerData.staffId === "any" ? undefined : customerData.staffId || undefined
-    });
+    // Get current queue count to determine position
+    try {
+      const queueResponse = await apiRequest("GET", `/api/stores/${storeId}/queue`);
+      const currentQueue = await queueResponse.json();
+      const position = currentQueue.filter((entry: any) => entry.status === 'waiting').length + 1;
+
+      addToQueueMutation.mutate({
+        storeId,
+        customerName: customerData.name,
+        contactInfo: customerData.contact || undefined,
+        staffId: customerData.staffId === "any" ? undefined : customerData.staffId || undefined,
+        position
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add customer to queue. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (

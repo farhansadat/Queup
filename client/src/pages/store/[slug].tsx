@@ -37,6 +37,7 @@ export default function CustomerQueuePage() {
       staffId?: string;
       customerName?: string;
       contactInfo?: string;
+      position: number;
     }) => {
       const response = await apiRequest("POST", "/api/queue", data);
       return response.json();
@@ -56,11 +57,14 @@ export default function CustomerQueuePage() {
     e.preventDefault();
     if (!store) return;
 
+    const position = queue?.filter(entry => entry.status === 'waiting').length + 1 || 1;
+
     joinQueueMutation.mutate({
       storeId: store.id,
       staffId: selectedStaff === "any" ? undefined : selectedStaff || undefined,
       customerName: customerForm.name || undefined,
-      contactInfo: customerForm.contact || undefined
+      contactInfo: customerForm.contact || undefined,
+      position
     });
   };
 

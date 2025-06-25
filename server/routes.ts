@@ -83,10 +83,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         firstName: z.string().min(1),
         lastName: z.string().min(1),
         storeType: z.string().optional(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        logoUrl: z.string().optional(),
+        weeklySchedule: z.any().optional(),
         workingHours: z.any().optional()
       });
       
-      const { email, password, firstName, lastName, storeType, workingHours } = registerSchema.parse(req.body);
+      const { email, password, firstName, lastName, storeType, name, description, logoUrl, weeklySchedule, workingHours } = registerSchema.parse(req.body);
       
       // Check if user exists
       const existingUser = await storage.getUserByEmail(email);
@@ -103,17 +107,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         lastName 
       });
 
-      // Create initial store with weekly schedule if provided
-      if (storeType) {
-        const storeName = `${firstName}'s ${storeType.charAt(0).toUpperCase() + storeType.slice(1)}`;
-        const slug = `${firstName.toLowerCase()}-${storeType}-${Date.now()}`;
+      // Create initial store with provided data
+      if (storeType || name) {
+        const storeName = name || `${firstName}'s ${storeType?.charAt(0).toUpperCase() + storeType?.slice(1)}`;
+        const slug = `${firstName.toLowerCase()}-${(storeType || 'store').toLowerCase()}-${Date.now()}`;
         
         await storage.createStore({
           userId: user.id,
           name: storeName,
           slug,
+          description: description || "",
+          logoUrl: logoUrl || "",
           type: storeType as any,
-          workingHours: workingHours || {
+          workingHours: weeklySchedule || workingHours || {
             monday: { open: "09:00", close: "17:00", isOpen: true },
             tuesday: { open: "09:00", close: "17:00", isOpen: true },
             wednesday: { open: "09:00", close: "17:00", isOpen: true },
@@ -286,6 +292,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Queue routes
   app.post("/api/queue", async (req, res) => {
     try {
+      console.log("Queue creation request body:", req.body);
       const queueData = insertQueueSchema.parse(req.body);
       const entry = await storage.createQueueEntry(queueData);
       
@@ -303,7 +310,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json(entry);
     } catch (error) {
-      res.status(400).json({ message: "Invalid queue data" });
+      console.error("Queue creation error:", error);
+      res.status(400).json({ 
+        message: "Invalid queue data",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 

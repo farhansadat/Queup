@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { PasswordReset } from "@/components/PasswordReset";
 import { WeeklyScheduleSetup } from "@/components/WeeklyScheduleSetup";
+import { FileUpload } from "@/components/FileUpload";
 import { Users, Store, Sparkles, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
@@ -26,6 +27,11 @@ export default function LoginPage() {
   });
   const [weeklySchedule, setWeeklySchedule] = useState<any>(null);
   const [registrationStep, setRegistrationStep] = useState(1);
+  const [storeData, setStoreData] = useState({
+    name: "",
+    description: "",
+    logoUrl: ""
+  });
 
   const loginMutation = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
@@ -43,7 +49,12 @@ export default function LoginPage() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string; storeType: string; workingHours?: any }) => {
-      const response = await apiRequest("POST", "/api/auth/register", data);
+      const fullData = {
+        ...data,
+        ...storeData,
+        weeklySchedule
+      };
+      const response = await apiRequest("POST", "/api/auth/register", fullData);
       return response.json();
     },
     onSuccess: () => {
@@ -236,7 +247,7 @@ export default function LoginPage() {
                       className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
                     >
                       <span className="flex items-center gap-2">
-                        Continue to Schedule
+                        Continue to Store Setup
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </span>
                     </Button>
@@ -244,6 +255,82 @@ export default function LoginPage() {
                 )}
 
                 {registrationStep === 2 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Store Information</h3>
+                      <p className="text-sm text-gray-600">Tell us about your business</p>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="store-name" className="text-sm font-medium">Store Name</Label>
+                        <Input
+                          id="store-name"
+                          type="text"
+                          required
+                          value={storeData.name}
+                          onChange={(e) => setStoreData(prev => ({ ...prev, name: e.target.value }))}
+                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          placeholder="Your Business Name"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="store-description" className="text-sm font-medium">Description (Optional)</Label>
+                        <Input
+                          id="store-description"
+                          type="text"
+                          value={storeData.description}
+                          onChange={(e) => setStoreData(prev => ({ ...prev, description: e.target.value }))}
+                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          placeholder="Brief description of your business"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium">Logo (Optional)</Label>
+                        <FileUpload
+                          onFileSelect={(file) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                              setStoreData(prev => ({ ...prev, logoUrl: reader.result as string }));
+                            };
+                            reader.readAsDataURL(file);
+                          }}
+                          onUrlChange={(url) => setStoreData(prev => ({ ...prev, logoUrl: url }))}
+                          currentUrl={storeData.logoUrl}
+                          accept="image/*"
+                          label="Upload store logo"
+                          className="rounded-xl"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-3">
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={() => setRegistrationStep(1)}
+                        className="flex-1 h-11 rounded-xl"
+                      >
+                        Back
+                      </Button>
+                      <Button 
+                        type="button"
+                        onClick={() => setRegistrationStep(3)}
+                        className="flex-1 h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
+                        disabled={!storeData.name}
+                      >
+                        <span className="flex items-center gap-2">
+                          Continue to Schedule
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {registrationStep === 3 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Hours</h3>
@@ -259,7 +346,7 @@ export default function LoginPage() {
                       <Button 
                         type="button"
                         variant="outline"
-                        onClick={() => setRegistrationStep(1)}
+                        onClick={() => setRegistrationStep(2)}
                         className="flex-1 h-11 rounded-xl"
                       >
                         Back
