@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { PasswordReset } from "@/components/PasswordReset";
 import { Users, Store, Sparkles, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
@@ -131,6 +132,13 @@ export default function LoginPage() {
                     </span>
                   )}
                 </Button>
+                <div className="text-center">
+                  <PasswordReset>
+                    <Button variant="ghost" type="button" className="text-sm text-purple-600 hover:text-purple-700 h-auto p-0 font-normal">
+                      Forgot your password?
+                    </Button>
+                  </PasswordReset>
+                </div>
               </form>
             </TabsContent>
             

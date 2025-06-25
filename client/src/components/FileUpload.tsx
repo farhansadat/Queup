@@ -146,7 +146,11 @@ export function FileUpload({
           <div className="text-gray-500">
             <Upload className="w-8 h-8 mx-auto mb-2" />
             <p className="text-sm">Drop files here or click to browse</p>
-            <p className="text-xs text-gray-400 mt-1">Supports: JPG, PNG, GIF</p>
+            <div className="text-xs text-gray-400 mt-3 space-y-1">
+              <p>• Supported formats: JPG, PNG, GIF</p>
+              <p>• Maximum file size: 5MB</p>
+              <p>• Recommended: Square images (1:1 ratio)</p>
+            </div>
           </div>
         )}
       </div>

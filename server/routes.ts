@@ -46,6 +46,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   };
 
   // Auth routes
+  // Password reset route
+  app.post("/api/auth/reset-password", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+      
+      // Check if user exists
+      const user = await storage.getUserByEmail(email);
+      
+      // Always return success to prevent email enumeration
+      // In a real app, you would send an actual email here
+      if (user) {
+        // TODO: Implement actual email sending with reset token
+        console.log(`Password reset requested for: ${email}`);
+        // In development, log the reset link
+        const resetToken = Math.random().toString(36).substring(2, 15);
+        console.log(`Reset link: ${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`);
+      }
+      
+      res.json({ message: "If an account with that email exists, a reset link has been sent." });
+    } catch (error) {
+      console.error("Password reset error:", error);
+      res.status(500).json({ message: "Failed to process password reset" });
+    }
+  });
+
   app.post("/api/auth/register", async (req, res) => {
     try {
       const registerSchema = z.object({

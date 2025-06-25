@@ -3,9 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>QueueUp Pro - Queue Management System</title>
     <meta name="description" content="Professional queue management system for barbershops, salons, and service businesses. Manage customer queues with QR codes and real-time updates." />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Disable Vite error overlay on mobile devices
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.__vite_is_modern_browser = false;
+        window.__vite_plugin_react_preamble_installed__ = true;
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

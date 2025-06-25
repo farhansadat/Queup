@@ -114,3 +114,38 @@
 .queue-drop-zone {
   @apply border-2 border-dashed border-primary bg-primary;
 }
+
+/* Animated stats cards */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark .bg-white {
+  @apply bg-gray-900;
+}
+
+.dark .text-gray-900 {
+  @apply text-white;
+}
+
+.dark .text-gray-600 {
+  @apply text-gray-300;
+}
+
+.dark .border-gray-200 {
+  @apply border-gray-700;
+}

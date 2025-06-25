@@ -35,6 +35,9 @@ import {
   Sparkles,
   LogOut
 } from "lucide-react";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { AnimatedStatsCard } from "@/components/AnimatedStatsCard";
+import { AddToQueueDialog } from "@/components/AddToQueueDialog";
 import type { Store, Staff } from "@shared/schema";
 
 export default function DashboardPage() {
@@ -289,7 +292,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Enhanced Header */}
       <div className="bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -310,6 +313,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <DarkModeToggle />
               <div className="hidden md:flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
                 <User className="w-4 h-4 mr-2" />
                 {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
@@ -433,40 +437,46 @@ export default function DashboardPage() {
           <TabsContent value="queue" className="mt-6">
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Queue Management</h2>
-                <p className="text-gray-600">Manage your current queue and serve customers</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Queue Management</h2>
+                <p className="text-gray-600 dark:text-gray-300">Manage your current queue and serve customers</p>
               </div>
 
-              {/* Stats Cards */}
+              {/* Animated Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Users className="w-8 h-8 text-primary mx-auto mb-2" />
-                    <h3 className="text-2xl font-bold text-gray-900">{stats?.totalCustomers || 0}</h3>
-                    <p className="text-sm text-gray-600">Today's Customers</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Clock className="w-8 h-8 text-orange-600 mx-auto mb-2" />
-                    <h3 className="text-2xl font-bold text-gray-900">{stats?.avgWaitTime || 0}</h3>
-                    <p className="text-sm text-gray-600">Avg Wait (min)</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <CheckCircle className="w-8 h-8 text-accent mx-auto mb-2" />
-                    <h3 className="text-2xl font-bold text-gray-900">{stats?.completed || 0}</h3>
-                    <p className="text-sm text-gray-600">Completed</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Clock className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                    <h3 className="text-2xl font-bold text-gray-900">{stats?.waiting || 0}</h3>
-                    <p className="text-sm text-gray-600">Currently Waiting</p>
-                  </CardContent>
-                </Card>
+                <AnimatedStatsCard
+                  title="Today's Customers"
+                  value={stats?.totalCustomers || 0}
+                  icon={Users}
+                  color="bg-primary"
+                  delay={0}
+                />
+                <AnimatedStatsCard
+                  title="Avg Wait Time (min)"
+                  value={stats?.avgWaitTime || 0}
+                  icon={Clock}
+                  color="bg-orange-500"
+                  delay={100}
+                />
+                <AnimatedStatsCard
+                  title="Completed"
+                  value={stats?.completed || 0}
+                  icon={CheckCircle}
+                  color="bg-accent"
+                  delay={200}
+                />
+                <AnimatedStatsCard
+                  title="Currently Waiting"
+                  value={stats?.waiting || 0}
+                  icon={UserCheck}
+                  color="bg-purple-500"
+                  delay={300}
+                />
+              </div>
+
+              {/* Queue Management Actions */}
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Current Queue</h3>
+                <AddToQueueDialog storeId={currentStore?.id || ""} staff={staff} />
               </div>
 
               {/* Queue Component */}
