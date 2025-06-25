@@ -90,40 +90,39 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
         {days.map(({ key, label }) => (
           <div
             key={key}
-            className={`flex items-center justify-between p-4 rounded-xl border transition-colors ${
+            className={`p-4 rounded-xl border transition-colors ${
               schedule[key as keyof WeeklySchedule].isOpen
                 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
                 : "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
             }`}
           >
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-3">
                 <Switch
                   checked={schedule[key as keyof WeeklySchedule].isOpen}
                   onCheckedChange={(checked) =>
                     updateDaySchedule(key as keyof WeeklySchedule, 'isOpen', checked)
                   }
                 />
-                <Label className="font-medium w-20">{label}</Label>
+                <Label className="font-medium text-base">{label}</Label>
+                {schedule[key as keyof WeeklySchedule].isOpen ? (
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                ) : (
+                  <span className="text-sm text-gray-500 dark:text-gray-400">Closed</span>
+                )}
               </div>
-              
-              {schedule[key as keyof WeeklySchedule].isOpen ? (
-                <CheckCircle className="w-4 h-4 text-green-600" />
-              ) : (
-                <span className="text-sm text-gray-500 dark:text-gray-400">Closed</span>
-              )}
             </div>
 
-            <div className="flex items-center space-x-3">
-              {schedule[key as keyof WeeklySchedule].isOpen ? (
-                <>
+            {schedule[key as keyof WeeklySchedule].isOpen && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
                   <Input
                     type="time"
                     value={schedule[key as keyof WeeklySchedule].open}
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'open', e.target.value)
                     }
-                    className="w-32 text-center"
+                    className="w-28 h-9 text-sm"
                   />
                   <span className="text-gray-400 text-sm">to</span>
                   <Input
@@ -132,26 +131,20 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'close', e.target.value)
                     }
-                    className="w-32 text-center"
+                    className="w-28 h-9 text-sm"
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => copyToAllDays(key as keyof WeeklySchedule)}
-                    className="text-xs px-3 py-1 h-8"
-                  >
-                    Copy to all
-                  </Button>
-                </>
-              ) : (
-                <div className="w-80 flex justify-end">
-                  <span className="text-sm text-gray-500 dark:text-gray-400 italic">
-                    No operating hours
-                  </span>
                 </div>
-              )}
-            </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => copyToAllDays(key as keyof WeeklySchedule)}
+                  className="text-xs px-2 py-1 h-7"
+                >
+                  Copy
+                </Button>
+              </div>
+            )}
           </div>
         ))}
 
