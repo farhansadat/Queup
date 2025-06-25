@@ -90,7 +90,7 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
         {days.map(({ key, label }) => (
           <div
             key={key}
-            className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${
+            className={`flex items-center justify-between p-4 rounded-xl border transition-colors ${
               schedule[key as keyof WeeklySchedule].isOpen
                 ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
                 : "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
@@ -117,38 +117,35 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
             <div className="flex items-center space-x-3">
               {schedule[key as keyof WeeklySchedule].isOpen ? (
                 <>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="w-4 h-4 text-gray-400" />
-                    <Input
-                      type="time"
-                      value={schedule[key as keyof WeeklySchedule].open}
-                      onChange={(e) =>
-                        updateDaySchedule(key as keyof WeeklySchedule, 'open', e.target.value)
-                      }
-                      className="w-28"
-                    />
-                  </div>
-                  <span className="text-gray-400">to</span>
+                  <Input
+                    type="time"
+                    value={schedule[key as keyof WeeklySchedule].open}
+                    onChange={(e) =>
+                      updateDaySchedule(key as keyof WeeklySchedule, 'open', e.target.value)
+                    }
+                    className="w-32 text-center"
+                  />
+                  <span className="text-gray-400 text-sm">to</span>
                   <Input
                     type="time"
                     value={schedule[key as keyof WeeklySchedule].close}
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'close', e.target.value)
                     }
-                    className="w-28"
+                    className="w-32 text-center"
                   />
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
                     onClick={() => copyToAllDays(key as keyof WeeklySchedule)}
-                    className="text-xs px-2"
+                    className="text-xs px-3 py-1 h-8"
                   >
                     Copy to all
                   </Button>
                 </>
               ) : (
-                <div className="w-64 flex justify-end">
+                <div className="w-80 flex justify-end">
                   <span className="text-sm text-gray-500 dark:text-gray-400 italic">
                     No operating hours
                   </span>
