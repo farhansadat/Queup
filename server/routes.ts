@@ -48,12 +48,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
     try {
+      console.log("Registration request body:", req.body);
       const { email, password } = loginSchema.parse(req.body);
       
       // Check if user exists
       const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        return res.status(400).json({ message: "Email may already be in use" });
       }
 
       // Hash password and create user
@@ -63,6 +64,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = user.id;
       res.json({ user: { id: user.id, email: user.email } });
     } catch (error) {
+      console.error("Registration error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Please check your email format and ensure password is at least 6 characters" });
+      }
       res.status(400).json({ message: "Invalid input" });
     }
   });
