@@ -1,0 +1,675 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { DragDropQueue } from "@/components/DragDropQueue";
+import { QRCodeGenerator } from "@/components/QRCodeGenerator";
+import { FileUpload } from "@/components/FileUpload";
+import { 
+  Users, 
+  Settings, 
+  QrCode, 
+  BarChart3, 
+  Plus, 
+  Edit, 
+  Trash2, 
+  Clock, 
+  CheckCircle, 
+  UserCheck,
+  Store as StoreIcon,
+  Download,
+  Printer
+} from "lucide-react";
+import type { Store, Staff } from "@shared/schema";
+
+export default function DashboardPage() {
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("queue");
+  const [isAddStaffOpen, setIsAddStaffOpen] = useState(false);
+  const [newStaff, setNewStaff] = useState({ name: "", title: "", photoUrl: "" });
+  const [newStore, setNewStore] = useState({
+    name: "",
+    slug: "",
+    description: "",
+    workingHours: { openTime: "09:00", closeTime: "17:00", days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] },
+    services: [""],
+    theme: { primaryColor: "#0077FF", accentColor: "#00C48C", backgroundColor: "#F5F7FA" }
+  });
+
+  // Check auth
+  const { data: user, isLoading: userLoading, error: userError } = useQuery<{ user: { id: string; email: string } }>({
+    queryKey: ["/api/auth/me"],
+    retry: false
+  });
+
+  const { data: stores = [], isLoading: storesLoading } = useQuery<Store[]>({
+    queryKey: ["/api/stores"],
+    enabled: !!user
+  });
+
+  const currentStore = stores[0]; // For simplicity, use first store
+
+  const { data: staff = [] } = useQuery<Staff[]>({
+    queryKey: [`/api/stores/${currentStore?.id}/staff`],
+    enabled: !!currentStore?.id
+  });
+
+  const { data: stats } = useQuery<{
+    totalCustomers: number;
+    avgWaitTime: number;
+    completed: number;
+    waiting: number;
+  }>({
+    queryKey: [`/api/stores/${currentStore?.id}/stats`],
+    enabled: !!currentStore?.id
+  });
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("POST", "/api/auth/logout");
+    },
+    onSuccess: () => {
+      queryClient.clear();
+      setLocation("/login");
+    }
+  });
+
+  // Create store mutation
+  const createStoreMutation = useMutation({
+    mutationFn: async (storeData: any) => {
+      const response = await apiRequest("POST", "/api/stores", storeData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Store created!", description: "Your store has been set up successfully." });
+      queryClient.invalidateQueries({ queryKey: ["/api/stores"] });
+    }
+  });
+
+  // Add staff mutation
+  const addStaffMutation = useMutation({
+    mutationFn: async (staffData: any) => {
+      const response = await apiRequest("POST", "/api/staff", {
+        ...staffData,
+        storeId: currentStore?.id
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Staff added!", description: "New staff member has been added." });
+      setIsAddStaffOpen(false);
+      setNewStaff({ name: "", title: "", photoUrl: "" });
+      queryClient.invalidateQueries({ queryKey: [`/api/stores/${currentStore?.id}/staff`] });
+    }
+  });
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!userLoading && (userError || !user)) {
+      setLocation("/login");
+    }
+  }, [user, userLoading, userError, setLocation]);
+
+  if (userLoading || storesLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no stores, show store creation form
+  if (!currentStore) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">Setup Your Store</CardTitle>
+            <p className="text-center text-gray-600">Create your first store to get started</p>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              createStoreMutation.mutate(newStore);
+            }} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="store-name">Store Name</Label>
+                  <Input
+                    id="store-name"
+                    required
+                    value={newStore.name}
+                    onChange={(e) => {
+                      const name = e.target.value;
+                      setNewStore(prev => ({
+                        ...prev,
+                        name,
+                        slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')
+                      }));
+                    }}
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="store-slug">Store URL Slug</Label>
+                  <Input
+                    id="store-slug"
+                    required
+                    value={newStore.slug}
+                    onChange={(e) => setNewStore(prev => ({ ...prev, slug: e.target.value }))}
+                    className="input-field"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="store-description">Description</Label>
+                <Textarea
+                  id="store-description"
+                  value={newStore.description}
+                  onChange={(e) => setNewStore(prev => ({ ...prev, description: e.target.value }))}
+                  className="input-field"
+                />
+              </div>
+              <Button type="submit" className="w-full btn-primary" disabled={createStoreMutation.isPending}>
+                {createStoreMutation.isPending ? "Creating..." : "Create Store"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <Users className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">QueueUp Pro</h1>
+                <p className="text-sm text-gray-600">{currentStore.name}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-600">Welcome, {user?.user?.email}</span>
+              <Button 
+                onClick={() => logoutMutation.mutate()} 
+                variant="outline" 
+                size="sm"
+                disabled={logoutMutation.isPending}
+              >
+                {logoutMutation.isPending ? "Logging out..." : "Logout"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="queue" className="flex items-center space-x-2">
+              <Users className="w-4 h-4" />
+              <span>Queue</span>
+            </TabsTrigger>
+            <TabsTrigger value="staff" className="flex items-center space-x-2">
+              <UserCheck className="w-4 h-4" />
+              <span>Staff</span>
+            </TabsTrigger>
+            <TabsTrigger value="store" className="flex items-center space-x-2">
+              <StoreIcon className="w-4 h-4" />
+              <span>Store</span>
+            </TabsTrigger>
+            <TabsTrigger value="qr" className="flex items-center space-x-2">
+              <QrCode className="w-4 h-4" />
+              <span>QR Codes</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center space-x-2">
+              <BarChart3 className="w-4 h-4" />
+              <span>Analytics</span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Queue Management */}
+          <TabsContent value="queue" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Queue Management</h2>
+                <p className="text-gray-600">Manage your current queue and serve customers</p>
+              </div>
+
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <Users className="w-8 h-8 text-primary mx-auto mb-2" />
+                    <h3 className="text-2xl font-bold text-gray-900">{stats?.totalCustomers || 0}</h3>
+                    <p className="text-sm text-gray-600">Today's Customers</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <Clock className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+                    <h3 className="text-2xl font-bold text-gray-900">{stats?.avgWaitTime || 0}</h3>
+                    <p className="text-sm text-gray-600">Avg Wait (min)</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <CheckCircle className="w-8 h-8 text-accent mx-auto mb-2" />
+                    <h3 className="text-2xl font-bold text-gray-900">{stats?.completed || 0}</h3>
+                    <p className="text-sm text-gray-600">Completed</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <Clock className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                    <h3 className="text-2xl font-bold text-gray-900">{stats?.waiting || 0}</h3>
+                    <p className="text-sm text-gray-600">Currently Waiting</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Queue Component */}
+              <DragDropQueue storeId={currentStore.id} />
+            </div>
+          </TabsContent>
+
+          {/* Staff Management */}
+          <TabsContent value="staff" className="mt-6">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Staff Management</h2>
+                  <p className="text-gray-600">Manage your team members and their availability</p>
+                </div>
+                <Dialog open={isAddStaffOpen} onOpenChange={setIsAddStaffOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="btn-primary">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Staff Member
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Add Staff Member</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      addStaffMutation.mutate(newStaff);
+                    }} className="space-y-4">
+                      <div>
+                        <Label htmlFor="staff-name">Name</Label>
+                        <Input
+                          id="staff-name"
+                          required
+                          value={newStaff.name}
+                          onChange={(e) => setNewStaff(prev => ({ ...prev, name: e.target.value }))}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="staff-title">Title</Label>
+                        <Input
+                          id="staff-title"
+                          value={newStaff.title}
+                          onChange={(e) => setNewStaff(prev => ({ ...prev, title: e.target.value }))}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="staff-photo">Photo URL</Label>
+                        <Input
+                          id="staff-photo"
+                          type="url"
+                          value={newStaff.photoUrl}
+                          onChange={(e) => setNewStaff(prev => ({ ...prev, photoUrl: e.target.value }))}
+                          className="input-field"
+                        />
+                      </div>
+                      <Button type="submit" className="w-full btn-primary" disabled={addStaffMutation.isPending}>
+                        {addStaffMutation.isPending ? "Adding..." : "Add Staff Member"}
+                      </Button>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {staff.map((member) => (
+                  <Card key={member.id}>
+                    <CardContent className="pt-6">
+                      <div className="text-center mb-4">
+                        <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-3 overflow-hidden">
+                          {member.photoUrl ? (
+                            <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400 text-2xl">
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900">{member.name}</h3>
+                        <p className="text-gray-600">{member.title}</p>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-gray-600">Status</span>
+                          <Badge variant={member.status === "available" ? "default" : "secondary"}>
+                            {member.status}
+                          </Badge>
+                        </div>
+                        
+                        <div className="flex space-x-2">
+                          <Button variant="outline" size="sm" className="flex-1">
+                            <Edit className="w-4 h-4 mr-1" />
+                            Edit
+                          </Button>
+                          <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* Store Profile */}
+          <TabsContent value="store" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Store Profile</h2>
+                <p className="text-gray-600">Customize your store information and settings</p>
+              </div>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <form className="space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="store-name-edit">Store Name</Label>
+                        <Input
+                          id="store-name-edit"
+                          defaultValue={currentStore.name}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="store-slug-edit">Store URL Slug</Label>
+                        <Input
+                          id="store-slug-edit"
+                          defaultValue={currentStore.slug}
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="store-description-edit">Description</Label>
+                      <Textarea
+                        id="store-description-edit"
+                        defaultValue={currentStore.description || ""}
+                        className="input-field"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="open-time">Opening Time</Label>
+                        <Input
+                          id="open-time"
+                          type="time"
+                          defaultValue={currentStore.workingHours?.openTime || "09:00"}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="close-time">Closing Time</Label>
+                        <Input
+                          id="close-time"
+                          type="time"
+                          defaultValue={currentStore.workingHours?.closeTime || "17:00"}
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end">
+                      <Button type="submit" className="btn-primary">
+                        Save Changes
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* QR Codes */}
+          <TabsContent value="qr" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">QR Code Generator</h2>
+                <p className="text-gray-600">Generate QR codes for customer access and display monitors</p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Customer QR Code */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <QrCode className="w-5 h-5 mr-2 text-primary" />
+                      Customer Join Page
+                    </CardTitle>
+                    <p className="text-gray-600">QR code for customers to scan and join your queue</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center mb-4">
+                      <div className="inline-block p-4 bg-gray-100 rounded-xl">
+                        <QRCodeGenerator 
+                          value={`${window.location.origin}/store/${currentStore.slug}`}
+                          size={160}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="text-sm text-gray-600">
+                        <strong>URL:</strong> {window.location.origin}/store/{currentStore.slug}
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button className="flex-1 btn-primary">
+                          <Download className="w-4 h-4 mr-2" />
+                          Download
+                        </Button>
+                        <Button variant="outline" className="flex-1">
+                          <Printer className="w-4 h-4 mr-2" />
+                          Print
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Monitor QR Code */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <QrCode className="w-5 h-5 mr-2 text-primary" />
+                      Monitor Display
+                    </CardTitle>
+                    <p className="text-gray-600">QR code to access the kiosk display mode</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center mb-4">
+                      <div className="inline-block p-4 bg-gray-100 rounded-xl">
+                        <QRCodeGenerator 
+                          value={`${window.location.origin}/store/${currentStore.slug}/display`}
+                          size={160}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="text-sm text-gray-600">
+                        <strong>URL:</strong> {window.location.origin}/store/{currentStore.slug}/display
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button className="flex-1 btn-primary">
+                          <Download className="w-4 h-4 mr-2" />
+                          Download
+                        </Button>
+                        <Button variant="outline" className="flex-1">
+                          <Printer className="w-4 h-4 mr-2" />
+                          Print
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Instructions */}
+              <Card className="bg-blue-50 border-blue-200">
+                <CardContent className="pt-6">
+                  <h4 className="text-lg font-semibold text-blue-900 mb-3 flex items-center">
+                    <Settings className="w-5 h-5 mr-2" />
+                    Setup Instructions
+                  </h4>
+                  <div className="space-y-2 text-blue-800">
+                    <p><strong>Customer QR Code:</strong> Print and display this in your shop for customers to scan and join the queue.</p>
+                    <p><strong>Monitor QR Code:</strong> Use this to set up a kiosk display on tablets, Raspberry Pi, or any device for walk-in customers.</p>
+                    <p><strong>Tip:</strong> Place customer QR codes at the entrance and monitor displays where customers wait.</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Analytics */}
+          <TabsContent value="analytics" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Analytics</h2>
+                <p className="text-gray-600">Track your business performance and customer patterns</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <Users className="w-8 h-8 text-primary mx-auto mb-2" />
+                    <h3 className="text-3xl font-bold text-gray-900">{stats?.totalCustomers || 0}</h3>
+                    <p className="text-sm text-gray-600">Total Customers</p>
+                    <div className="mt-2 flex items-center justify-center text-sm text-accent">
+                      <span>+12%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <Clock className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+                    <h3 className="text-3xl font-bold text-gray-900">{stats?.avgWaitTime || 0}</h3>
+                    <p className="text-sm text-gray-600">Avg Wait Time (min)</p>
+                    <div className="mt-2 flex items-center justify-center text-sm text-accent">
+                      <span>-5%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <CheckCircle className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                    <h3 className="text-3xl font-bold text-gray-900">94</h3>
+                    <p className="text-sm text-gray-600">Completion Rate (%)</p>
+                    <div className="mt-2 flex items-center justify-center text-sm text-accent">
+                      <span>+3%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6 text-center">
+                    <BarChart3 className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
+                    <h3 className="text-3xl font-bold text-gray-900">4.8</h3>
+                    <p className="text-sm text-gray-600">Customer Rating</p>
+                    <div className="mt-2 flex items-center justify-center text-sm text-accent">
+                      <span>+0.2</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Hourly Traffic</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64 bg-gray-50 rounded-xl flex items-center justify-center">
+                      <div className="text-center text-gray-500">
+                        <BarChart3 className="w-16 h-16 mx-auto mb-2" />
+                        <p>Chart visualization will be implemented here</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Staff Performance</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {staff.map((member) => (
+                        <div key={member.id} className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-medium">
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <span className="font-medium text-gray-900">{member.name}</span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <div className="flex-1 bg-gray-200 rounded-full h-2 w-20">
+                              <div className="bg-primary h-2 rounded-full" style={{ width: "85%" }}></div>
+                            </div>
+                            <span className="text-sm font-medium text-gray-900">34</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
