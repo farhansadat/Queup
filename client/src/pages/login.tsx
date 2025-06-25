@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { PasswordReset } from "@/components/PasswordReset";
+import { WeeklyScheduleSetup } from "@/components/WeeklyScheduleSetup";
 import { Users, Store, Sparkles, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
@@ -23,6 +24,8 @@ export default function LoginPage() {
     lastName: "",
     storeType: "barbershop" 
   });
+  const [weeklySchedule, setWeeklySchedule] = useState(null);
+  const [registrationStep, setRegistrationStep] = useState(1);
 
   const loginMutation = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
@@ -39,7 +42,7 @@ export default function LoginPage() {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string; storeType: string }) => {
+    mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string; storeType: string; workingHours?: any }) => {
       const response = await apiRequest("POST", "/api/auth/register", data);
       return response.json();
     },
