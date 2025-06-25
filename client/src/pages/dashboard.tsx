@@ -16,6 +16,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { DragDropQueue } from "@/components/DragDropQueue";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { FileUpload } from "@/components/FileUpload";
+import { WeeklyScheduleSetup } from "@/components/WeeklyScheduleSetup";
 import { 
   Users, 
   Settings, 
@@ -47,6 +48,7 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("queue");
   const [isAddStaffOpen, setIsAddStaffOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isEditScheduleOpen, setIsEditScheduleOpen] = useState(false);
   const [newStaff, setNewStaff] = useState({ name: "", title: "", photoUrl: "" });
   const [profileData, setProfileData] = useState({ 
     currentPassword: "", 
@@ -91,7 +93,14 @@ export default function DashboardPage() {
     waiting: number;
   }>({
     queryKey: [`/api/stores/${currentStore?.id}/stats`],
-    enabled: !!currentStore?.id
+    enabled: !!currentStore?.id,
+    refetchInterval: 5000 // Refresh every 5 seconds for real-time updates
+  });
+
+  const { data: servedCustomers = [] } = useQuery<any[]>({
+    queryKey: [`/api/stores/${currentStore?.id}/served`],
+    enabled: !!currentStore?.id,
+    refetchInterval: 10000 // Refresh every 10 seconds
   });
 
   // Logout mutation
@@ -421,10 +430,14 @@ export default function DashboardPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="queue" className="flex items-center space-x-2">
               <Users className="w-4 h-4" />
               <span>Queue</span>
+            </TabsTrigger>
+            <TabsTrigger value="served" className="flex items-center space-x-2">
+              <CheckCircle className="w-4 h-4" />
+              <span>Served</span>
             </TabsTrigger>
             <TabsTrigger value="staff" className="flex items-center space-x-2">
               <UserCheck className="w-4 h-4" />
@@ -492,6 +505,47 @@ export default function DashboardPage() {
 
               {/* Queue Component */}
               <DragDropQueue storeId={currentStore.id} />
+            </div>
+          </TabsContent>
+
+          {/* Served Customers */}
+          <TabsContent value="served" className="mt-6">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Served Customers</h2>
+                <p className="text-gray-600 dark:text-gray-300">View customers served today</p>
+              </div>
+
+              <Card>
+                <CardContent className="pt-6">
+                  {servedCustomers.length > 0 ? (
+                    <div className="space-y-4">
+                      {servedCustomers.map((customer: any) => (
+                        <div key={customer.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <div>
+                            <h4 className="font-medium text-gray-900 dark:text-white">{customer.customerName}</h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                              Served at {new Date(customer.joinedAt).toLocaleTimeString()}
+                            </p>
+                            {customer.contactInfo && (
+                              <p className="text-sm text-gray-500">{customer.contactInfo}</p>
+                            )}
+                          </div>
+                          <Badge variant="default" className="bg-green-100 text-green-800">
+                            Completed
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <CheckCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                      <p>No customers served today</p>
+                      <p className="text-sm">Served customers will appear here</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
@@ -633,7 +687,19 @@ export default function DashboardPage() {
                     </div>
 
                     <div>
-                      <Label className="text-lg font-semibold mb-4 block">Weekly Operating Hours</Label>
+                      <div className="flex items-center justify-between mb-4">
+                        <Label className="text-lg font-semibold">Weekly Operating Hours</Label>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIsEditScheduleOpen(true)}
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit Schedule
+                        </Button>
+                      </div>
+                      
                       {currentStore.workingHours && (
                         <div className="space-y-3">
                           {Object.entries(currentStore.workingHours).map(([day, hours]: [string, any]) => (
@@ -661,6 +727,31 @@ export default function DashboardPage() {
                         </div>
                       )}
                     </div>
+
+                    {/* Weekly Schedule Edit Dialog */}
+                    <Dialog open={isEditScheduleOpen} onOpenChange={setIsEditScheduleOpen}>
+                      <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                          <DialogTitle>Edit Weekly Schedule</DialogTitle>
+                        </DialogHeader>
+                        <WeeklyScheduleSetup
+                          initialSchedule={currentStore.workingHours ? currentStore.workingHours : undefined}
+                          onScheduleChange={async (schedule) => {
+                            try {
+                              const response = await apiRequest("PUT", `/api/stores/${currentStore.id}`, {
+                                workingHours: schedule
+                              });
+                              await response.json();
+                              toast({ title: "Schedule updated!", description: "Your weekly schedule has been saved." });
+                              queryClient.invalidateQueries({ queryKey: ["/api/stores"] });
+                              setIsEditScheduleOpen(false);
+                            } catch (error) {
+                              toast({ title: "Error", description: "Failed to update schedule", variant: "destructive" });
+                            }
+                          }}
+                        />
+                      </DialogContent>
+                    </Dialog>
 
                     <div className="flex justify-end">
                       <Button type="submit" className="btn-primary">

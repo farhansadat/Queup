@@ -42,6 +42,7 @@ export interface IStorage {
     completed: number;
     waiting: number;
   }>;
+  getServedCustomers(storeId: string): Promise<Queue[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -167,6 +168,28 @@ export class DatabaseStorage implements IStorage {
       completed,
       waiting
     };
+  }
+
+  async getServedCustomers(storeId: string): Promise<Queue[]> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const servedToday = await db
+      .select()
+      .from(queues)
+      .where(
+        and(
+          eq(queues.storeId, storeId),
+          eq(queues.status, "served"),
+          gte(queues.joinedAt, today),
+          lt(queues.joinedAt, tomorrow)
+        )
+      )
+      .orderBy(desc(queues.joinedAt));
+
+    return servedToday;
   }
 }
 

@@ -48,8 +48,13 @@ export default function CustomerQueuePage() {
       setSelectedStaff(null);
       queryClient.invalidateQueries({ queryKey: [`/api/stores/${store?.id}/queue`] });
     },
-    onError: () => {
-      toast({ title: "Failed to join", description: "Could not join the queue. Please try again.", variant: "destructive" });
+    onError: (error: any) => {
+      console.error("Queue join error:", error);
+      toast({ 
+        title: "Join failed", 
+        description: "Please try again or contact staff for assistance.", 
+        variant: "destructive" 
+      });
     }
   });
 

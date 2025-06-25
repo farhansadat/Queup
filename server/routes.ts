@@ -371,6 +371,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/stores/:storeId/served", requireAuth, async (req, res) => {
+    try {
+      const servedCustomers = await storage.getServedCustomers(req.params.storeId);
+      res.json(servedCustomers);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch served customers" });
+    }
+  });
+
   const httpServer = createServer(app);
   
   // WebSocket setup on different port to avoid Vite dev server conflicts
