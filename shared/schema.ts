@@ -6,6 +6,8 @@ export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -14,8 +16,13 @@ export const stores = pgTable("stores", {
   userId: uuid("user_id").references(() => users.id).notNull(),
   name: text("name").notNull(),
   slug: text("slug").notNull().unique(),
+  type: text("type", { 
+    enum: ["barbershop", "salon", "clinic", "restaurant", "retail", "service", "other"] 
+  }).default("barbershop").notNull(),
   logoUrl: text("logo_url"),
   description: text("description"),
+  address: text("address"),
+  phone: text("phone"),
   workingHours: json("working_hours").$type<{
     openTime: string;
     closeTime: string;

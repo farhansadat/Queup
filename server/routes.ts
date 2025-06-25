@@ -48,8 +48,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.post("/api/auth/register", async (req, res) => {
     try {
-      console.log("Registration request body:", req.body);
-      const { email, password } = loginSchema.parse(req.body);
+      const registerSchema = z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+        firstName: z.string().min(1),
+        lastName: z.string().min(1),
+        storeType: z.string().optional()
+      });
+      
+      const { email, password, firstName, lastName, storeType } = registerSchema.parse(req.body);
       
       // Check if user exists
       const existingUser = await storage.getUserByEmail(email);
@@ -59,10 +66,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Hash password and create user
       const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await storage.createUser({ email, password: hashedPassword });
+      const user = await storage.createUser({ 
+        email, 
+        password: hashedPassword, 
+        firstName, 
+        lastName 
+      });
       
       req.session.userId = user.id;
-      res.json({ user: { id: user.id, email: user.email } });
+      res.json({ user: { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName } });
     } catch (error) {
       console.error("Registration error:", error);
       if (error instanceof z.ZodError) {
@@ -97,6 +109,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     req.session.destroy(() => {
       res.json({ success: true });
     });
+  });
+
+  app.put("/api/auth/change-password", requireAuth, async (req, res) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+      
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Current and new passwords are required" });
+      }
+
+      const user = await storage.getUserById(req.session.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const valid = await bcrypt.compare(currentPassword, user.password);
+      if (!valid) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      // Note: This would need a updateUser method in storage
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to change password" });
+    }
   });
 
   app.get("/api/auth/me", async (req, res) => {

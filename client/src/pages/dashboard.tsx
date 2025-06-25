@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { DragDropQueue } from "@/components/DragDropQueue";
@@ -28,7 +29,11 @@ import {
   UserCheck,
   Store as StoreIcon,
   Download,
-  Printer
+  Printer,
+  User,
+  Crown,
+  Sparkles,
+  LogOut
 } from "lucide-react";
 import type { Store, Staff } from "@shared/schema";
 
@@ -37,14 +42,24 @@ export default function DashboardPage() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("queue");
   const [isAddStaffOpen, setIsAddStaffOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [newStaff, setNewStaff] = useState({ name: "", title: "", photoUrl: "" });
+  const [profileData, setProfileData] = useState({ 
+    currentPassword: "", 
+    newPassword: "", 
+    confirmPassword: "" 
+  });
   const [newStore, setNewStore] = useState({
     name: "",
     slug: "",
     description: "",
+    type: "barbershop",
+    address: "",
+    phone: "",
+    logoUrl: "",
     workingHours: { openTime: "09:00", closeTime: "17:00", days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] },
     services: [""],
-    theme: { primaryColor: "#0077FF", accentColor: "#00C48C", backgroundColor: "#F5F7FA" }
+    theme: { primaryColor: "#7C3AED", accentColor: "#06B6D4", backgroundColor: "#F8FAFC" }
   });
 
   // Check auth
@@ -115,6 +130,22 @@ export default function DashboardPage() {
     }
   });
 
+  // Change password mutation
+  const changePasswordMutation = useMutation({
+    mutationFn: async (passwordData: { currentPassword: string; newPassword: string }) => {
+      const response = await apiRequest("PUT", "/api/auth/change-password", passwordData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Password updated!", description: "Your password has been changed successfully." });
+      setIsProfileOpen(false);
+      setProfileData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "Failed to update password. Please check your current password.", variant: "destructive" });
+    }
+  });
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!userLoading && (userError || !user)) {
@@ -162,7 +193,8 @@ export default function DashboardPage() {
                         slug: name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')
                       }));
                     }}
-                    className="input-field"
+                    className="h-11 rounded-xl"
+                    placeholder="Mike's Barbershop"
                   />
                 </div>
                 <div>
@@ -172,9 +204,66 @@ export default function DashboardPage() {
                     required
                     value={newStore.slug}
                     onChange={(e) => setNewStore(prev => ({ ...prev, slug: e.target.value }))}
-                    className="input-field"
+                    className="h-11 rounded-xl"
+                    placeholder="mikes-barbershop"
                   />
                 </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="store-type">Business Type</Label>
+                <Select value={newStore.type} onValueChange={(value) => setNewStore(prev => ({ ...prev, type: value }))}>
+                  <SelectTrigger className="h-11 rounded-xl">
+                    <SelectValue placeholder="Select your business type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="barbershop">Barbershop</SelectItem>
+                    <SelectItem value="salon">Hair Salon</SelectItem>
+                    <SelectItem value="clinic">Medical Clinic</SelectItem>
+                    <SelectItem value="restaurant">Restaurant</SelectItem>
+                    <SelectItem value="retail">Retail Store</SelectItem>
+                    <SelectItem value="service">Service Business</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="store-address">Address</Label>
+                  <Input
+                    id="store-address"
+                    value={newStore.address}
+                    onChange={(e) => setNewStore(prev => ({ ...prev, address: e.target.value }))}
+                    className="h-11 rounded-xl"
+                    placeholder="123 Main St, City, State"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="store-phone">Phone</Label>
+                  <Input
+                    id="store-phone"
+                    value={newStore.phone}
+                    onChange={(e) => setNewStore(prev => ({ ...prev, phone: e.target.value }))}
+                    className="h-11 rounded-xl"
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <FileUpload
+                  label="Store Logo"
+                  currentUrl={newStore.logoUrl}
+                  onUrlChange={(url) => setNewStore(prev => ({ ...prev, logoUrl: url }))}
+                  onFileSelect={(file) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      setNewStore(prev => ({ ...prev, logoUrl: e.target?.result as string }));
+                    };
+                    reader.readAsDataURL(file);
+                  }}
+                />
               </div>
               <div>
                 <Label htmlFor="store-description">Description</Label>
@@ -185,8 +274,12 @@ export default function DashboardPage() {
                   className="input-field"
                 />
               </div>
-              <Button type="submit" className="w-full btn-primary" disabled={createStoreMutation.isPending}>
-                {createStoreMutation.isPending ? "Creating..." : "Create Store"}
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium text-white shadow-lg hover:shadow-xl transition-all duration-200" 
+                disabled={createStoreMutation.isPending}
+              >
+                {createStoreMutation.isPending ? "Creating your store..." : "Create Store"}
               </Button>
             </form>
           </CardContent>
@@ -197,28 +290,113 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      {/* Enhanced Header */}
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-white" />
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                <StoreIcon className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">QueueUp Pro</h1>
-                <p className="text-sm text-gray-600">{currentStore.name}</p>
+                <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+                  QueueUp Pro
+                  <Crown className="w-5 h-5 text-yellow-300" />
+                </h1>
+                <p className="text-purple-100 flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" />
+                  {currentStore.name}
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, {user?.user?.email}</span>
+              <div className="hidden md:flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                <User className="w-4 h-4 mr-2" />
+                {user?.firstName ? `${user.firstName} ${user.lastName}` : user?.email}
+              </div>
+              
+              <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/20 rounded-xl">
+                    <Settings className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Profile Settings</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="text-center p-6 bg-gray-50 rounded-xl">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <User className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="font-semibold">{user?.firstName ? `${user.firstName} ${user.lastName}` : 'User'}</h3>
+                      <p className="text-sm text-gray-600">{user?.email}</p>
+                    </div>
+                    
+                    <form onSubmit={(e) => {
+                      e.preventDefault();
+                      if (profileData.newPassword !== profileData.confirmPassword) {
+                        toast({ title: "Error", description: "New passwords don't match", variant: "destructive" });
+                        return;
+                      }
+                      changePasswordMutation.mutate({
+                        currentPassword: profileData.currentPassword,
+                        newPassword: profileData.newPassword
+                      });
+                    }} className="space-y-4">
+                      <div>
+                        <Label htmlFor="current-password">Current Password</Label>
+                        <Input
+                          id="current-password"
+                          type="password"
+                          value={profileData.currentPassword}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, currentPassword: e.target.value }))}
+                          className="h-11 rounded-xl"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="new-password">New Password</Label>
+                        <Input
+                          id="new-password"
+                          type="password"
+                          value={profileData.newPassword}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, newPassword: e.target.value }))}
+                          className="h-11 rounded-xl"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="confirm-password">Confirm New Password</Label>
+                        <Input
+                          id="confirm-password"
+                          type="password"
+                          value={profileData.confirmPassword}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                          className="h-11 rounded-xl"
+                        />
+                      </div>
+                      <Button 
+                        type="submit" 
+                        className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl"
+                        disabled={changePasswordMutation.isPending}
+                      >
+                        {changePasswordMutation.isPending ? "Updating..." : "Update Password"}
+                      </Button>
+                    </form>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
               <Button 
                 onClick={() => logoutMutation.mutate()} 
-                variant="outline" 
+                variant="ghost"
                 size="sm"
+                className="text-white hover:bg-white/20 rounded-xl"
                 disabled={logoutMutation.isPending}
               >
-                {logoutMutation.isPending ? "Logging out..." : "Logout"}
+                <LogOut className="w-4 h-4 mr-2" />
+                {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
               </Button>
             </div>
           </div>
