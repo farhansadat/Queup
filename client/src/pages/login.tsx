@@ -24,7 +24,7 @@ export default function LoginPage() {
     lastName: "",
     storeType: "barbershop" 
   });
-  const [weeklySchedule, setWeeklySchedule] = useState(null);
+  const [weeklySchedule, setWeeklySchedule] = useState<any>(null);
   const [registrationStep, setRegistrationStep] = useState(1);
 
   const loginMutation = useMutation({
@@ -60,41 +60,32 @@ export default function LoginPage() {
     loginMutation.mutate(loginData);
   };
 
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-    registerMutation.mutate(registerData);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-100 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Animation */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-1000"></div>
-        <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse delay-2000"></div>
-      </div>
-      
-      <Card className="w-full max-w-md backdrop-blur-sm bg-white/90 shadow-2xl border-0 relative z-10 animate-in fade-in-0 slide-in-from-bottom-4 duration-1000">
-        <CardHeader className="text-center space-y-4 pb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg animate-in zoom-in-0 duration-1000 delay-300">
-            <Store className="w-10 h-10 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-2xl border-0">
+        <CardHeader className="text-center pb-8">
+          <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <Store className="w-8 h-8 text-white" />
           </div>
-          <div className="space-y-2 animate-in slide-in-from-bottom-2 duration-1000 delay-500">
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              QueueUp Pro
-            </CardTitle>
-            <p className="text-muted-foreground flex items-center justify-center gap-2">
-              <Sparkles className="w-4 h-4" />
-              Professional queue management
-              <Sparkles className="w-4 h-4" />
-            </p>
-          </div>
+          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            QueueUp Pro
+          </CardTitle>
+          <p className="text-gray-600 mt-2 flex items-center justify-center gap-2">
+            <Sparkles className="w-4 h-4 text-purple-500" />
+            Professional Queue Management
+          </p>
         </CardHeader>
-        <CardContent className="animate-in slide-in-from-bottom-4 duration-1000 delay-700">
+        <CardContent>
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-xl">
-              <TabsTrigger value="login" className="rounded-lg transition-all duration-200">Login</TabsTrigger>
-              <TabsTrigger value="register" className="rounded-lg transition-all duration-200">Register</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 p-1 rounded-xl">
+              <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Users className="w-4 h-4 mr-2" />
+                Sign In
+              </TabsTrigger>
+              <TabsTrigger value="register" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                <Store className="w-4 h-4 mr-2" />
+                Sign Up
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="login" className="mt-6">
@@ -146,88 +137,155 @@ export default function LoginPage() {
             </TabsContent>
             
             <TabsContent value="register" className="mt-6">
-              <form onSubmit={handleRegister} className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="register-firstName" className="text-sm font-medium">First Name</Label>
-                    <Input
-                      id="register-firstName"
-                      type="text"
-                      required
-                      value={registerData.firstName}
-                      onChange={(e) => setRegisterData(prev => ({ ...prev, firstName: e.target.value }))}
-                      className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                      placeholder="John"
-                    />
+              <div className="space-y-6">
+                {/* Progress Indicator */}
+                <div className="flex items-center justify-center space-x-2 mb-6">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    registrationStep >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    1
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="register-lastName" className="text-sm font-medium">Last Name</Label>
-                    <Input
-                      id="register-lastName"
-                      type="text"
-                      required
-                      value={registerData.lastName}
-                      onChange={(e) => setRegisterData(prev => ({ ...prev, lastName: e.target.value }))}
-                      className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                      placeholder="Doe"
-                    />
+                  <div className={`w-12 h-1 ${registrationStep >= 2 ? 'bg-purple-600' : 'bg-gray-200'}`}></div>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    registrationStep >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    2
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="register-email" className="text-sm font-medium">Email</Label>
-                  <Input
-                    id="register-email"
-                    type="email"
-                    required
-                    value={registerData.email}
-                    onChange={(e) => setRegisterData(prev => ({ ...prev, email: e.target.value }))}
-                    className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                    placeholder="john@example.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="register-password" className="text-sm font-medium">Password</Label>
-                  <Input
-                    id="register-password"
-                    type="password"
-                    required
-                    minLength={6}
-                    value={registerData.password}
-                    onChange={(e) => setRegisterData(prev => ({ ...prev, password: e.target.value }))}
-                    className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                    placeholder="At least 6 characters"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="register-storeType" className="text-sm font-medium">Store Type</Label>
-                  <Select value={registerData.storeType} onValueChange={(value) => setRegisterData(prev => ({ ...prev, storeType: value }))}>
-                    <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
-                      <SelectValue placeholder="Select your business type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="barbershop">Barbershop</SelectItem>
-                      <SelectItem value="salon">Hair Salon</SelectItem>
-                      <SelectItem value="clinic">Medical Clinic</SelectItem>
-                      <SelectItem value="restaurant">Restaurant</SelectItem>
-                      <SelectItem value="retail">Retail Store</SelectItem>
-                      <SelectItem value="service">Service Business</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group" 
-                  disabled={registerMutation.isPending}
-                >
-                  {registerMutation.isPending ? "Creating account..." : (
-                    <span className="flex items-center gap-2">
-                      Create Account
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  )}
-                </Button>
-              </form>
+
+                {registrationStep === 1 && (
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    setRegistrationStep(2);
+                  }} className="space-y-5">
+                    <div className="text-center mb-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Personal Information</h3>
+                      <p className="text-sm text-gray-600">Let's start with your basic details</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="register-firstName" className="text-sm font-medium">First Name</Label>
+                        <Input
+                          id="register-firstName"
+                          type="text"
+                          required
+                          value={registerData.firstName}
+                          onChange={(e) => setRegisterData(prev => ({ ...prev, firstName: e.target.value }))}
+                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          placeholder="John"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="register-lastName" className="text-sm font-medium">Last Name</Label>
+                        <Input
+                          id="register-lastName"
+                          type="text"
+                          required
+                          value={registerData.lastName}
+                          onChange={(e) => setRegisterData(prev => ({ ...prev, lastName: e.target.value }))}
+                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          placeholder="Doe"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-email" className="text-sm font-medium">Email</Label>
+                      <Input
+                        id="register-email"
+                        type="email"
+                        required
+                        value={registerData.email}
+                        onChange={(e) => setRegisterData(prev => ({ ...prev, email: e.target.value }))}
+                        className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-password" className="text-sm font-medium">Password</Label>
+                      <Input
+                        id="register-password"
+                        type="password"
+                        required
+                        minLength={6}
+                        value={registerData.password}
+                        onChange={(e) => setRegisterData(prev => ({ ...prev, password: e.target.value }))}
+                        className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                        placeholder="At least 6 characters"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-storeType" className="text-sm font-medium">Store Type</Label>
+                      <Select value={registerData.storeType} onValueChange={(value) => setRegisterData(prev => ({ ...prev, storeType: value }))}>
+                        <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                          <SelectValue placeholder="Select your business type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="barbershop">Barbershop</SelectItem>
+                          <SelectItem value="salon">Hair Salon</SelectItem>
+                          <SelectItem value="clinic">Medical Clinic</SelectItem>
+                          <SelectItem value="restaurant">Restaurant</SelectItem>
+                          <SelectItem value="retail">Retail Store</SelectItem>
+                          <SelectItem value="service">Service Business</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
+                    >
+                      <span className="flex items-center gap-2">
+                        Continue to Schedule
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </Button>
+                  </form>
+                )}
+
+                {registrationStep === 2 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Hours</h3>
+                      <p className="text-sm text-gray-600">Set up your weekly operating schedule</p>
+                    </div>
+                    
+                    <WeeklyScheduleSetup
+                      onScheduleChange={(schedule) => setWeeklySchedule(schedule)}
+                      initialSchedule={weeklySchedule || undefined}
+                    />
+                    
+                    <div className="flex space-x-3">
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={() => setRegistrationStep(1)}
+                        className="flex-1 h-11 rounded-xl"
+                      >
+                        Back
+                      </Button>
+                      <Button 
+                        type="button"
+                        onClick={() => {
+                          registerMutation.mutate({
+                            ...registerData,
+                            workingHours: weeklySchedule
+                          });
+                        }}
+                        className="flex-1 h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
+                        disabled={registerMutation.isPending}
+                      >
+                        {registerMutation.isPending ? "Creating account..." : (
+                          <span className="flex items-center gap-2">
+                            Create Account
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </span>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </TabsContent>
           </Tabs>
         </CardContent>
