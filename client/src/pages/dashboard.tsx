@@ -63,7 +63,7 @@ export default function DashboardPage() {
   });
 
   // Check auth
-  const { data: user, isLoading: userLoading, error: userError } = useQuery<{ user: { id: string; email: string } }>({
+  const { data: user, isLoading: userLoading, error: userError } = useQuery<{ user: { id: string; email: string; firstName?: string; lastName?: string } }>({
     queryKey: ["/api/auth/me"],
     retry: false
   });
@@ -312,7 +312,7 @@ export default function DashboardPage() {
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
                 <User className="w-4 h-4 mr-2" />
-                {user?.firstName ? `${user.firstName} ${user.lastName}` : user?.email}
+                {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
               </div>
               
               <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
@@ -331,8 +331,8 @@ export default function DashboardPage() {
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-3">
                         <User className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="font-semibold">{user?.firstName ? `${user.firstName} ${user.lastName}` : 'User'}</h3>
-                      <p className="text-sm text-gray-600">{user?.email}</p>
+                      <h3 className="font-semibold">{user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : 'User'}</h3>
+                      <p className="text-sm text-gray-600">{user?.user?.email}</p>
                     </div>
                     
                     <form onSubmit={(e) => {
