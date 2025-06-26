@@ -149,7 +149,7 @@ export default function LandingPage() {
               <Button 
                 variant="outline" 
                 onClick={() => setLocation("/login")}
-                className="border-purple-400/30 text-purple-300 hover:bg-purple-900/30 frosted-glass-hover"
+                className="bg-transparent border-purple-400/50 text-purple-300 hover:bg-purple-500/10 hover:border-purple-400"
               >
                 {t('common.login')}
               </Button>
@@ -260,7 +260,7 @@ export default function LandingPage() {
               variant="outline" 
               size="lg"
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-              className="frosted-glass-hover border-purple-400/30 text-purple-300 px-8 py-6 text-lg"
+              className="bg-transparent border-purple-400/50 text-purple-300 hover:bg-purple-500/10 hover:border-purple-400 px-8 py-6 text-lg transition-all duration-300"
             >
               {t('landing.watch_demo')}
             </Button>
@@ -288,7 +288,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="pt-16 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -321,7 +321,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-16 px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -458,12 +458,6 @@ export default function LandingPage() {
                     {language === 'de' ? 'Priority Support' : 'Priority support'}
                   </span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
-                    {language === 'de' ? 'API Zugang' : 'API access'}
-                  </span>
-                </div>
                 <Button 
                   className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
                   onClick={() => setLocation("/register")}
@@ -477,7 +471,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -519,7 +513,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-8 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Floating gradient blobs */}
         <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
         <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
@@ -543,7 +537,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="pt-8 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
