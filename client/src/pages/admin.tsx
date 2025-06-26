@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   const { data: stores = [], isLoading, refetch } = useQuery<AdminStore[]>({
     queryKey: ['/api/admin/stores'],
     enabled: !!adminAuth,
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 3000, // Refresh every 3 seconds for real-time updates
     queryFn: async () => {
       const response = await fetch('/api/admin/stores', {
         headers: { Authorization: `Bearer ${adminAuth}` }

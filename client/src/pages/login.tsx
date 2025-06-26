@@ -84,39 +84,44 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm shadow-2xl border-0">
-        <CardHeader className="text-center pb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <Store className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-32 w-80 h-80 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
+        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white border-opacity-20">
+          <div className="text-center mb-8">
+            <div className="mx-auto w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mb-6 shadow-lg">
+              <Store className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">QueueUp Pro</h1>
+            <p className="text-white text-opacity-80 flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4" />
+              Professional Queue Management
+            </p>
           </div>
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            QueueUp Pro
-          </CardTitle>
-          <p className="text-gray-600 mt-2 flex items-center justify-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-500" />
-            Professional Queue Management
-          </p>
-        </CardHeader>
-        <CardContent>
           {/* Back to Landing Button */}
           <div className="mb-6">
             <Button 
               variant="ghost" 
               onClick={() => setLocation("/")}
-              className="text-gray-600 hover:text-purple-600 p-0 h-auto font-normal"
+              className="text-white text-opacity-80 hover:text-white p-0 h-auto font-normal"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
             </Button>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 p-1 rounded-xl">
-              <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+            <TabsList className="grid w-full grid-cols-2 mb-8 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm p-1 rounded-xl border border-white border-opacity-20">
+              <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:bg-opacity-20 data-[state=active]:text-white text-white text-opacity-80">
                 <Users className="w-4 h-4 mr-2" />
                 {t('auth.login_title')}
               </TabsTrigger>
-              <TabsTrigger value="register" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              <TabsTrigger value="register" className="rounded-lg data-[state=active]:bg-white data-[state=active]:bg-opacity-20 data-[state=active]:text-white text-white text-opacity-80">
                 <Store className="w-4 h-4 mr-2" />
                 {t('auth.register_title')}
               </TabsTrigger>
@@ -125,32 +130,32 @@ export default function LoginPage() {
             <TabsContent value="login" className="mt-6">
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-sm font-medium">{t('auth.email')}</Label>
+                  <Label htmlFor="login-email" className="text-sm font-medium text-white">{t('auth.email')}</Label>
                   <Input
                     id="login-email"
                     type="email"
                     required
                     value={loginData.email}
                     onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
-                    className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                    className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                     placeholder={language === 'de' ? 'E-Mail eingeben' : 'Enter your email'}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-sm font-medium">{t('auth.password')}</Label>
+                  <Label htmlFor="login-password" className="text-sm font-medium text-white">{t('auth.password')}</Label>
                   <Input
                     id="login-password"
                     type="password"
                     required
                     value={loginData.password}
                     onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
-                    className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                    className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                     placeholder={language === 'de' ? 'Passwort eingeben' : 'Enter your password'}
                   />
                 </div>
                 <Button 
                   type="submit" 
-                  className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group" 
+                  className="w-full h-11 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" 
                   disabled={loginMutation.isPending}
                 >
                   {loginMutation.isPending ? (language === 'de' ? "Wird angemeldet..." : "Signing in...") : (
@@ -162,7 +167,7 @@ export default function LoginPage() {
                 </Button>
                 <div className="text-center">
                   <PasswordReset>
-                    <Button variant="ghost" type="button" className="text-sm text-purple-600 hover:text-purple-700 h-auto p-0 font-normal">
+                    <Button variant="ghost" type="button" className="text-sm text-white text-opacity-80 hover:text-white h-auto p-0 font-normal">
                       {language === 'de' ? 'Passwort vergessen?' : 'Forgot your password?'}
                     </Button>
                   </PasswordReset>
@@ -175,13 +180,13 @@ export default function LoginPage() {
                 {/* Progress Indicator */}
                 <div className="flex items-center justify-center space-x-2 mb-6">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    registrationStep >= 1 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'
+                    registrationStep >= 1 ? 'bg-purple-500 text-white shadow-lg' : 'bg-white bg-opacity-20 text-white text-opacity-60'
                   }`}>
                     1
                   </div>
-                  <div className={`w-12 h-1 ${registrationStep >= 2 ? 'bg-purple-600' : 'bg-gray-200'}`}></div>
+                  <div className={`w-12 h-1 rounded ${registrationStep >= 2 ? 'bg-purple-500' : 'bg-white bg-opacity-20'}`}></div>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    registrationStep >= 2 ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-600'
+                    registrationStep >= 2 ? 'bg-purple-500 text-white shadow-lg' : 'bg-white bg-opacity-20 text-white text-opacity-60'
                   }`}>
                     2
                   </div>
@@ -193,57 +198,59 @@ export default function LoginPage() {
                     setRegistrationStep(2);
                   }} className="space-y-5">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      <h3 className="text-lg font-semibold text-white mb-2">
                         {language === 'de' ? 'Persönliche Informationen' : 'Personal Information'}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-white text-opacity-80">
                         {language === 'de' ? 'Beginnen wir mit Ihren grundlegenden Daten' : "Let's start with your basic details"}
                       </p>
                       <div className="flex justify-center mt-4">
-                        <LanguageSelector />
+                        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 p-2">
+                          <LanguageSelector />
+                        </div>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="register-firstName" className="text-sm font-medium">{t('auth.first_name')}</Label>
+                        <Label htmlFor="register-firstName" className="text-sm font-medium text-white">{t('auth.first_name')}</Label>
                         <Input
                           id="register-firstName"
                           type="text"
                           required
                           value={registerData.firstName}
                           onChange={(e) => setRegisterData(prev => ({ ...prev, firstName: e.target.value }))}
-                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                           placeholder={language === 'de' ? 'Max' : 'John'}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="register-lastName" className="text-sm font-medium">{t('auth.last_name')}</Label>
+                        <Label htmlFor="register-lastName" className="text-sm font-medium text-white">{t('auth.last_name')}</Label>
                         <Input
                           id="register-lastName"
                           type="text"
                           required
                           value={registerData.lastName}
                           onChange={(e) => setRegisterData(prev => ({ ...prev, lastName: e.target.value }))}
-                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                           placeholder={language === 'de' ? 'Mustermann' : 'Doe'}
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-email" className="text-sm font-medium">{t('auth.email')}</Label>
+                      <Label htmlFor="register-email" className="text-sm font-medium text-white">{t('auth.email')}</Label>
                       <Input
                         id="register-email"
                         type="email"
                         required
                         value={registerData.email}
                         onChange={(e) => setRegisterData(prev => ({ ...prev, email: e.target.value }))}
-                        className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                        className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                         placeholder={language === 'de' ? 'max@beispiel.de' : 'john@example.com'}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-password" className="text-sm font-medium">{t('auth.password')}</Label>
+                      <Label htmlFor="register-password" className="text-sm font-medium text-white">{t('auth.password')}</Label>
                       <Input
                         id="register-password"
                         type="password"
@@ -251,14 +258,14 @@ export default function LoginPage() {
                         minLength={6}
                         value={registerData.password}
                         onChange={(e) => setRegisterData(prev => ({ ...prev, password: e.target.value }))}
-                        className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                        className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                         placeholder={language === 'de' ? 'Mindestens 6 Zeichen' : 'At least 6 characters'}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-storeType" className="text-sm font-medium">{t('auth.store_type')}</Label>
+                      <Label htmlFor="register-storeType" className="text-sm font-medium text-white">{t('auth.store_type')}</Label>
                       <Select value={registerData.storeType} onValueChange={(value) => setRegisterData(prev => ({ ...prev, storeType: value }))}>
-                        <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                        <SelectTrigger className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent">
                           <SelectValue placeholder={language === 'de' ? 'Geschäftstyp auswählen' : 'Select your business type'} />
                         </SelectTrigger>
                         <SelectContent>
@@ -277,7 +284,7 @@ export default function LoginPage() {
                     </div>
                     <Button 
                       type="submit" 
-                      className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
+                      className="w-full h-11 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-transparent"
                     >
                       <span className="flex items-center gap-2">
                         {t('auth.next')}
@@ -290,32 +297,32 @@ export default function LoginPage() {
                 {registrationStep === 2 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.store_information')}</h3>
-                      <p className="text-sm text-gray-600">{t('auth.store_information_subtitle')}</p>
+                      <h3 className="text-lg font-semibold text-white mb-2">{t('auth.store_information')}</h3>
+                      <p className="text-sm text-white text-opacity-80">{t('auth.store_information_subtitle')}</p>
                     </div>
                     
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="store-name" className="text-sm font-medium">{t('auth.store_name')}</Label>
+                        <Label htmlFor="store-name" className="text-sm font-medium text-white">{t('auth.store_name')}</Label>
                         <Input
                           id="store-name"
                           type="text"
                           required
                           value={storeData.name}
                           onChange={(e) => setStoreData(prev => ({ ...prev, name: e.target.value }))}
-                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                           placeholder={language === 'de' ? 'Name Ihres Unternehmens' : 'Your Business Name'}
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="store-description" className="text-sm font-medium">{t('auth.store_description')} (Optional)</Label>
+                        <Label htmlFor="store-description" className="text-sm font-medium text-white">{t('auth.store_description')} (Optional)</Label>
                         <Input
                           id="store-description"
                           type="text"
                           value={storeData.description}
                           onChange={(e) => setStoreData(prev => ({ ...prev, description: e.target.value }))}
-                          className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                           placeholder={language === 'de' ? 'Kurze Beschreibung Ihres Unternehmens' : 'Brief description of your business'}
                         />
                       </div>
@@ -364,7 +371,7 @@ export default function LoginPage() {
                       <Button 
                         type="button"
                         onClick={() => setRegistrationStep(3)}
-                        className="flex-1 h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
+                        className="flex-1 h-11 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                         disabled={!storeData.name}
                       >
                         <span className="flex items-center gap-2">
@@ -379,8 +386,8 @@ export default function LoginPage() {
                 {registrationStep === 3 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.business_hours')}</h3>
-                      <p className="text-sm text-gray-600">{t('auth.business_hours_subtitle')}</p>
+                      <h3 className="text-lg font-semibold text-white mb-2">{t('auth.business_hours')}</h3>
+                      <p className="text-sm text-white text-opacity-80">{t('auth.business_hours_subtitle')}</p>
                     </div>
                     
                     <WeeklyScheduleSetup
@@ -421,8 +428,8 @@ export default function LoginPage() {
               </div>
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

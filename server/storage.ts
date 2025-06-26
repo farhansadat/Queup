@@ -198,54 +198,37 @@ export class DatabaseStorage implements IStorage {
 
   async getAllStoresWithStats(): Promise<any[]> {
     try {
-      // Raw SQL query to avoid Drizzle ORM issues
-      const storesResult = await db.execute(sql`
-        SELECT 
-          s.*,
-          u.email as user_email,
-          u."firstName" as user_first_name,
-          u."lastName" as user_last_name,
-          COALESCE(staff_count.count, 0) as staff_count,
-          COALESCE(queue_count.count, 0) as queue_count
-        FROM stores s
-        LEFT JOIN users u ON s."userId" = u.id
-        LEFT JOIN (
-          SELECT "storeId", COUNT(*) as count 
-          FROM staff 
-          GROUP BY "storeId"
-        ) staff_count ON s.id = staff_count."storeId"
-        LEFT JOIN (
-          SELECT "storeId", COUNT(*) as count 
-          FROM queues 
-          WHERE status = 'waiting'
-          GROUP BY "storeId"
-        ) queue_count ON s.id = queue_count."storeId"
-        ORDER BY s."createdAt" DESC
-      `);
+      // Get all stores first
+      const allStores = await db.select().from(stores);
+      
+      const storesWithStats = [];
+      for (const store of allStores) {
+        // Get user info
+        const userData = await db.select().from(users).where(eq(users.id, store.userId));
+        const user = userData[0] || null;
+        
+        // Get staff count
+        const staffData = await db.select().from(staff).where(eq(staff.storeId, store.id));
+        const staffCount = staffData.length;
 
-      return storesResult.rows.map((row: any) => ({
-        id: row.id,
-        name: row.name,
-        slug: row.slug,
-        description: row.description,
-        address: row.address,
-        phoneNumber: row.phoneNumber,
-        logoUrl: row.logoUrl,
-        storeType: row.storeType,
-        language: row.language,
-        weeklySchedule: row.weeklySchedule,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt,
-        userId: row.userId,
-        staffCount: parseInt(row.staff_count) || 0,
-        queueCount: parseInt(row.queue_count) || 0,
-        user: row.user_email ? {
-          id: row.userId,
-          email: row.user_email,
-          firstName: row.user_first_name,
-          lastName: row.user_last_name
-        } : null
-      }));
+        // Get queue count (waiting customers)
+        const queueData = await db.select().from(queues).where(
+          and(
+            eq(queues.storeId, store.id),
+            eq(queues.status, "waiting")
+          )
+        );
+        const queueCount = queueData.length;
+
+        storesWithStats.push({
+          ...store,
+          staffCount,
+          queueCount,
+          user
+        });
+      }
+
+      return storesWithStats;
     } catch (error) {
       console.error("Error in getAllStoresWithStats:", error);
       return [];
