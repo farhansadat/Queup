@@ -109,7 +109,29 @@ export default function StatusPage() {
     }
   ];
 
-  const incidents = [
+  const incidents = language === 'de' ? [
+    {
+      date: "2025-06-20",
+      title: "Kurze API-Latenz-Erhöhung",
+      status: "resolved",
+      description: "Erhöhte Antwortzeiten für 15 Minuten aufgrund von Datenbankoptimierung. Alle Services vollständig wiederhergestellt.",
+      duration: "15 Minuten"
+    },
+    {
+      date: "2025-06-15", 
+      title: "Geplante Wartung",
+      status: "completed",
+      description: "Geplantes Infrastruktur-Upgrade erfolgreich abgeschlossen ohne Ausfallzeiten.",
+      duration: "0 Minuten Ausfallzeit"
+    },
+    {
+      date: "2025-06-10",
+      title: "WebSocket-Verbindungsprobleme",
+      status: "resolved", 
+      description: "Einige Nutzer erlebten verzögerte Echtzeit-Updates. Problem durch Connection-Pool-Optimierung behoben.",
+      duration: "23 Minuten"
+    }
+  ] : [
     {
       date: "2025-06-20",
       title: "Brief API latency increase",
@@ -323,7 +345,7 @@ export default function StatusPage() {
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">{incident.title}</h3>
                       <p className="text-gray-600 mb-2">{incident.description}</p>
                       <div className="text-sm text-gray-500">
-                        Duration: {incident.duration}
+                        {language === 'de' ? 'Dauer:' : 'Duration:'} {incident.duration}
                       </div>
                     </div>
                   </div>
@@ -338,16 +360,19 @@ export default function StatusPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Stay Informed
+            {language === 'de' ? 'Bleiben Sie informiert' : 'Stay Informed'}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Get notified about service updates and maintenance windows
+            {language === 'de' 
+              ? 'Erhalten Sie Benachrichtigungen über Service-Updates und Wartungsfenster'
+              : 'Get notified about service updates and maintenance windows'
+            }
           </p>
           <Button 
             size="lg"
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Subscribe to Updates
+            {language === 'de' ? 'Updates abonnieren' : 'Subscribe to Updates'}
           </Button>
         </div>
       </section>
