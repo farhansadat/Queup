@@ -382,7 +382,7 @@ export default function AdminDashboard() {
                             <div className="space-y-1">
                               <p><span className="font-medium">Store ID:</span> {store.id}</p>
                               <p><span className="font-medium">Created:</span> {formatDate(store.createdAt)}</p>
-                              <p><span className="font-medium">Store Type:</span> {store.storeType}</p>
+                              <p><span className="font-medium">Store Type:</span> {store.storeType || 'Not specified'}</p>
                               <p><span className="font-medium">Plan:</span> Starter (€29/month)</p>
                             </div>
                           </div>

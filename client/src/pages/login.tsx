@@ -42,7 +42,9 @@ export default function LoginPage() {
     name: "",
     description: "",
     logoUrl: "",
-    language: "en"
+    language: "en",
+    address: "",
+    phoneNumber: ""
   });
 
   const loginMutation = useMutation({
@@ -184,11 +186,23 @@ export default function LoginPage() {
                   }`}>
                     1
                   </div>
-                  <div className={`w-12 h-1 rounded ${registrationStep >= 2 ? 'bg-purple-500' : 'bg-white bg-opacity-20'}`}></div>
+                  <div className={`w-8 h-1 rounded ${registrationStep >= 2 ? 'bg-purple-500' : 'bg-white bg-opacity-20'}`}></div>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                     registrationStep >= 2 ? 'bg-purple-500 text-white shadow-lg' : 'bg-white bg-opacity-20 text-white text-opacity-60'
                   }`}>
                     2
+                  </div>
+                  <div className={`w-8 h-1 rounded ${registrationStep >= 3 ? 'bg-purple-500' : 'bg-white bg-opacity-20'}`}></div>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    registrationStep >= 3 ? 'bg-purple-500 text-white shadow-lg' : 'bg-white bg-opacity-20 text-white text-opacity-60'
+                  }`}>
+                    3
+                  </div>
+                  <div className={`w-8 h-1 rounded ${registrationStep >= 4 ? 'bg-purple-500' : 'bg-white bg-opacity-20'}`}></div>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    registrationStep >= 4 ? 'bg-purple-500 text-white shadow-lg' : 'bg-white bg-opacity-20 text-white text-opacity-60'
+                  }`}>
+                    4
                   </div>
                 </div>
 
@@ -375,7 +389,7 @@ export default function LoginPage() {
                         disabled={!storeData.name}
                       >
                         <span className="flex items-center gap-2">
-                          {t('auth.continue_to_schedule')}
+                          Continue to Address
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </span>
                       </Button>
@@ -384,6 +398,64 @@ export default function LoginPage() {
                 )}
 
                 {registrationStep === 3 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-6">
+                      <h3 className="text-lg font-semibold text-white mb-2">Store Address</h3>
+                      <p className="text-sm text-white text-opacity-80">Tell us where your business is located</p>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="store-address" className="text-sm font-medium text-white">Business Address</Label>
+                        <Input
+                          id="store-address"
+                          type="text"
+                          required
+                          value={storeData.address || ''}
+                          onChange={(e) => setStoreData(prev => ({ ...prev, address: e.target.value }))}
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder:text-white placeholder:text-opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
+                          placeholder="123 Main Street, City, Country"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="store-phone" className="text-sm font-medium text-white">Phone Number (Optional)</Label>
+                        <Input
+                          id="store-phone"
+                          type="tel"
+                          value={storeData.phoneNumber || ''}
+                          onChange={(e) => setStoreData(prev => ({ ...prev, phoneNumber: e.target.value }))}
+                          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder:text-white placeholder:text-opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
+                          placeholder="+49 123 456 789"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-3">
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={() => setRegistrationStep(2)}
+                        className="flex-1 h-11 rounded-xl text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20"
+                      >
+                        Previous
+                      </Button>
+                      <Button 
+                        type="button"
+                        onClick={() => setRegistrationStep(4)}
+                        className="flex-1 h-11 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                        disabled={!storeData.address}
+                      >
+                        <span className="flex items-center gap-2">
+                          Continue to Schedule
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {registrationStep === 4 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
                       <h3 className="text-lg font-semibold text-white mb-2">{t('auth.business_hours')}</h3>
@@ -399,8 +471,8 @@ export default function LoginPage() {
                       <Button 
                         type="button"
                         variant="outline"
-                        onClick={() => setRegistrationStep(2)}
-                        className="flex-1 h-11 rounded-xl"
+                        onClick={() => setRegistrationStep(3)}
+                        className="flex-1 h-11 rounded-xl text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20"
                       >
                         {t('auth.previous')}
                       </Button>
@@ -409,6 +481,12 @@ export default function LoginPage() {
                         onClick={() => {
                           registerMutation.mutate({
                             ...registerData,
+                            storeName: storeData.name,
+                            storeDescription: storeData.description,
+                            storeAddress: storeData.address,
+                            storePhoneNumber: storeData.phoneNumber,
+                            storeLogoUrl: storeData.logoUrl,
+                            storeLanguage: storeData.language,
                             workingHours: weeklySchedule
                           });
                         }}
