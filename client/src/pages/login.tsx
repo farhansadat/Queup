@@ -268,17 +268,17 @@ export default function LoginPage() {
                         <SelectTrigger className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent">
                           <SelectValue placeholder={language === 'de' ? 'Geschäftstyp auswählen' : 'Select your business type'} />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="barbershop">{t('auth.store_type_barbershop')}</SelectItem>
-                          <SelectItem value="salon">{t('auth.store_type_salon')}</SelectItem>
-                          <SelectItem value="clinic">{t('auth.store_type_clinic')}</SelectItem>
-                          <SelectItem value="restaurant">{t('auth.store_type_restaurant')}</SelectItem>
-                          <SelectItem value="retail">{t('auth.store_type_retail')}</SelectItem>
-                          <SelectItem value="spa">{t('auth.store_type_spa')}</SelectItem>
-                          <SelectItem value="dental">{t('auth.store_type_dental')}</SelectItem>
-                          <SelectItem value="veterinary">{t('auth.store_type_veterinary')}</SelectItem>
-                          <SelectItem value="automotive">{t('auth.store_type_automotive')}</SelectItem>
-                          <SelectItem value="other">{t('auth.store_type_other')}</SelectItem>
+                        <SelectContent className="bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg border border-white border-opacity-30">
+                          <SelectItem value="barbershop" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_barbershop')}</SelectItem>
+                          <SelectItem value="salon" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_salon')}</SelectItem>
+                          <SelectItem value="clinic" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_clinic')}</SelectItem>
+                          <SelectItem value="restaurant" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_restaurant')}</SelectItem>
+                          <SelectItem value="retail" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_retail')}</SelectItem>
+                          <SelectItem value="spa" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_spa')}</SelectItem>
+                          <SelectItem value="dental" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_dental')}</SelectItem>
+                          <SelectItem value="veterinary" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_veterinary')}</SelectItem>
+                          <SelectItem value="automotive" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_automotive')}</SelectItem>
+                          <SelectItem value="other" className="text-gray-900 hover:bg-purple-100">{t('auth.store_type_other')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

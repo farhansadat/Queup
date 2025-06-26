@@ -11,14 +11,14 @@ export function LanguageSelector({ className = "" }: LanguageSelectorProps) {
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      <Globe className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+      <Globe className="w-4 h-4 text-white text-opacity-80" />
       <Select value={language} onValueChange={(value) => setLanguage(value as 'en' | 'de')}>
-        <SelectTrigger className="w-20 h-8 text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
+        <SelectTrigger className="w-20 h-8 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="de">DE</SelectItem>
-          <SelectItem value="en">EN</SelectItem>
+        <SelectContent className="bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg border border-white border-opacity-30">
+          <SelectItem value="de" className="text-gray-900 hover:bg-purple-100">DE</SelectItem>
+          <SelectItem value="en" className="text-gray-900 hover:bg-purple-100">EN</SelectItem>
         </SelectContent>
       </Select>
     </div>

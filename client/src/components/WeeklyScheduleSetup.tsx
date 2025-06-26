@@ -76,24 +76,24 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-primary" />
+    <div className="w-full bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 p-6">
+      <div className="mb-6">
+        <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-2">
+          <Calendar className="w-5 h-5 text-purple-300" />
           Weekly Operating Hours
-        </CardTitle>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        </h3>
+        <p className="text-sm text-white text-opacity-80">
           Set your business hours for each day of the week
         </p>
-      </CardHeader>
-      <CardContent className="space-y-4">
+      </div>
+      <div className="space-y-4">
         {days.map(({ key, label }) => (
           <div
             key={key}
             className={`p-4 rounded-xl border transition-colors ${
               schedule[key as keyof WeeklySchedule].isOpen
-                ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
-                : "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
+                ? "bg-white bg-opacity-10 border-purple-300 border-opacity-50"
+                : "bg-white bg-opacity-5 border-white border-opacity-20"
             }`}
           >
             <div className="flex items-center justify-between mb-3">
@@ -104,11 +104,11 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
                     updateDaySchedule(key as keyof WeeklySchedule, 'isOpen', checked)
                   }
                 />
-                <Label className="font-medium text-base">{label}</Label>
+                <Label className="font-medium text-base text-white">{label}</Label>
                 {schedule[key as keyof WeeklySchedule].isOpen ? (
                   <CheckCircle className="w-4 h-4 text-green-600" />
                 ) : (
-                  <span className="text-sm text-gray-500 dark:text-gray-400">Closed</span>
+                  <span className="text-sm text-white text-opacity-60">Closed</span>
                 )}
               </div>
             </div>
@@ -122,16 +122,16 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'open', e.target.value)
                     }
-                    className="w-28 h-9 text-sm"
+                    className="w-28 h-9 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
-                  <span className="text-gray-400 text-sm">to</span>
+                  <span className="text-white text-opacity-80 text-sm">to</span>
                   <Input
                     type="time"
                     value={schedule[key as keyof WeeklySchedule].close}
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'close', e.target.value)
                     }
-                    className="w-28 h-9 text-sm"
+                    className="w-28 h-9 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
                 </div>
                 <Button
@@ -148,12 +148,12 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
           </div>
         ))}
 
-        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+        <div className="mt-6 p-4 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg border border-white border-opacity-20">
           <div className="flex items-start space-x-3">
-            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <CheckCircle className="w-5 h-5 text-purple-300 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-1">Schedule Tips:</h4>
-              <ul className="space-y-1 text-blue-800 dark:text-blue-200">
+              <h4 className="font-medium text-white mb-1">Schedule Tips:</h4>
+              <ul className="space-y-1 text-white text-opacity-80">
                 <li>• Use the "Copy to all" button to quickly set the same hours for multiple days</li>
                 <li>• Toggle the switch to mark days as closed</li>
                 <li>• You can modify these hours later in your dashboard settings</li>
@@ -162,7 +162,7 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
