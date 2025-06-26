@@ -585,8 +585,13 @@ export default function DashboardPage() {
           <TabsContent value="queue" className="mt-6">
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Queue Management</h2>
-                <p className="text-gray-600 dark:text-gray-300">Manage your current queue and serve customers</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{storeConfig.queueLabel}</h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {currentStore?.type === 'restaurant' 
+                    ? (language === 'de' ? 'Verwalten Sie Ihre Warteliste und setzen Sie Gäste an Tische' : 'Manage your waiting list and seat parties')
+                    : (language === 'de' ? 'Verwalten Sie Ihre aktuelle Warteschlange und bedienen Sie Kunden' : 'Manage your current queue and serve customers')
+                  }
+                </p>
               </div>
 
               {/* Animated Stats Cards */}
@@ -613,7 +618,10 @@ export default function DashboardPage() {
                   delay={200}
                 />
                 <AnimatedStatsCard
-                  title="Currently Waiting"
+                  title={currentStore?.type === 'restaurant' 
+                    ? (language === 'de' ? 'Wartende Gäste' : 'Waiting Parties')
+                    : (language === 'de' ? 'Aktuell wartend' : 'Currently Waiting')
+                  }
                   value={stats?.waiting || 0}
                   icon={UserCheck}
                   color="bg-purple-500"
