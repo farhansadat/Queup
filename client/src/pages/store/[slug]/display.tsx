@@ -312,8 +312,8 @@ export default function KioskDisplayPage() {
 
                 {/* Name Input - Large */}
                 <div>
-                  <Label htmlFor="kiosk-name" className="block text-2xl font-bold text-white mb-4 text-center">
-                    Your Name
+                  <Label htmlFor="kiosk-name" className="block text-3xl font-bold text-white mb-6 text-center">
+                    Enter Your Name
                   </Label>
                   <Input
                     id="kiosk-name"
@@ -348,7 +348,6 @@ export default function KioskDisplayPage() {
                     />
                   </div>
                 </div>
-                <p className="text-white/60 mt-4 text-sm">Point your camera at the QR code to join</p>
               </div>
             </div>
           </div>
