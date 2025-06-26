@@ -182,7 +182,10 @@ export default function KioskDisplayPage() {
                   {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
                 <div className="text-lg text-white/90 font-medium">
-                  {currentTime.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
+                  {store?.language === 'de' 
+                    ? currentTime.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })
+                    : currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+                  }
                 </div>
               </div>
             </div>

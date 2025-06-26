@@ -142,7 +142,10 @@ export default function CustomerQueuePage() {
                 {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
               <div className="text-xs text-gray-500 font-medium">
-                {new Date().toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}
+                {store?.language === 'de' 
+                  ? new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'short' })
+                  : new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })
+                }
               </div>
             </div>
           </div>
@@ -251,7 +254,7 @@ export default function CustomerQueuePage() {
                         <p className={`text-sm font-medium ${
                           member.status === "available" ? "text-green-600" : "text-gray-500"
                         }`}>
-                          {member.status === "available" ? "Available" : "Busy"}
+                          {member.status === "available" ? (store?.language === 'de' ? 'Verfügbar' : 'Available') : (store?.language === 'de' ? 'Beschäftigt' : 'Busy')}
                         </p>
                       </div>
                     </div>
@@ -264,12 +267,12 @@ export default function CustomerQueuePage() {
             <form onSubmit={handleJoinQueue} className="space-y-4">
               <div>
                 <Label htmlFor="customer-name" className="text-base font-semibold text-gray-800 mb-2 block">
-                  Your Name
+                  {store?.language === 'de' ? 'Ihr Name' : 'Your Name'}
                 </Label>
                 <Input
                   id="customer-name"
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder={store?.language === 'de' ? 'Geben Sie Ihren Namen ein' : 'Enter your name'}
                   className="h-14 text-lg rounded-2xl border-2 border-gray-200 focus:border-blue-500 bg-gray-50/50 transition-all"
                   value={customerForm.name}
                   onChange={(e) => setCustomerForm(prev => ({ ...prev, name: e.target.value }))}
@@ -289,12 +292,12 @@ export default function CustomerQueuePage() {
                 {joinQueueMutation.isPending ? (
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Joining Queue...</span>
+                    <span>{store?.language === 'de' ? 'Trete der Warteschlange bei...' : 'Joining Queue...'}</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl">+</span>
-                    <span>Join Queue Now</span>
+                    <span>{store?.language === 'de' ? 'Jetzt zur Warteschlange hinzufügen' : 'Join Queue Now'}</span>
                   </div>
                 )}
               </Button>
@@ -303,11 +306,11 @@ export default function CustomerQueuePage() {
             {/* Queue Statistics */}
             <div className="bg-gray-50 rounded-2xl p-4 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600 font-medium">People in queue:</span>
+                <span className="text-gray-600 font-medium">{store?.language === 'de' ? 'Personen in der Warteschlange:' : 'People in queue:'}</span>
                 <span className="text-xl font-bold text-gray-800">{waitingCount}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600 font-medium">Estimated wait:</span>
+                <span className="text-gray-600 font-medium">{store?.language === 'de' ? 'Geschätzte Wartezeit:' : 'Estimated wait:'}</span>
                 <span className="text-xl font-bold text-orange-600">{estimatedWait} min</span>
               </div>
             </div>
@@ -317,7 +320,7 @@ export default function CustomerQueuePage() {
         {/* Current Queue Preview */}
         {queue && queue.length > 0 && (
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-white/20">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Queue Preview</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">{store?.language === 'de' ? 'Warteschlangen-Vorschau' : 'Queue Preview'}</h3>
             <div className="space-y-3">
               {queue.slice(0, 5).map((customer, index) => (
                 <div key={customer.id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-100">
@@ -331,23 +334,23 @@ export default function CustomerQueuePage() {
                     </div>
                     <div>
                       <p className="font-bold text-gray-900 text-base">
-                        {customer.customerName || "Anonymous"}
+                        {customer.customerName || (store?.language === 'de' ? 'Anonym' : 'Anonymous')}
                       </p>
                       <p className="text-sm text-gray-600 font-medium">
-                        with {staff.find(s => s.id === customer.staffId)?.name || "First Available"}
+                        {store?.language === 'de' ? 'mit' : 'with'} {staff.find(s => s.id === customer.staffId)?.name || (store?.language === 'de' ? 'Erster Verfügbarer' : 'First Available')}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-bold text-orange-600">~{(index + 1) * 20} min</div>
-                    <div className="text-xs text-gray-500">wait time</div>
+                    <div className="text-xs text-gray-500">{store?.language === 'de' ? 'Wartezeit' : 'wait time'}</div>
                   </div>
                 </div>
               ))}
               {queue.length > 5 && (
                 <div className="text-center py-2">
                   <span className="text-sm text-gray-500 font-medium">
-                    +{queue.length - 5} more in queue
+                    +{queue.length - 5} {store?.language === 'de' ? 'weitere in der Warteschlange' : 'more in queue'}
                   </span>
                 </div>
               )}

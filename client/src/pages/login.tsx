@@ -290,13 +290,13 @@ export default function LoginPage() {
                 {registrationStep === 2 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Store Information</h3>
-                      <p className="text-sm text-gray-600">Tell us about your business</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.store_information')}</h3>
+                      <p className="text-sm text-gray-600">{t('auth.store_information_subtitle')}</p>
                     </div>
                     
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="store-name" className="text-sm font-medium">Store Name</Label>
+                        <Label htmlFor="store-name" className="text-sm font-medium">{t('auth.store_name')}</Label>
                         <Input
                           id="store-name"
                           type="text"
@@ -304,27 +304,27 @@ export default function LoginPage() {
                           value={storeData.name}
                           onChange={(e) => setStoreData(prev => ({ ...prev, name: e.target.value }))}
                           className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                          placeholder="Your Business Name"
+                          placeholder={language === 'de' ? 'Name Ihres Unternehmens' : 'Your Business Name'}
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="store-description" className="text-sm font-medium">Description (Optional)</Label>
+                        <Label htmlFor="store-description" className="text-sm font-medium">{t('auth.store_description')} (Optional)</Label>
                         <Input
                           id="store-description"
                           type="text"
                           value={storeData.description}
                           onChange={(e) => setStoreData(prev => ({ ...prev, description: e.target.value }))}
                           className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                          placeholder="Brief description of your business"
+                          placeholder={language === 'de' ? 'Kurze Beschreibung Ihres Unternehmens' : 'Brief description of your business'}
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">Store Language</Label>
+                        <Label className="text-sm font-medium">{t('auth.store_language')}</Label>
                         <Select value={storeData.language} onValueChange={(value) => setStoreData(prev => ({ ...prev, language: value }))}>
                           <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
-                            <SelectValue placeholder="Select store language" />
+                            <SelectValue placeholder={language === 'de' ? 'Geschäftssprache auswählen' : 'Select store language'} />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="en">English</SelectItem>
@@ -334,7 +334,7 @@ export default function LoginPage() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">Logo (Optional)</Label>
+                        <Label className="text-sm font-medium">{t('auth.logo_upload')} (Optional)</Label>
                         <FileUpload
                           onFileSelect={(file) => {
                             const reader = new FileReader();
@@ -359,7 +359,7 @@ export default function LoginPage() {
                         onClick={() => setRegistrationStep(1)}
                         className="flex-1 h-11 rounded-xl"
                       >
-                        Back
+                        {t('auth.previous')}
                       </Button>
                       <Button 
                         type="button"
@@ -368,7 +368,7 @@ export default function LoginPage() {
                         disabled={!storeData.name}
                       >
                         <span className="flex items-center gap-2">
-                          Continue to Schedule
+                          {t('auth.continue_to_schedule')}
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </span>
                       </Button>
@@ -379,8 +379,8 @@ export default function LoginPage() {
                 {registrationStep === 3 && (
                   <div className="space-y-6">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Hours</h3>
-                      <p className="text-sm text-gray-600">Set up your weekly operating schedule</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('auth.business_hours')}</h3>
+                      <p className="text-sm text-gray-600">{t('auth.business_hours_subtitle')}</p>
                     </div>
                     
                     <WeeklyScheduleSetup
@@ -395,7 +395,7 @@ export default function LoginPage() {
                         onClick={() => setRegistrationStep(2)}
                         className="flex-1 h-11 rounded-xl"
                       >
-                        Back
+                        {t('auth.previous')}
                       </Button>
                       <Button 
                         type="button"
@@ -408,9 +408,9 @@ export default function LoginPage() {
                         className="flex-1 h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
                         disabled={registerMutation.isPending}
                       >
-                        {registerMutation.isPending ? "Creating account..." : (
+                        {registerMutation.isPending ? (language === 'de' ? "Konto wird erstellt..." : "Creating account...") : (
                           <span className="flex items-center gap-2">
-                            Create Account
+                            {t('auth.create_account')}
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                           </span>
                         )}
