@@ -161,21 +161,17 @@ export default function KioskDisplayPage() {
               </div>
             </div>
             <div className="flex items-center space-x-6">
-              <Button
-                onClick={isFullscreen ? exitFullscreen : enterFullscreen}
-                className="bg-white/20 hover:bg-white/30 border-2 border-white/30 hover:border-white/50 px-6 py-3 rounded-2xl transition-all"
-              >
-                {isFullscreen ? (
-                  <Minimize className="w-6 h-6 text-white mr-2" />
-                ) : (
+              {!isFullscreen && (
+                <Button
+                  onClick={enterFullscreen}
+                  className="bg-white/20 hover:bg-white/30 border-2 border-white/30 hover:border-white/50 px-6 py-3 rounded-2xl transition-all hover:scale-105 transform duration-300"
+                >
                   <Maximize className="w-6 h-6 text-white mr-2" />
-                )}
-                <span className="text-white font-medium">
-                  {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-                </span>
-              </Button>
+                  <span className="text-white font-medium">Fullscreen</span>
+                </Button>
+              )}
               <div className="text-right">
-                <div className="text-5xl font-bold text-white mb-2 font-mono tracking-wider">
+                <div className="text-5xl font-bold text-white mb-2 font-mono tracking-wider animate-pulse">
                   {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
                 <div className="text-lg text-white/90 font-medium">
@@ -192,17 +188,17 @@ export default function KioskDisplayPage() {
         {/* Left Side - Queue Status (Compact) */}
         <div className="w-80 space-y-6">
           {/* Now Serving - Compact Display */}
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl animate-slide-in-left">
             <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
-                <UserCheck className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl animate-glow animate-float">
+                <UserCheck className="w-8 h-8 text-white animate-heartbeat" />
               </div>
-              <h2 className="text-xl font-bold text-white mb-3">Now Serving</h2>
-              <div className="text-4xl font-bold text-white mb-2 font-mono tracking-wider">
+              <h2 className="text-xl font-bold text-white mb-3 animate-bounce-in">Now Serving</h2>
+              <div className="text-4xl font-bold text-white mb-2 font-mono tracking-wider animate-pulse">
                 {currentCustomer?.customerName || "---"}
               </div>
               {currentCustomer && (
-                <p className="text-sm text-white/90 font-medium">
+                <p className="text-sm text-white/90 font-medium animate-fade-in-up">
                   with {staff.find(s => s.id === currentCustomer.staffId)?.name || "Staff Member"}
                 </p>
               )}
@@ -210,14 +206,14 @@ export default function KioskDisplayPage() {
           </div>
 
           {/* Next in Line - Compact Display */}
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
-            <h3 className="text-lg font-bold text-white mb-4 text-center">Next in Line</h3>
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
+            <h3 className="text-lg font-bold text-white mb-4 text-center animate-bounce-in" style={{ animationDelay: '0.3s' }}>Next in Line</h3>
             {upcomingCustomers.length > 0 ? (
               <div className="space-y-3">
                 {upcomingCustomers.slice(0, 5).map((customer, index) => (
-                  <div key={customer.id} className="flex items-center justify-between p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+                  <div key={customer.id} className="flex items-center justify-between p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 animate-fade-in-up hover:bg-white/20 transition-all duration-300 hover:scale-102 transform" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
                     <div className="flex items-center space-x-3">
-                      <div className={`w-8 h-8 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg ${
+                      <div className={`w-8 h-8 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg animate-heartbeat ${
                         index === 0 ? "bg-gradient-to-br from-orange-400 to-red-500" : "bg-gradient-to-br from-purple-400 to-pink-500"
                       }`}>
                         {index + 2}
@@ -232,14 +228,14 @@ export default function KioskDisplayPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-semibold text-white">{(index + 2) * 20}m</p>
+                      <p className="text-xs font-semibold text-white animate-pulse">{(index + 2) * 20}m</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-4 text-white/60">
-                <Clock className="w-8 h-8 mx-auto mb-2 text-white/40" />
+              <div className="text-center py-4 text-white/60 animate-fade-in-up">
+                <Clock className="w-8 h-8 mx-auto mb-2 text-white/40 animate-float" />
                 <p className="text-sm">No one waiting</p>
               </div>
             )}
@@ -247,36 +243,37 @@ export default function KioskDisplayPage() {
         </div>
 
         {/* Center/Right - Prominent Join Queue Section */}
-        <div className="flex-1">
-          <div className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg rounded-3xl border-2 border-white/30 shadow-2xl h-full flex flex-col overflow-hidden">
+        <div className="flex-1 animate-slide-in-right">
+          <div className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg rounded-3xl border-2 border-white/30 shadow-2xl h-full flex flex-col overflow-hidden animate-glow">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-500/30 to-purple-500/30 p-8 text-center border-b border-white/20">
-              <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
-                <Plus className="w-10 h-10 text-white" />
+            <div className="bg-gradient-to-r from-blue-500/30 to-purple-500/30 p-8 text-center border-b border-white/20 animate-color-shift">
+              <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl animate-float">
+                <Plus className="w-10 h-10 text-white animate-rotate" />
               </div>
-              <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Join the Queue</h2>
-              <p className="text-white/90 text-lg">Touch to get started</p>
+              <h2 className="text-4xl font-bold text-white mb-2 tracking-tight animate-bounce-in">Join the Queue</h2>
+              <p className="text-white/90 text-lg animate-fade-in-up" style={{ animationDelay: '0.3s' }}>Touch to get started</p>
             </div>
 
             <div className="flex-1 p-8 flex flex-col justify-center">
               <form onSubmit={handleKioskJoin} className="space-y-8">
                 {/* Staff Selection - Large Touch Targets */}
-                <div>
-                  <Label className="block text-2xl font-bold text-white mb-6 text-center">Choose Your Staff Member</Label>
+                <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                  <Label className="block text-2xl font-bold text-white mb-6 text-center animate-bounce-in" style={{ animationDelay: '0.6s' }}>Choose Your Staff Member</Label>
                   <div className="grid grid-cols-1 gap-4">
                     {/* First Available Option - Prominent */}
                     <button
                       type="button"
-                      className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-[1.02] ${
+                      className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-105 animate-fade-in-up hover:animate-glow ${
                         selectedStaff === "any"
-                          ? "border-white bg-white/20 shadow-2xl scale-[1.02]"
+                          ? "border-white bg-white/20 shadow-2xl scale-[1.02] animate-glow"
                           : "border-white/40 hover:border-white/60 bg-white/10"
                       }`}
+                      style={{ animationDelay: '0.7s' }}
                       onClick={() => setSelectedStaff("any")}
                     >
                       <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg">
-                          <Star className="w-8 h-8 text-white" />
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg animate-float">
+                          <Star className="w-8 h-8 text-white animate-heartbeat" />
                         </div>
                         <div>
                           <p className="text-xl font-bold text-white">First Available</p>
@@ -286,27 +283,28 @@ export default function KioskDisplayPage() {
                     </button>
 
                     {/* Individual Staff Members */}
-                    {staff.filter(member => member.status === "available").map((member) => (
+                    {staff.filter(member => member.status === "available").map((member, index) => (
                       <button
                         key={member.id}
                         type="button"
-                        className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-[1.02] ${
+                        className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-105 animate-fade-in-up hover:animate-glow ${
                           selectedStaff === member.id
-                            ? "border-white bg-white/20 shadow-2xl scale-[1.02]"
+                            ? "border-white bg-white/20 shadow-2xl scale-[1.02] animate-glow"
                             : "border-white/40 hover:border-white/60 bg-white/10"
                         }`}
+                        style={{ animationDelay: `${0.8 + index * 0.1}s` }}
                         onClick={() => setSelectedStaff(member.id)}
                       >
                         <div className="flex items-center space-x-4">
-                          <Avatar className="w-16 h-16 border-2 border-white/30">
+                          <Avatar className="w-16 h-16 border-2 border-white/30 animate-float">
                             <AvatarImage src={member.photoUrl || ""} alt={member.name} />
-                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl font-bold">
+                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl font-bold animate-heartbeat">
                               {member.name.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
                           </Avatar>
                           <div>
                             <p className="text-xl font-bold text-white">{member.name}</p>
-                            <p className="text-white/80 text-lg">Available now</p>
+                            <p className="text-white/80 text-lg animate-pulse">Available now</p>
                           </div>
                         </div>
                       </button>
@@ -315,15 +313,15 @@ export default function KioskDisplayPage() {
                 </div>
 
                 {/* Name Input - Large */}
-                <div>
-                  <Label htmlFor="kiosk-name" className="block text-2xl font-bold text-white mb-4 text-center">
+                <div className="animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
+                  <Label htmlFor="kiosk-name" className="block text-2xl font-bold text-white mb-4 text-center animate-bounce-in" style={{ animationDelay: '1.3s' }}>
                     Your Name
                   </Label>
                   <Input
                     id="kiosk-name"
                     type="text"
                     placeholder="Enter your name (optional)"
-                    className="w-full px-6 py-6 text-2xl rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30"
+                    className="w-full px-6 py-6 text-2xl rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30 transition-all duration-300 hover:scale-105 focus:scale-105 hover:animate-glow"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                   />
@@ -332,26 +330,28 @@ export default function KioskDisplayPage() {
                 {/* Join Button - Very Prominent */}
                 <Button 
                   type="submit" 
-                  className="w-full py-8 text-3xl font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-8 text-3xl font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl shadow-2xl transform hover:scale-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-fade-in-up animate-glow hover:animate-heartbeat"
+                  style={{ animationDelay: '1.5s' }}
                   disabled={joinQueueMutation.isPending || !selectedStaff}
                 >
-                  <Plus className="w-8 h-8 mr-4" />
+                  <Plus className="w-8 h-8 mr-4 animate-rotate" />
                   {joinQueueMutation.isPending ? "Joining..." : "Join Queue Now"}
                 </Button>
               </form>
 
               {/* QR Code Section */}
-              <div className="mt-8 pt-6 border-t border-white/20 text-center">
-                <p className="text-white/80 mb-6 text-xl font-medium">Or scan with your phone</p>
+              <div className="mt-8 pt-6 border-t border-white/20 text-center animate-fade-in-up" style={{ animationDelay: '1.7s' }}>
+                <p className="text-white/80 mb-6 text-xl font-medium animate-bounce-in" style={{ animationDelay: '1.8s' }}>Or scan with your phone</p>
                 <div className="flex justify-center">
-                  <div className="bg-white/20 p-6 rounded-3xl shadow-2xl border border-white/30">
+                  <div className="bg-white/20 p-6 rounded-3xl shadow-2xl border border-white/30 animate-glow animate-float">
                     <QRCodeGenerator 
                       value={`${window.location.origin}/store/${slug}`}
                       size={180}
+                      className="animate-pulse"
                     />
                   </div>
                 </div>
-                <p className="text-white/60 mt-4 text-sm">Point your camera at the QR code to join</p>
+                <p className="text-white/60 mt-4 text-sm animate-fade-in-up" style={{ animationDelay: '2s' }}>Point your camera at the QR code to join</p>
               </div>
             </div>
           </div>
