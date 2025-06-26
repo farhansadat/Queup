@@ -84,6 +84,9 @@ export const insertStaffSchema = createInsertSchema(staff).omit({
 export const insertQueueSchema = createInsertSchema(queues).omit({
   id: true,
   joinedAt: true,
+  position: true,
+}).extend({
+  position: z.number().optional(),
 });
 
 // Types
