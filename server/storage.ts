@@ -66,7 +66,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createStore(store: InsertStore & { userId: string }): Promise<Store> {
-    const [newStore] = await db.insert(stores).values(store as any).returning();
+    const [newStore] = await db.insert(stores).values({
+      userId: store.userId,
+      name: store.name,
+      slug: store.slug,
+      description: store.description || "",
+      address: store.address || "",
+      phone: store.phone || "",
+      logoUrl: store.logoUrl || "",
+      language: store.language || "en",
+      type: store.type || "barbershop",
+      workingHours: store.workingHours || {}
+    }).returning();
     return newStore;
   }
 
@@ -222,6 +233,8 @@ export class DatabaseStorage implements IStorage {
 
         storesWithStats.push({
           ...store,
+          storeType: store.type,
+          phoneNumber: store.phone,
           staffCount,
           queueCount,
           user

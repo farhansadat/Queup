@@ -136,11 +136,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           slug,
           description: storeDescription || "",
           address: storeAddress || "",
-          phoneNumber: storePhoneNumber || "",
+          phone: storePhoneNumber || "",
           logoUrl: storeLogoUrl || "",
           language: storeLanguage || "en",
-          storeType: storeType || "barbershop",
-          weeklySchedule: weeklySchedule || workingHours || {
+          type: storeType || "barbershop",
+          workingHours: weeklySchedule || workingHours || {
             monday: { open: "09:00", close: "17:00", isOpen: true },
             tuesday: { open: "09:00", close: "17:00", isOpen: true },
             wednesday: { open: "09:00", close: "17:00", isOpen: true },
