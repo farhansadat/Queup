@@ -53,7 +53,11 @@
       "pricing_starter": "Starter",
       "pricing_professional": "Professional", 
       "pricing_month": "month",
-      "pricing_most_popular": "Most Popular"
+      "pricing_most_popular": "Most Popular",
+      "stats_businesses": "Businesses Served",
+      "stats_customers": "Customers Managed",
+      "stats_time_saved": "Average Time Saved",
+      "stats_satisfaction": "Customer Satisfaction"
     },
     "auth": {
       "login_title": "Sign In",
