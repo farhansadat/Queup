@@ -93,7 +93,7 @@ export function FileUpload({
           placeholder="Or paste image URL"
           value={urlInput}
           onChange={(e) => setUrlInput(e.target.value)}
-          className="input-field"
+          className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder:text-white placeholder:text-opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
         />
         <Button 
           type="button" 
