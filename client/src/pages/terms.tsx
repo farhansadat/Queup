@@ -136,7 +136,7 @@ export default function TermsPage() {
                 <Scale className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Terms of Service
+                {t('pages.terms_title')}
               </span>
             </div>
             
@@ -147,13 +147,13 @@ export default function TermsPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
               </Button>
             </div>
           </div>

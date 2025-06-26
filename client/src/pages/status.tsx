@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   CheckCircle, 
@@ -18,8 +19,52 @@ import {
 
 export default function StatusPage() {
   const [, setLocation] = useLocation();
+  const { language, t } = useLanguage();
 
-  const services = [
+  const services = language === 'de' ? [
+    {
+      name: "API-Services",
+      status: "operational",
+      uptime: "99,98%",
+      icon: Server,
+      description: "REST-API und WebSocket-Verbindungen"
+    },
+    {
+      name: "Datenbank",
+      status: "operational", 
+      uptime: "99,99%",
+      icon: Database,
+      description: "PostgreSQL-Datenbank-Cluster"
+    },
+    {
+      name: "CDN & Assets",
+      status: "operational",
+      uptime: "99,95%",
+      icon: Cloud,
+      description: "Globales Content-Delivery-Netzwerk"
+    },
+    {
+      name: "Authentifizierung",
+      status: "operational",
+      uptime: "99,97%",
+      icon: Shield,
+      description: "Benutzer-Authentifizierung und -Autorisierung"
+    },
+    {
+      name: "Zahlungsverarbeitung",
+      status: "operational",
+      uptime: "99,96%",
+      icon: Zap,
+      description: "Sichere Zahlungsabwicklung"
+    },
+    {
+      name: "Benachrichtigungen",
+      status: "operational",
+      uptime: "99,94%",
+      icon: Globe,
+      description: "SMS- und E-Mail-Benachrichtigungen"
+    }
+  ] : [
     {
       name: "API Services",
       status: "operational",
@@ -117,7 +162,7 @@ export default function StatusPage() {
                 <Server className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                System Status
+                {language === 'de' ? 'System-Status' : 'System Status'}
               </span>
             </div>
             
@@ -128,13 +173,13 @@ export default function StatusPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
               </Button>
             </div>
           </div>
@@ -145,19 +190,21 @@ export default function StatusPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <Badge className="mb-6 bg-green-100 text-green-600 hover:bg-green-100">
-            ✅ All Systems Operational
+            {language === 'de' ? '✅ Alle Systeme funktionsfähig' : '✅ All Systems Operational'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            System Status &
+            {language === 'de' ? 'System-Status &' : 'System Status &'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Uptime Monitor
+              {language === 'de' ? 'Verfügbarkeits-Monitor' : 'Uptime Monitor'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8">
-            Real-time status of QueueUp Pro services and infrastructure. 
-            Subscribe to updates to stay informed about any service issues.
+            {language === 'de'
+              ? 'Echtzeit-Status der QueueUp Pro Services und Infrastruktur. Abonnieren Sie Updates, um über Service-Probleme informiert zu bleiben.'
+              : 'Real-time status of QueueUp Pro services and infrastructure. Subscribe to updates to stay informed about any service issues.'
+            }
           </p>
         </div>
       </section>
@@ -170,8 +217,8 @@ export default function StatusPage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <CardTitle className="text-2xl text-green-800">All Systems Operational</CardTitle>
-              <p className="text-green-700">All QueueUp Pro services are running normally</p>
+              <CardTitle className="text-2xl text-green-800">{language === 'de' ? 'Alle Systeme funktionsfähig' : 'All Systems Operational'}</CardTitle>
+              <p className="text-green-700">{language === 'de' ? 'Alle QueueUp Pro Services laufen normal' : 'All QueueUp Pro services are running normally'}</p>
             </CardHeader>
             <CardContent className="text-center">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

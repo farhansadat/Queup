@@ -45,6 +45,18 @@
       "pricing_title": "Simple, transparent pricing",
       "testimonials_title": "What our customers say"
     },
+    "pages": {
+      "login_title": "Sign In",
+      "register_title": "Create Account", 
+      "dashboard_title": "Dashboard",
+      "privacy_title": "Privacy Policy",
+      "terms_title": "Terms of Service",
+      "features_title": "Features",
+      "pricing_title": "Pricing",
+      "help_title": "Help Center",
+      "status_title": "System Status",
+      "about_title": "About Us"
+    },
     "dashboard": {
       "welcome": "Welcome back",
       "overview": "Overview",
@@ -302,6 +314,18 @@
       "api_subtitle": "Integrieren Sie QueueUp Pro in Ihre Anwendungen",
       "status_title": "System Status",
       "status_subtitle": "Aktuelle Verfügbarkeit unserer Dienste"
+    },
+    "pages": {
+      "login_title": "Anmelden",
+      "register_title": "Konto erstellen",
+      "dashboard_title": "Dashboard", 
+      "privacy_title": "Datenschutzerklärung",
+      "terms_title": "Allgemeine Geschäftsbedingungen",
+      "features_title": "Funktionen",
+      "pricing_title": "Preise", 
+      "help_title": "Hilfe-Center",
+      "status_title": "System-Status",
+      "about_title": "Über uns"
     },
     "dashboard": {
       "welcome": "Willkommen zurück",

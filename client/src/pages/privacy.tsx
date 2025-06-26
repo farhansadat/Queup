@@ -121,9 +121,9 @@ export default function PrivacyPage() {
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
               </Button>
             </div>
           </div>

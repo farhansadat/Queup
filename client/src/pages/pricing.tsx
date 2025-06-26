@@ -19,7 +19,52 @@ export default function PricingPage() {
   const [, setLocation] = useLocation();
   const { language, t } = useLanguage();
 
-  const plans = [
+  const plans = language === 'de' ? [
+    {
+      name: "Starter",
+      price: 29,
+      icon: Users,
+      description: "Perfekt für kleine Unternehmen",
+      features: [
+        "Bis zu 2 Mitarbeiter",
+        "100 Kunden pro Tag",
+        "QR-Code-Generierung",
+        "Echtzeit-Warteschlangen-Updates",
+        "Basis-Analytics",
+        "E-Mail-Support",
+        "Mobiles responsives Design",
+        "Kunden-Benachrichtigungen"
+      ],
+      limitations: [
+        "Begrenzte Anpassung",
+        "Nur Standard-Support",
+        "Basis-Berichte"
+      ],
+      popular: false
+    },
+    {
+      name: "Professional",
+      price: 79,
+      icon: BarChart3,
+      description: "Für wachsende Unternehmen",
+      features: [
+        "Unbegrenzte Mitarbeiter",
+        "Unbegrenzte Kunden",
+        "Erweiterte QR-Anpassung",
+        "Kiosk-Anzeigemodus",
+        "Erweiterte Analytics & Berichte",
+        "Benutzerdefiniertes Branding",
+        "Prioritäts-Support",
+        "API-Zugang",
+        "SMS-Benachrichtigungen",
+        "Multi-Standort-Unterstützung",
+        "White-Label-Optionen",
+        "Benutzerdefinierte Integrationen"
+      ],
+      limitations: [],
+      popular: true
+    }
+  ] : [
     {
       name: "Starter",
       price: 29,
@@ -66,7 +111,32 @@ export default function PricingPage() {
     }
   ];
 
-  const faqs = [
+  const faqs = language === 'de' ? [
+    {
+      question: "Kann ich jederzeit den Plan wechseln?",
+      answer: "Ja, Sie können Ihren Plan jederzeit upgraden oder downgraden. Änderungen werden sofort wirksam und die Abrechnung erfolgt anteilig."
+    },
+    {
+      question: "Gibt es eine kostenlose Testversion?",
+      answer: "Ja, wir bieten eine 14-tägige kostenlose Testversion für beide Pläne. Keine Kreditkarte zum Starten erforderlich."
+    },
+    {
+      question: "Was passiert, wenn ich meine Plan-Limits überschreite?",
+      answer: "Für den Starter-Plan benachrichtigen wir Sie bei Annäherung an die Limits und helfen beim Upgrade. Der Professional-Plan hat keine Limits."
+    },
+    {
+      question: "Bieten Sie maßgeschneiderte Unternehmenslösungen an?",
+      answer: "Ja, wir bieten maßgeschneiderte Unternehmenslösungen für große Organisationen. Kontaktieren Sie unser Vertriebsteam für Preise."
+    },
+    {
+      question: "Welche Zahlungsmethoden akzeptieren Sie?",
+      answer: "Wir akzeptieren alle gängigen Kreditkarten, PayPal und Banküberweisungen für Jahresabonnements."
+    },
+    {
+      question: "Sind meine Daten sicher?",
+      answer: "Ja, wir verwenden Unternehmens-Sicherheit mit SSL-Verschlüsselung, SOC 2-Konformität und regelmäßigen Sicherheitsaudits."
+    }
+  ] : [
     {
       question: "Can I change plans anytime?",
       answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and billing is prorated."
@@ -160,7 +230,7 @@ export default function PricingPage() {
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1">
-                      Most Popular
+                      {language === 'de' ? 'Beliebtester' : 'Most Popular'}
                     </Badge>
                   </div>
                 )}

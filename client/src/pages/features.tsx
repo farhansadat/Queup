@@ -22,7 +22,78 @@ export default function FeaturesPage() {
   const [, setLocation] = useLocation();
   const { language, t } = useLanguage();
 
-  const features = [
+  const features = language === 'de' ? [
+    {
+      icon: QrCode,
+      title: "QR-Code Integration",
+      description: "Kunden scannen QR-Codes, um sofort über ihr Handy in die Warteschlange einzutreten",
+      details: "Generieren Sie einzigartige QR-Codes für jeden Service oder Mitarbeiter. Kunden scannen und treten automatisch in die Warteschlange mit ihrem bevorzugten Mitarbeiter ein.",
+      benefits: ["Kontaktloser Warteschlangen-Beitritt", "Sofortige Warteschlangen-Updates", "Reduziert körperliche Ansammlung"]
+    },
+    {
+      icon: Clock,
+      title: "Echtzeit-Updates",
+      description: "Live-Warteschlangenstatus und Wartezeit-Schätzungen für Kunden und Personal",
+      details: "WebSocket-betriebene Echtzeit-Benachrichtigungen halten alle über Warteschlangenänderungen, Wartezeiten und Service-Updates informiert.",
+      benefits: ["Live-Positionsverfolgung", "Genaue Wartezeit-Schätzungen", "Sofortige Benachrichtigungen"]
+    },
+    {
+      icon: Users,
+      title: "Personal-Management",
+      description: "Verwalten Sie Team-Zeitpläne, weisen Sie Kunden zu und verfolgen Sie die Leistung",
+      details: "Komplettes Personal-Management-System mit Foto-Uploads, Verfügbarkeitsverfolgung und Leistungsanalysen.",
+      benefits: ["Personal-Planung", "Leistungsverfolgung", "Kundenzuweisungen"]
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics Dashboard",
+      description: "Umfassende Einblicke in Kundenfluss und Geschäftskennzahlen",
+      details: "Erweiterte Analytics zeigen Spitzenzeiten, durchschnittliche Wartezeiten, Kundenzufriedenheit und Umsatzoptimierungs-Einblicke.",
+      benefits: ["Business Intelligence", "Umsatzoptimierung", "Kunden-Einblicke"]
+    },
+    {
+      icon: Smartphone,
+      title: "Mobil Optimiert",
+      description: "Perfekte Erfahrung auf allen Geräten - Handys, Tablets und Desktops",
+      details: "Responsive Design, das nahtlos auf allen Geräten mit nativer Mobile-App-Leistung funktioniert.",
+      benefits: ["Geräteübergreifende Kompatibilität", "Touch-optimierte Benutzeroberfläche", "Offline-Fähigkeiten"]
+    },
+    {
+      icon: Shield,
+      title: "Sicher & Zuverlässig",
+      description: "Unternehmens-Sicherheit mit 99,9% Verfügbarkeits-Garantie",
+      details: "Bank-Level-Verschlüsselung, SOC 2-Konformität und redundante Infrastruktur gewährleisten, dass Ihre Daten immer sicher und zugänglich sind.",
+      benefits: ["Datenverschlüsselung", "SOC 2-konform", "99,9% Verfügbarkeits-SLA"]
+    },
+    {
+      icon: Bell,
+      title: "Intelligente Benachrichtigungen",
+      description: "Automatisierte SMS- und E-Mail-Benachrichtigungen für Kunden",
+      details: "Halten Sie Kunden mit automatisierten Benachrichtigungen über ihre Warteschlangenposition, geschätzte Wartezeiten und wann sie an der Reihe sind informiert.",
+      benefits: ["SMS-Benachrichtigungen", "E-Mail-Alerts", "Benutzerdefinierte Nachrichten"]
+    },
+    {
+      icon: Globe,
+      title: "Multi-Standort-Unterstützung",
+      description: "Verwalten Sie mehrere Geschäftsstandorte von einem Dashboard aus",
+      details: "Zentralisierte Verwaltung für Franchise-Besitzer und Multi-Standort-Unternehmen mit standortspezifischen Analytics und Einstellungen.",
+      benefits: ["Zentralisierte Verwaltung", "Standort-Analytics", "Franchise-Unterstützung"]
+    },
+    {
+      icon: Zap,
+      title: "API Integration",
+      description: "Verbinden Sie sich mit Ihren bestehenden Geschäftstools und Software",
+      details: "Robuste REST-API ermöglicht die Integration mit POS-Systemen, CRM-Tools, Terminbuchungs-Software und anderen Geschäftsanwendungen.",
+      benefits: ["POS-Integration", "CRM-Konnektivität", "Benutzerdefinierte Integrationen"]
+    },
+    {
+      icon: Settings,
+      title: "Benutzerdefiniertes Branding",
+      description: "Vollständige Anpassung der Erfahrung mit Ihren Markenfarben und Logo",
+      details: "White-Label-Lösung mit vollständigen Anpassungsoptionen einschließlich Farben, Logos, Nachrichten und Domain-Anpassung.",
+      benefits: ["Marken-Anpassung", "White-Label-Option", "Benutzerdefinierte Domains"]
+    }
+  ] : [
     {
       icon: QrCode,
       title: "QR Code Integration",
@@ -117,13 +188,14 @@ export default function FeaturesPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
@@ -169,7 +241,7 @@ export default function FeaturesPage() {
                 <CardContent className="space-y-4">
                   <p className="text-gray-700">{feature.details}</p>
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-gray-900">Key Benefits:</h4>
+                    <h4 className="font-semibold text-gray-900">{language === 'de' ? 'Hauptvorteile:' : 'Key Benefits:'}</h4>
                     <ul className="space-y-1">
                       {feature.benefits.map((benefit, i) => (
                         <li key={i} className="flex items-center text-sm text-gray-600">

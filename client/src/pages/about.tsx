@@ -26,7 +26,28 @@ export default function AboutPage() {
     { number: "99.9%", label: "Uptime", icon: Award }
   ];
 
-  const values = [
+  const values = language === 'de' ? [
+    {
+      icon: Target,
+      title: "Innovation zuerst",
+      description: "Wir verschieben ständig die Grenzen dessen, was in der Warteschlangen-Management-Technologie möglich ist."
+    },
+    {
+      icon: Heart,
+      title: "Kundenbesessen",
+      description: "Jede Entscheidung, die wir treffen, wird von unserem Engagement für außergewöhnliche Kundenerfahrungen getrieben."
+    },
+    {
+      icon: Building,
+      title: "Zuverlässigkeit",
+      description: "Wir bauen Unternehmens-Lösungen, auf die sich Unternehmen 24/7 verlassen können."
+    },
+    {
+      icon: Users,
+      title: "Inklusives Wachstum",
+      description: "Wir glauben daran, Lösungen zu schaffen, die Unternehmen aller Größen beim Erfolg helfen."
+    }
+  ] : [
     {
       icon: Target,
       title: "Innovation First",
@@ -71,13 +92,13 @@ export default function AboutPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
               </Button>
             </div>
           </div>
@@ -129,17 +150,20 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <Card className="border-purple-100 shadow-xl">
             <CardHeader className="text-center pb-8">
-              <CardTitle className="text-3xl text-gray-900 mb-4">Our Mission</CardTitle>
+              <CardTitle className="text-3xl text-gray-900 mb-4">{language === 'de' ? 'Unsere Mission' : 'Our Mission'}</CardTitle>
             </CardHeader>
             <CardContent className="text-center space-y-6">
               <p className="text-xl text-gray-700 leading-relaxed">
-                We believe that every customer interaction is an opportunity to create a positive experience. 
-                Our mission is to eliminate waiting frustration and empower businesses to deliver exceptional service 
-                through intelligent queue management technology.
+                {language === 'de' 
+                  ? 'Wir glauben, dass jede Kundeninteraktion eine Gelegenheit ist, eine positive Erfahrung zu schaffen. Unsere Mission ist es, Wartungsfrustration zu beseitigen und Unternehmen zu befähigen, außergewöhnlichen Service durch intelligente Warteschlangen-Management-Technologie zu liefern.'
+                  : 'We believe that every customer interaction is an opportunity to create a positive experience. Our mission is to eliminate waiting frustration and empower businesses to deliver exceptional service through intelligent queue management technology.'
+                }
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                From small local barbershops to large medical clinics, we're committed to providing tools 
-                that help businesses operate more efficiently while keeping their customers happy and engaged.
+                {language === 'de'
+                  ? 'Von kleinen lokalen Friseursalons bis zu großen Kliniken sind wir verpflichtet, Tools bereitzustellen, die Unternehmen helfen, effizienter zu arbeiten und gleichzeitig ihre Kunden glücklich und engagiert zu halten.'
+                  : 'From small local barbershops to large medical clinics, we\'re committed to providing tools that help businesses operate more efficiently while keeping their customers happy and engaged.'
+                }
               </p>
             </CardContent>
           </Card>
@@ -151,10 +175,10 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Our Core Values
+              {language === 'de' ? 'Unsere Grundwerte' : 'Our Core Values'}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              The principles that guide everything we do
+              {language === 'de' ? 'Die Prinzipien, die alles leiten, was wir tun' : 'The principles that guide everything we do'}
             </p>
           </div>
           

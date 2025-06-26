@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   Search, 
@@ -24,8 +25,76 @@ import {
 export default function HelpPage() {
   const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
+  const { language, t } = useLanguage();
 
-  const categories = [
+  const categories = language === 'de' ? [
+    {
+      icon: Settings,
+      title: "Erste Schritte",
+      description: "Setup-Anleitungen und Erstkonfiguration",
+      articles: [
+        "Wie Sie Ihren ersten Store erstellen",
+        "Mitarbeiter einrichten",
+        "Wöchentliche Zeitpläne konfigurieren",
+        "Logo und Branding hochladen"
+      ]
+    },
+    {
+      icon: QrCode,
+      title: "QR-Codes & Warteschlangen-Management",
+      description: "Alles über QR-Codes und die Verwaltung von Warteschlangen",
+      articles: [
+        "QR-Codes für Ihren Store generieren",
+        "Wie Kunden in Warteschlangen eintreten",
+        "Warteschlangen-Positionen verwalten",
+        "Kunden bedienen und stornieren"
+      ]
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics & Berichte",
+      description: "Verstehen Sie Ihre Geschäftsdaten und Leistung",
+      articles: [
+        "Dashboard-Übersicht verstehen",
+        "Kundenfluss-Analytics interpretieren",
+        "Warteschlangen-Statistiken verfolgen",
+        "Leistungsberichte exportieren"
+      ]
+    },
+    {
+      icon: Users,
+      title: "Personal-Management",
+      description: "Mitarbeiter verwalten und Zeitpläne einrichten",
+      articles: [
+        "Neue Mitarbeiter hinzufügen",
+        "Mitarbeiter-Fotos hochladen",
+        "Wöchentliche Zeitpläne festlegen",
+        "Mitarbeiter-Leistung verfolgen"
+      ]
+    },
+    {
+      icon: Shield,
+      title: "Sicherheit & Datenschutz",
+      description: "Schutz Ihrer Daten und DSGVO-Konformität",
+      articles: [
+        "Kontosicherheit verwalten",
+        "Datenschutz-Einstellungen",
+        "DSGVO-Konformität verstehen",
+        "Daten-Export und -Löschung"
+      ]
+    },
+    {
+      icon: Smartphone,
+      title: "Mobile App",
+      description: "QueueUp Pro unterwegs nutzen",
+      articles: [
+        "Mobile App herunterladen",
+        "Mobile Dashboard verwenden",
+        "Push-Benachrichtigungen einrichten",
+        "Offline-Funktionen verstehen"
+      ]
+    }
+  ] : [
     {
       icon: Settings,
       title: "Getting Started",
@@ -80,21 +149,35 @@ export default function HelpPage() {
         "Two-factor authentication",
         "API security best practices"
       ]
-    },
-    {
-      icon: Users,
-      title: "Account & Billing",
-      description: "Managing your subscription and account",
-      articles: [
-        "Upgrading or downgrading plans",
-        "Understanding billing cycles",
-        "Managing payment methods",
-        "Canceling your subscription"
-      ]
     }
   ];
 
-  const faqs = [
+  const faqs = language === 'de' ? [
+    {
+      question: "Wie treten Kunden in meine Warteschlange ein?",
+      answer: "Kunden scannen Ihren QR-Code mit ihrer Handy-Kamera oder QR-Code-Reader-App. Dies führt sie zu Ihrer Store-Warteschlangenseite, wo sie ihren Namen eingeben und sofort in die Warteschlange eintreten können."
+    },
+    {
+      question: "Kann ich das QR-Code-Design anpassen?",
+      answer: "Mit dem Professional-Plan können Sie QR-Code-Farben anpassen und Ihr Logo hinzufügen. Der Starter-Plan umfasst standardmäßige schwarz-weiße QR-Codes."
+    },
+    {
+      question: "Was passiert, wenn ein Kunde geht, ohne bedient zu werden?",
+      answer: "Sie können Kunden in Ihrem Dashboard als 'storniert' markieren. Dies entfernt sie aus der aktiven Warteschlange und hilft dabei, genaue Wartezeit-Schätzungen aufrechtzuerhalten."
+    },
+    {
+      question: "Wie genau sind die Wartezeit-Schätzungen?",
+      answer: "Wartezeiten werden basierend auf Ihren historischen Service-Zeiten und der aktuellen Warteschlangenlänge berechnet. Das System lernt aus Ihren Mustern, um zunehmend genaue Schätzungen zu liefern."
+    },
+    {
+      question: "Kann ich QueueUp für mehrere Standorte verwenden?",
+      answer: "Ja! Der Professional-Plan unterstützt mehrere Standorte mit zentralisierter Verwaltung und standortspezifischen Analytics."
+    },
+    {
+      question: "Gibt es eine Begrenzung der Warteschlangengröße?",
+      answer: "Der Starter-Plan unterstützt bis zu 100 Kunden pro Tag. Der Professional-Plan hat keine Begrenzungen für Warteschlangengröße oder tägliche Kunden."
+    }
+  ] : [
     {
       question: "How do customers join my queue?",
       answer: "Customers scan your QR code with their phone camera or QR code reader app. This takes them to your store's queue page where they can enter their name and join the queue instantly."
@@ -132,7 +215,7 @@ export default function HelpPage() {
                 <HelpCircle className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Help Center
+                {language === 'de' ? 'Hilfe-Center' : 'Help Center'}
               </span>
             </div>
             
@@ -143,13 +226,14 @@ export default function HelpPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Jetzt starten' : 'Get Started'}
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
@@ -160,25 +244,28 @@ export default function HelpPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            📚 Help & Support
+            {language === 'de' ? '📚 Hilfe & Support' : '📚 Help & Support'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            How can we
+            {language === 'de' ? 'Wie können wir' : 'How can we'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              help you today?
+              {language === 'de' ? 'Ihnen heute helfen?' : 'help you today?'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8">
-            Find answers to common questions, browse our knowledge base, or contact our support team
+            {language === 'de' 
+              ? 'Finden Sie Antworten auf häufige Fragen, durchsuchen Sie unsere Wissensdatenbank oder kontaktieren Sie unser Support-Team'
+              : 'Find answers to common questions, browse our knowledge base, or contact our support team'
+            }
           </p>
 
           {/* Search */}
           <div className="relative max-w-2xl mx-auto mb-8">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
-              placeholder="Search for help articles, guides, or FAQs..."
+              placeholder={language === 'de' ? 'Suchen Sie nach Hilfeartikeln, Anleitungen oder FAQs...' : 'Search for help articles, guides, or FAQs...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 h-14 text-lg border-purple-200 focus:border-purple-500 focus:ring-purple-500"
@@ -194,20 +281,20 @@ export default function HelpPage() {
             <Card className="border-purple-100 hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader className="text-center">
                 <Video className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Video Tutorials</CardTitle>
+                <CardTitle>{language === 'de' ? 'Video-Tutorials' : 'Video Tutorials'}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600">Step-by-step video guides for common tasks</p>
+                <p className="text-gray-600">{language === 'de' ? 'Schritt-für-Schritt-Video-Anleitungen für häufige Aufgaben' : 'Step-by-step video guides for common tasks'}</p>
               </CardContent>
             </Card>
 
             <Card className="border-purple-100 hover:shadow-lg transition-shadow cursor-pointer">
               <CardHeader className="text-center">
                 <MessageCircle className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Live Chat</CardTitle>
+                <CardTitle>{language === 'de' ? 'Live-Chat' : 'Live Chat'}</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600">Chat with our support team in real-time</p>
+                <p className="text-gray-600">{language === 'de' ? 'Chatten Sie mit unserem Support-Team in Echtzeit' : 'Chat with our support team in real-time'}</p>
               </CardContent>
             </Card>
 
