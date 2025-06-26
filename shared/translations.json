@@ -43,7 +43,13 @@
       "trusted_by": "Trusted by 500+ businesses across Germany",
       "features_title": "Everything you need to manage queues efficiently",
       "pricing_title": "Simple, transparent pricing",
-      "testimonials_title": "What our customers say"
+      "testimonials_title": "What our customers say",
+      "cta_title": "Ready to Transform Your Business?",
+      "cta_subtitle": "Join thousands of businesses already using QueueUp Pro to deliver exceptional customer experiences.",
+      "cta_start_trial": "Start Your Free Trial",
+      "footer_product": "Product",
+      "footer_support": "Support",
+      "footer_company": "Company"
     },
     "pages": {
       "login_title": "Sign In",
