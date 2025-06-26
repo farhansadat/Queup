@@ -41,7 +41,8 @@ export default function LoginPage() {
   const [storeData, setStoreData] = useState({
     name: "",
     description: "",
-    logoUrl: ""
+    logoUrl: "",
+    language: "en"
   });
 
   const loginMutation = useMutation({
@@ -317,6 +318,19 @@ export default function LoginPage() {
                           className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
                           placeholder="Brief description of your business"
                         />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium">Store Language</Label>
+                        <Select value={storeData.language} onValueChange={(value) => setStoreData(prev => ({ ...prev, language: value }))}>
+                          <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                            <SelectValue placeholder="Select store language" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="en">English</SelectItem>
+                            <SelectItem value="de">Deutsch (German)</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                       
                       <div className="space-y-2">

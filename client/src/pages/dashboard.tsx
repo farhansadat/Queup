@@ -557,7 +557,7 @@ export default function DashboardPage() {
                   disabled={logoutMutation.isPending}
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
+                  {logoutMutation.isPending ? (language === 'de' ? "Abmelden..." : "Signing out...") : (language === 'de' ? "Abmelden" : "Sign Out")}
                 </Button>
                 <DarkModeToggle />
               </div>
@@ -572,27 +572,27 @@ export default function DashboardPage() {
           <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="queue" className="flex items-center space-x-2">
               <Users className="w-4 h-4" />
-              <span>Queue</span>
+              <span>{t('dashboard.queue')}</span>
             </TabsTrigger>
             <TabsTrigger value="served" className="flex items-center space-x-2">
               <CheckCircle className="w-4 h-4" />
-              <span>Served</span>
+              <span>{t('dashboard.served')}</span>
             </TabsTrigger>
             <TabsTrigger value="staff" className="flex items-center space-x-2">
               <UserCheck className="w-4 h-4" />
-              <span>Staff</span>
+              <span>{t('dashboard.staff')}</span>
             </TabsTrigger>
             <TabsTrigger value="store" className="flex items-center space-x-2">
               <StoreIcon className="w-4 h-4" />
-              <span>Store</span>
+              <span>{language === 'de' ? 'Geschäft' : 'Store'}</span>
             </TabsTrigger>
             <TabsTrigger value="qr" className="flex items-center space-x-2">
               <QrCode className="w-4 h-4" />
-              <span>QR Codes</span>
+              <span>{language === 'de' ? 'QR-Codes' : 'QR Codes'}</span>
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center space-x-2">
               <BarChart3 className="w-4 h-4" />
-              <span>Analytics</span>
+              <span>{t('dashboard.analytics')}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -612,31 +612,28 @@ export default function DashboardPage() {
               {/* Animated Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <AnimatedStatsCard
-                  title={`Today's ${storeConfig.customerLabel}s`}
+                  title={t('dashboard.today_customers')}
                   value={stats?.totalCustomers || 0}
                   icon={Users}
                   color="bg-primary"
                   delay={0}
                 />
                 <AnimatedStatsCard
-                  title={`Avg ${storeConfig.waitLabel} (min)`}
+                  title={t('dashboard.avg_wait_time')}
                   value={stats?.avgWaitTime || 0}
                   icon={Clock}
                   color="bg-orange-500"
                   delay={100}
                 />
                 <AnimatedStatsCard
-                  title={storeConfig.servedLabel}
+                  title={t('dashboard.completed')}
                   value={stats?.completed || 0}
                   icon={CheckCircle}
                   color="bg-accent"
                   delay={200}
                 />
                 <AnimatedStatsCard
-                  title={currentStore?.type === 'restaurant' 
-                    ? (language === 'de' ? 'Wartende Gäste' : 'Waiting Parties')
-                    : (language === 'de' ? 'Aktuell wartend' : 'Currently Waiting')
-                  }
+                  title={t('dashboard.currently_waiting')}
                   value={stats?.waiting || 0}
                   icon={UserCheck}
                   color="bg-purple-500"
@@ -646,7 +643,7 @@ export default function DashboardPage() {
 
               {/* Queue Management Actions */}
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{storeConfig.queueLabel}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t('dashboard.queue_management')}</h3>
                 <AddToQueueDialog storeId={currentStore?.id || ""} staff={staff} />
               </div>
 
@@ -659,8 +656,8 @@ export default function DashboardPage() {
           <TabsContent value="served" className="mt-6">
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{storeConfig.servedLabel}</h2>
-                <p className="text-gray-600 dark:text-gray-300">View {storeConfig.customerLabel.toLowerCase()}s served today</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('dashboard.served')}</h2>
+                <p className="text-gray-600 dark:text-gray-300">{t('dashboard.served_customers_note')}</p>
               </div>
 
               <Card>
@@ -678,10 +675,10 @@ export default function DashboardPage() {
                                   <h4 className="font-medium text-gray-900 dark:text-white">{customer.customerName}</h4>
                                   <div className="flex flex-col space-y-1">
                                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                                      Served by: <span className="font-medium">{staffMember?.name || 'Staff Member'}</span>
+                                      {language === 'de' ? 'Bedient von:' : 'Served by:'} <span className="font-medium">{staffMember?.name || (language === 'de' ? 'Mitarbeiter' : 'Staff Member')}</span>
                                     </p>
                                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                                      Date: {servedDate.toLocaleDateString()} at {servedDate.toLocaleTimeString()}
+                                      {language === 'de' ? 'Datum:' : 'Date:'} {servedDate.toLocaleDateString()} {language === 'de' ? 'um' : 'at'} {servedDate.toLocaleTimeString()}
                                     </p>
                                   </div>
                                   {customer.contactInfo && (
@@ -691,7 +688,7 @@ export default function DashboardPage() {
                               </div>
                             </div>
                             <Badge variant="default" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                              Completed
+                              {language === 'de' ? 'Abgeschlossen' : 'Completed'}
                             </Badge>
                           </div>
                         );
@@ -714,14 +711,14 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{storeConfig.staffLabel} Management</h2>
-                  <p className="text-gray-600">Manage your team members and their availability</p>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t('dashboard.staff_management')}</h2>
+                  <p className="text-gray-600 dark:text-gray-300">{language === 'de' ? 'Verwalten Sie Ihre Teammitglieder und deren Verfügbarkeit' : 'Manage your team members and their availability'}</p>
                 </div>
                 <Dialog open={isAddStaffOpen} onOpenChange={setIsAddStaffOpen}>
                   <DialogTrigger asChild>
                     <Button className="btn-primary">
                       <Plus className="w-4 h-4 mr-2" />
-                      Add {storeConfig.staffLabel.slice(0, -1)} Member
+                      {t('dashboard.add_staff_member')}
                     </Button>
                   </DialogTrigger>
                   <DialogContent>

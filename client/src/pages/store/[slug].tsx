@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useRealTimeQueue } from "@/hooks/useRealTimeQueue";
+import { getTranslation } from "@/lib/i18n";
 import { Clock, Users, UserCheck, Scissors, Star } from "lucide-react";
 import type { Store, Staff, Queue } from "@shared/schema";
 
@@ -18,6 +19,12 @@ export default function CustomerQueuePage() {
   const { toast } = useToast();
   const [selectedStaff, setSelectedStaff] = useState<string | null>(null);
   const [customerForm, setCustomerForm] = useState({ name: "", contact: "" });
+
+  // Helper function to get translations based on store language
+  const t = (key: string) => {
+    if (!store?.language) return key;
+    return getTranslation(store.language as 'en' | 'de', key);
+  };
 
   const { data: store, isLoading: storeLoading } = useQuery<Store>({
     queryKey: [`/api/stores/${slug}`],
@@ -127,7 +134,7 @@ export default function CustomerQueuePage() {
                     <span className="animate-fade-in-up">{store.name}</span>
                   )}
                 </h1>
-                <p className="text-sm text-gray-600 font-medium">Touch to join the queue</p>
+                <p className="text-sm text-gray-600 font-medium">{t('queue.join_queue')}</p>
               </div>
             </div>
             <div className="text-right">
@@ -151,10 +158,10 @@ export default function CustomerQueuePage() {
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
                 <UserCheck className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-sm font-semibold text-gray-700 mb-1">Now Serving</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-1">{store?.language === 'de' ? 'Jetzt bedient' : 'Now Serving'}</h3>
               <p className="text-2xl font-bold text-blue-600 leading-tight">
                 {currentCustomer?.customerName || (
-                  <span className="text-blue-400">No one</span>
+                  <span className="text-blue-400">{store?.language === 'de' ? 'Niemand' : 'No one'}</span>
                 )}
               </p>
             </div>
@@ -166,10 +173,10 @@ export default function CustomerQueuePage() {
               <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
                 <Clock className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-sm font-semibold text-gray-700 mb-1">Next in Line</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-1">{store?.language === 'de' ? 'Als Nächstes' : 'Next in Line'}</h3>
               <p className="text-2xl font-bold text-gray-600 leading-tight">
                 {queue?.[1]?.customerName || (
-                  <span className="text-gray-400">No one waiting</span>
+                  <span className="text-gray-400">{store?.language === 'de' ? 'Niemand wartet' : 'No one waiting'}</span>
                 )}
               </p>
             </div>
@@ -186,15 +193,15 @@ export default function CustomerQueuePage() {
                   <span className="text-3xl font-bold text-blue-600 animate-pulse">+</span>
                 </div>
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">Join the Queue</h2>
-              <p className="text-blue-100 text-lg font-medium">Touch-friendly experience for walk-in customers</p>
+              <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">{t('queue.join_queue')}</h2>
+              <p className="text-blue-100 text-lg font-medium">{store?.language === 'de' ? 'Touch-freundliche Erfahrung für Laufkundschaft' : 'Touch-friendly experience for walk-in customers'}</p>
             </div>
           </div>
 
           <div className="p-6 space-y-6">
             {/* Staff Selection */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose Your Staff Member</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{store?.language === 'de' ? 'Wählen Sie Ihren Mitarbeiter' : 'Choose Your Staff Member'}</h3>
               <div className="space-y-3">
                 <button
                   type="button"
@@ -210,8 +217,8 @@ export default function CustomerQueuePage() {
                       <Star className="w-7 h-7 text-white" />
                     </div>
                     <div className="text-left flex-1">
-                      <h4 className="font-bold text-gray-900 text-base">First Available</h4>
-                      <p className="text-sm text-green-600 font-medium">Fastest service</p>
+                      <h4 className="font-bold text-gray-900 text-base">{store?.language === 'de' ? 'Erster Verfügbarer' : 'First Available'}</h4>
+                      <p className="text-sm text-green-600 font-medium">{store?.language === 'de' ? 'Schnellster Service' : 'Fastest service'}</p>
                     </div>
                   </div>
                 </button>

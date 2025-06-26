@@ -86,11 +86,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: z.string().optional(),
         description: z.string().optional(),
         logoUrl: z.string().optional(),
+        language: z.string().optional(),
         weeklySchedule: z.any().optional(),
         workingHours: z.any().optional()
       });
       
-      const { email, password, firstName, lastName, storeType, name, description, logoUrl, weeklySchedule, workingHours } = registerSchema.parse(req.body);
+      const { email, password, firstName, lastName, storeType, name, description, logoUrl, language, weeklySchedule, workingHours } = registerSchema.parse(req.body);
       
       // Check if user exists
       const existingUser = await storage.getUserByEmail(email);
@@ -118,6 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           slug,
           description: description || "",
           logoUrl: logoUrl || "",
+          language: language || "en",
           type: storeType as any,
           workingHours: weeklySchedule || workingHours || {
             monday: { open: "09:00", close: "17:00", isOpen: true },

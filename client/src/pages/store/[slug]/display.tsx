@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useRealTimeQueue } from "@/hooks/useRealTimeQueue";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
+import { getTranslation } from "@/lib/i18n";
 import { ArrowRight, UserCheck, Clock, Scissors, Star, Maximize, Minimize } from "lucide-react";
 import type { Store, Staff } from "@shared/schema";
 
@@ -20,6 +21,12 @@ export default function KioskDisplayPage() {
   const [customerName, setCustomerName] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Helper function to get translations based on store language
+  const t = (key: string) => {
+    if (!store?.language) return key;
+    return getTranslation(store.language as 'en' | 'de', key);
+  };
 
   // Update time every minute
   useEffect(() => {
@@ -157,7 +164,7 @@ export default function KioskDisplayPage() {
                     <span className="animate-fade-in-up">{store.name}</span>
                   )}
                 </h1>
-                <p className="text-xl text-white/90 font-medium">Welcome • Please take a number</p>
+                <p className="text-xl text-white/90 font-medium">{store?.language === 'de' ? 'Willkommen • Bitte nehmen Sie eine Nummer' : 'Welcome • Please take a number'}</p>
               </div>
             </div>
             <div className="flex items-center space-x-6">
@@ -167,7 +174,7 @@ export default function KioskDisplayPage() {
                   className="bg-white/20 hover:bg-white/30 border-2 border-white/30 hover:border-white/50 px-6 py-3 rounded-2xl transition-all"
                 >
                   <Maximize className="w-6 h-6 text-white mr-2" />
-                  <span className="text-white font-medium">Fullscreen</span>
+                  <span className="text-white font-medium">{store?.language === 'de' ? 'Vollbild' : 'Fullscreen'}</span>
                 </Button>
               )}
               <div className="text-right">
@@ -193,13 +200,13 @@ export default function KioskDisplayPage() {
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
                 <UserCheck className="w-8 h-8 text-white animate-heartbeat" />
               </div>
-              <h2 className="text-xl font-bold text-white mb-3">Now Serving</h2>
+              <h2 className="text-xl font-bold text-white mb-3">{store?.language === 'de' ? 'Jetzt bedient' : 'Now Serving'}</h2>
               <div className="text-4xl font-bold text-white mb-2 font-mono tracking-wider">
                 {currentCustomer?.customerName || "---"}
               </div>
               {currentCustomer && (
                 <p className="text-sm text-white/90 font-medium">
-                  with {staff.find(s => s.id === currentCustomer.staffId)?.name || "Staff Member"}
+                  {store?.language === 'de' ? 'mit' : 'with'} {staff.find(s => s.id === currentCustomer.staffId)?.name || (store?.language === 'de' ? 'Mitarbeiter' : 'Staff Member')}
                 </p>
               )}
             </div>
@@ -207,7 +214,7 @@ export default function KioskDisplayPage() {
 
           {/* Next in Line - Compact Display */}
           <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
-            <h3 className="text-lg font-bold text-white mb-4 text-center">Next in Line</h3>
+            <h3 className="text-lg font-bold text-white mb-4 text-center">{store?.language === 'de' ? 'Als Nächstes in der Reihe' : 'Next in Line'}</h3>
             {upcomingCustomers.length > 0 ? (
               <div className="space-y-3">
                 {upcomingCustomers.slice(0, 10).map((customer, index) => (
@@ -236,7 +243,7 @@ export default function KioskDisplayPage() {
             ) : (
               <div className="text-center py-4 text-white/60">
                 <Clock className="w-8 h-8 mx-auto mb-2 text-white/40" />
-                <p className="text-sm">No one waiting</p>
+                <p className="text-sm">{store?.language === 'de' ? 'Niemand wartet' : 'No one waiting'}</p>
               </div>
             )}
           </div>
@@ -250,15 +257,15 @@ export default function KioskDisplayPage() {
               <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
                 <ArrowRight className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Join the Queue</h2>
-              <p className="text-white/90 text-lg">Touch to get started</p>
+              <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">{t('queue.join_queue')}</h2>
+              <p className="text-white/90 text-lg">{store?.language === 'de' ? 'Berühren zum Starten' : 'Touch to get started'}</p>
             </div>
 
             <div className="flex-1 p-8 flex flex-col justify-center">
               <form onSubmit={handleKioskJoin} className="space-y-8">
                 {/* Staff Selection - Large Touch Targets */}
                 <div>
-                  <Label className="block text-2xl font-bold text-white mb-6 text-center">Choose Your Staff Member</Label>
+                  <Label className="block text-2xl font-bold text-white mb-6 text-center">{store?.language === 'de' ? 'Wählen Sie Ihren Mitarbeiter' : 'Choose Your Staff Member'}</Label>
                   <div className="grid grid-cols-1 gap-4">
                     {/* First Available Option - Prominent */}
                     <button
@@ -275,8 +282,8 @@ export default function KioskDisplayPage() {
                           <Star className="w-8 h-8 text-white" />
                         </div>
                         <div>
-                          <p className="text-xl font-bold text-white">First Available</p>
-                          <p className="text-white/80 text-lg">Fastest service • No preference</p>
+                          <p className="text-xl font-bold text-white">{store?.language === 'de' ? 'Erster Verfügbarer' : 'First Available'}</p>
+                          <p className="text-white/80 text-lg">{store?.language === 'de' ? 'Schnellster Service • Keine Präferenz' : 'Fastest service • No preference'}</p>
                         </div>
                       </div>
                     </button>
@@ -302,7 +309,7 @@ export default function KioskDisplayPage() {
                           </Avatar>
                           <div>
                             <p className="text-xl font-bold text-white">{member.name}</p>
-                            <p className="text-white/80 text-lg">Available now</p>
+                            <p className="text-white/80 text-lg">{store?.language === 'de' ? 'Jetzt verfügbar' : 'Available now'}</p>
                           </div>
                         </div>
                       </button>
@@ -313,12 +320,12 @@ export default function KioskDisplayPage() {
                 {/* Name Input - Large */}
                 <div>
                   <Label htmlFor="kiosk-name" className="block text-3xl font-bold text-white mb-6 text-center">
-                    Enter Your Name
+                    {store?.language === 'de' ? 'Geben Sie Ihren Namen ein' : 'Enter Your Name'}
                   </Label>
                   <Input
                     id="kiosk-name"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder={store?.language === 'de' ? 'Geben Sie Ihren Namen ein' : 'Enter your name'}
                     className="w-full px-6 py-6 text-4xl text-center rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30 transition-all"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
@@ -333,13 +340,13 @@ export default function KioskDisplayPage() {
                   disabled={joinQueueMutation.isPending || !selectedStaff}
                 >
                   <ArrowRight className="w-8 h-8 mr-4" />
-                  {joinQueueMutation.isPending ? "Joining..." : "Join Queue Now"}
+                  {joinQueueMutation.isPending ? (store?.language === 'de' ? "Beitreten..." : "Joining...") : (store?.language === 'de' ? "Jetzt zur Warteschlange hinzufügen" : "Join Queue Now")}
                 </Button>
               </form>
 
               {/* QR Code Section */}
               <div className="mt-8 pt-6 border-t border-white/20 text-center">
-                <p className="text-white/80 mb-6 text-xl font-medium">Or scan with your phone</p>
+                <p className="text-white/80 mb-6 text-xl font-medium">{store?.language === 'de' ? 'Oder scannen Sie mit Ihrem Telefon' : 'Or scan with your phone'}</p>
                 <div className="flex justify-center">
                   <div className="bg-white/20 p-6 rounded-3xl shadow-2xl border border-white/30 animate-glow">
                     <QRCodeGenerator 
