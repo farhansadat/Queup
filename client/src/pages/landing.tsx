@@ -567,24 +567,12 @@ export default function LandingPage() {
                 >
                   {t('navigation.pricing')}
                 </div>
-                <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
-                  onClick={() => setLocation("/api")}
-                >
-                  API
-                </div>
               </div>
             </div>
             
             <div>
               <h3 className="text-white font-semibold mb-4">{t('landing.footer_support')}</h3>
               <div className="space-y-2">
-                <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
-                  onClick={() => setLocation("/help")}
-                >
-                  {language === 'de' ? 'Hilfe-Center' : 'Help Center'}
-                </div>
                 <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">
                   {language === 'de' ? 'Kontakt' : 'Contact'}
                 </div>
