@@ -1,16 +1,22 @@
 // @ts-nocheck
 import { users, stores, staff, queues, type User, type InsertUser, type Store, type InsertStore, type Staff, type InsertStaff, type Queue, type InsertQueue } from "@shared/schema";
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
-import { eq, and, desc, asc, gte, lt, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { eq, and, desc, asc, gte, lt } from "drizzle-orm";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   throw new Error("DATABASE_URL environment variable is required");
 }
 
-const sql = neon(connectionString);
-const db = drizzle(sql);
+// Configure postgres client for Supabase
+const client = postgres(connectionString, {
+  ssl: 'require',
+  max: 1,
+  idle_timeout: 20,
+  connect_timeout: 10,
+});
+const db = drizzle(client);
 
 export interface IStorage {
   // User operations

@@ -472,7 +472,7 @@ export default function LoginPage() {
                         type="button"
                         variant="outline"
                         onClick={() => setRegistrationStep(3)}
-                        className="flex-1 h-11 rounded-xl bg-white bg-opacity-10 backdrop-blur-sm text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20"
+                        className="flex-1 h-11 rounded-xl bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20 transition-all duration-300"
                       >
                         {t('auth.previous')}
                       </Button>

@@ -84,7 +84,7 @@ export function FileUpload({
 
   return (
     <div className={`space-y-4 ${className}`}>
-      <Label>{label}</Label>
+      <Label className="text-white text-opacity-90">{label}</Label>
       
       {/* URL Input */}
       <div className="flex space-x-2">
