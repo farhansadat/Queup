@@ -667,22 +667,35 @@ export default function DashboardPage() {
                 <CardContent className="pt-6">
                   {servedCustomers.length > 0 ? (
                     <div className="space-y-4">
-                      {servedCustomers.map((customer: any) => (
-                        <div key={customer.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                          <div>
-                            <h4 className="font-medium text-gray-900 dark:text-white">{customer.customerName}</h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">
-                              Served at {new Date(customer.joinedAt).toLocaleTimeString()}
-                            </p>
-                            {customer.contactInfo && (
-                              <p className="text-sm text-gray-500">{customer.contactInfo}</p>
-                            )}
+                      {servedCustomers.map((customer: any) => {
+                        const staffMember = staff.find(s => s.id === customer.staffId);
+                        const servedDate = new Date(customer.updatedAt || customer.joinedAt);
+                        return (
+                          <div key={customer.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-4">
+                                <div>
+                                  <h4 className="font-medium text-gray-900 dark:text-white">{customer.customerName}</h4>
+                                  <div className="flex flex-col space-y-1">
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                                      Served by: <span className="font-medium">{staffMember?.name || 'Staff Member'}</span>
+                                    </p>
+                                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                                      Date: {servedDate.toLocaleDateString()} at {servedDate.toLocaleTimeString()}
+                                    </p>
+                                  </div>
+                                  {customer.contactInfo && (
+                                    <p className="text-sm text-gray-500 mt-1">{customer.contactInfo}</p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <Badge variant="default" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                              Completed
+                            </Badge>
                           </div>
-                          <Badge variant="default" className="bg-green-100 text-green-800">
-                            Completed
-                          </Badge>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-8 text-gray-500">
