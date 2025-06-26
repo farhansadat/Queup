@@ -107,7 +107,7 @@ export default function KioskDisplayPage() {
   };
 
   const currentCustomer = queue?.[0];
-  const upcomingCustomers = queue?.slice(1, 3) || [];
+  const upcomingCustomers = queue?.slice(1, 6) || [];
 
   if (storeLoading || staffLoading || queueLoading) {
     return (
