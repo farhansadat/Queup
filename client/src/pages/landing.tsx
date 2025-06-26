@@ -116,7 +116,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen radiant-dark-bg">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full frosted-glass z-50 border-b border-purple-500/20">
+      <nav className="fixed top-0 w-full bg-transparent backdrop-blur-sm z-50 border-b border-purple-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -225,7 +225,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 radiant-mesh-bg relative overflow-hidden">
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Enhanced floating gradient blobs */}
         <div className="blob w-96 h-96 bg-gradient-to-r from-purple-600/50 to-violet-700/40 top-10 left-0 z-0"></div>
         <div className="blob w-[500px] h-[500px] bg-gradient-to-r from-indigo-600/40 to-purple-600/30 top-20 right-10 z-0 animation-delay-2000"></div>
@@ -288,7 +288,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8 radiant-mesh-bg">
+      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -321,7 +321,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-16 px-4 sm:px-6 lg:px-8 radiant-dark-bg">
+      <section id="pricing" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -477,13 +477,13 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="testimonials" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
               {language === 'de' ? 'Geliebt von Unternehmen weltweit' : 'Loved by Businesses Worldwide'}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               {language === 'de' 
                 ? 'Sehen Sie, was unsere Kunden über QueueUp Pro sagen'
                 : 'See what our customers have to say about QueueUp Pro'
@@ -493,21 +493,21 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-purple-100">
+              <Card key={index} className="frosted-glass frosted-glass-hover">
                 <CardContent className="pt-6">
                   <div className="flex items-center mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-4 italic">
+                  <p className="text-gray-300 mb-4 italic">
                     "{language === 'de' ? getGermanTestimonial(index) : testimonial.text}"
                   </p>
                   <div>
-                    <div className="font-semibold text-gray-900">
+                    <div className="font-semibold text-white">
                       {language === 'de' ? t(`landing.testimonial_${index + 1}_name`) : testimonial.name}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-400">
                       {language === 'de' ? t(`landing.testimonial_${index + 1}_role`) : testimonial.business}
                     </div>
                   </div>
@@ -519,7 +519,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600 relative overflow-hidden">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Floating gradient blobs */}
         <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
         <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
@@ -528,13 +528,13 @@ export default function LandingPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-fadeInUp">
             {t('landing.cta_title')}
           </h2>
-          <p className="text-xl text-purple-100 mb-8 animate-fadeInUp animation-delay-200">
+          <p className="text-xl text-gray-300 mb-8 animate-fadeInUp animation-delay-200">
             {t('landing.cta_subtitle')}
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
-            className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg btn-hero animate-glow animate-fadeInUp animation-delay-400"
+            className="btn-glow text-white px-8 py-6 text-lg animate-pulseGlow animate-fadeInUp animation-delay-400"
           >
             {t('landing.cta_start_trial')}
             <ArrowRight className="w-5 h-5 ml-2" />
@@ -543,7 +543,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-black/90">
+      <footer className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -619,8 +619,8 @@ export default function LandingPage() {
             </div>
           </div>
           
-          <div className="border-t border-gray-800 pt-8 mt-8 text-center">
-            <p className="text-gray-400">
+          <div className="border-t border-purple-500/20 pt-8 mt-8 text-center">
+            <p className="text-gray-300">
               © 2025 QueueUp Pro. All rights reserved.
             </p>
           </div>
