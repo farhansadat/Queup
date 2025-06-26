@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/lib/i18n";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { 
   Users, 
   Shield, 
@@ -184,6 +185,7 @@ export default function PrivacyPage() {
             </div>
             
             <div className="flex items-center space-x-4">
+              <LanguageSelector />
               <Button 
                 variant="ghost" 
                 onClick={() => setLocation("/")}

@@ -148,6 +148,7 @@ export default function TermsPage() {
             </div>
             
             <div className="flex items-center space-x-4">
+              <LanguageSelector />
               <Button 
                 variant="ghost" 
                 onClick={() => setLocation("/")}

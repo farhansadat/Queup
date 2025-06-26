@@ -62,13 +62,22 @@ export default function LoginPage() {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: { email: string; password: string; firstName: string; lastName: string; storeType: string; workingHours?: any }) => {
-      const fullData = {
-        ...data,
-        ...storeData,
-        weeklySchedule
-      };
-      const response = await apiRequest("POST", "/api/auth/register", fullData);
+    mutationFn: async (data: { 
+      email: string; 
+      password: string; 
+      firstName: string; 
+      lastName: string; 
+      storeType: string; 
+      storeName?: string;
+      storeDescription?: string;
+      storeAddress?: string;
+      storePhoneNumber?: string;
+      storeLogoUrl?: string;
+      storeLanguage?: string;
+      workingHours?: any;
+      weeklySchedule?: any;
+    }) => {
+      const response = await apiRequest("POST", "/api/auth/register", data);
       return response.json();
     },
     onSuccess: () => {
@@ -219,9 +228,7 @@ export default function LoginPage() {
                         {language === 'de' ? 'Beginnen wir mit Ihren grundlegenden Daten' : "Let's start with your basic details"}
                       </p>
                       <div className="flex justify-center mt-4">
-                        <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 p-2">
-                          <LanguageSelector />
-                        </div>
+                        <LanguageSelector variant="glassmorphism" />
                       </div>
                     </div>
                     
@@ -487,7 +494,7 @@ export default function LoginPage() {
                             storePhoneNumber: storeData.phoneNumber,
                             storeLogoUrl: storeData.logoUrl,
                             storeLanguage: storeData.language,
-                            workingHours: weeklySchedule
+                            weeklySchedule: weeklySchedule
                           });
                         }}
                         className="flex-1 h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"

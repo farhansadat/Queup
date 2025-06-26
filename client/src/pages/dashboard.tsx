@@ -459,7 +459,7 @@ export default function DashboardPage() {
                 {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
               </div>
               
-              <LanguageSelector className="text-white" />
+              <LanguageSelector variant="glassmorphism" />
               
               <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
                 <DialogTrigger asChild>
