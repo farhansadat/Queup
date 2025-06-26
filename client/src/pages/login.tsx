@@ -328,12 +328,12 @@ export default function LoginPage() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">{t('auth.store_language')}</Label>
+                        <Label className="text-sm font-medium text-white">{t('auth.store_language')}</Label>
                         <Select value={storeData.language} onValueChange={(value) => setStoreData(prev => ({ ...prev, language: value }))}>
-                          <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
+                          <SelectTrigger className="h-11 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300">
                             <SelectValue placeholder={language === 'de' ? 'Geschäftssprache auswählen' : 'Select store language'} />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-white bg-opacity-95 backdrop-filter backdrop-blur-sm border border-white border-opacity-30">
                             <SelectItem value="en">English</SelectItem>
                             <SelectItem value="de">Deutsch (German)</SelectItem>
                           </SelectContent>
@@ -341,7 +341,7 @@ export default function LoginPage() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-sm font-medium">{t('auth.logo_upload')} (Optional)</Label>
+                        <Label className="text-sm font-medium text-white">{t('auth.logo_upload')} (Optional)</Label>
                         <FileUpload
                           onFileSelect={(file) => {
                             const reader = new FileReader();

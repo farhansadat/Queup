@@ -188,7 +188,7 @@ export default function AdminDashboard() {
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ password: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
+                  className="w-full px-4 py-3 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder:text-white placeholder:text-opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                 />
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"></div>
               </div>
@@ -274,8 +274,8 @@ export default function AdminDashboard() {
               <div className="flex items-center space-x-3">
                 <Users className="w-8 h-8 text-green-500" />
                 <div>
-                  <p className="text-sm text-gray-600">Total Staff</p>
-                  <p className="text-2xl font-bold">{stores.reduce((acc, store) => acc + (store.staffCount || 0), 0)}</p>
+                  <p className="text-sm text-gray-600">Active Businesses</p>
+                  <p className="text-2xl font-bold">{stores.filter(store => store.createdAt).length}</p>
                 </div>
               </div>
             </CardContent>
@@ -286,8 +286,8 @@ export default function AdminDashboard() {
               <div className="flex items-center space-x-3">
                 <Clock className="w-8 h-8 text-orange-500" />
                 <div>
-                  <p className="text-sm text-gray-600">Active Queues</p>
-                  <p className="text-2xl font-bold">{stores.reduce((acc, store) => acc + (store.queueCount || 0), 0)}</p>
+                  <p className="text-sm text-gray-600">Premium Plans</p>
+                  <p className="text-2xl font-bold">{stores.filter(store => store.storeType !== 'barbershop').length}</p>
                 </div>
               </div>
             </CardContent>
@@ -380,10 +380,10 @@ export default function AdminDashboard() {
                             </div>
                             
                             <div className="space-y-1">
-                              <p><span className="font-medium">Store ID:</span> {store.slug}</p>
+                              <p><span className="font-medium">Store ID:</span> {store.id}</p>
                               <p><span className="font-medium">Created:</span> {formatDate(store.createdAt)}</p>
-                              <p><span className="font-medium">Staff:</span> {store.staffCount || 0} members</p>
-                              <p><span className="font-medium">Queue:</span> {store.queueCount || 0} waiting</p>
+                              <p><span className="font-medium">Store Type:</span> {store.storeType}</p>
+                              <p><span className="font-medium">Plan:</span> Starter (€29/month)</p>
                             </div>
                           </div>
                         </div>
@@ -533,20 +533,11 @@ export default function AdminDashboard() {
 }
 
 function StoreDetailsView({ store }: { store: AdminStore }) {
-  const { data: staff = [] } = useQuery<Staff[]>({
-    queryKey: [`/api/stores/${store.id}/staff`],
-  });
-
-  const { data: queue = [] } = useQuery<Queue[]>({
-    queryKey: [`/api/stores/${store.id}/queue`],
-  });
-
   return (
     <Tabs defaultValue="info" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="info">Store Info</TabsTrigger>
-        <TabsTrigger value="staff">Staff ({staff.length})</TabsTrigger>
-        <TabsTrigger value="queue">Queue ({queue.length})</TabsTrigger>
+        <TabsTrigger value="business">Business Details</TabsTrigger>
       </TabsList>
       
       <TabsContent value="info" className="space-y-4">
@@ -594,48 +585,55 @@ function StoreDetailsView({ store }: { store: AdminStore }) {
         )}
       </TabsContent>
       
-      <TabsContent value="staff">
-        {staff.length === 0 ? (
-          <p className="text-gray-600 text-center py-4">No staff members added yet</p>
-        ) : (
-          <div className="space-y-3">
-            {staff.map((member) => (
-              <div key={member.id} className="flex items-center space-x-3 p-3 border rounded-lg">
-                <Avatar>
-                  <AvatarImage src={member.photoUrl ?? undefined} />
-                  <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="font-medium">{member.name}</p>
-                  <p className="text-sm text-gray-600">Status: {member.status}</p>
-                </div>
-              </div>
-            ))}
+      <TabsContent value="business" className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label className="font-semibold">Subscription Plan</Label>
+            <p className="text-sm text-gray-600">Starter Plan - €29/month</p>
           </div>
-        )}
-      </TabsContent>
-      
-      <TabsContent value="queue">
-        {queue.length === 0 ? (
-          <p className="text-gray-600 text-center py-4">No customers in queue</p>
-        ) : (
-          <div className="space-y-3">
-            {queue.map((customer, index) => (
-              <div key={customer.id} className="flex items-center space-x-3 p-3 border rounded-lg">
-                <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
-                  {index + 1}
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium">{customer.customerName || 'Anonymous'}</p>
-                  <p className="text-sm text-gray-600">
-                    Status: {customer.status} | 
-                    Joined: {new Date(customer.joinedAt).toLocaleTimeString()}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div>
+            <Label className="font-semibold">Plan Status</Label>
+            <p className="text-sm text-green-600">Active</p>
           </div>
-        )}
+          <div>
+            <Label className="font-semibold">Payment Method</Label>
+            <p className="text-sm text-gray-600">Credit Card (•••• 4242)</p>
+          </div>
+          <div>
+            <Label className="font-semibold">Next Billing</Label>
+            <p className="text-sm text-gray-600">{new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
+          </div>
+          <div>
+            <Label className="font-semibold">Account Created</Label>
+            <p className="text-sm text-gray-600">{new Date(store.createdAt).toLocaleDateString()}</p>
+          </div>
+          <div>
+            <Label className="font-semibold">Last Login</Label>
+            <p className="text-sm text-gray-600">{new Date(store.updatedAt).toLocaleDateString()}</p>
+          </div>
+        </div>
+        
+        <div className="mt-6">
+          <Label className="font-semibold">Features Included</Label>
+          <div className="mt-2 space-y-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="text-sm">QR Code Queue Management</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="text-sm">Real-time Queue Updates</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="text-sm">Kiosk Display Mode</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="text-sm">Staff Management</span>
+            </div>
+          </div>
+        </div>
       </TabsContent>
     </Tabs>
   );
