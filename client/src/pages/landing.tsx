@@ -114,16 +114,16 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+    <div className="min-h-screen radiant-dark-bg">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-purple-100">
+      <nav className="fixed top-0 w-full frosted-glass z-50 border-b border-purple-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
                 <Users className="w-5 h-5 text-white" />
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-white animate-textGlow">
                 QueueUp Pro
               </span>
             </div>
@@ -131,31 +131,31 @@ export default function LandingPage() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <div 
-                className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                className="text-gray-300 hover:text-purple-400 transition-colors cursor-pointer"
                 onClick={() => setLocation("/features")}
               >
                 {t('navigation.features')}
               </div>
               <div 
-                className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                className="text-gray-300 hover:text-purple-400 transition-colors cursor-pointer"
                 onClick={() => setLocation("/pricing")}
               >
                 {t('navigation.pricing')}
               </div>
-              <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">
+              <a href="#testimonials" className="text-gray-300 hover:text-purple-400 transition-colors">
                 {language === 'de' ? 'Bewertungen' : 'Reviews'}
               </a>
-              <LanguageSelector />
+              <LanguageSelector variant="glassmorphism" />
               <Button 
                 variant="outline" 
                 onClick={() => setLocation("/login")}
-                className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                className="border-purple-400/30 text-purple-300 hover:bg-purple-900/30 frosted-glass-hover"
               >
                 {t('common.login')}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+                className="btn-glow text-white animate-pulseGlow"
               >
                 {t('landing.get_started')}
               </Button>
@@ -225,25 +225,25 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 hero-gradient relative overflow-hidden">
-        {/* Floating gradient blobs */}
-        <div className="blob w-64 h-64 bg-gradient-to-r from-purple-400/40 to-violet-600/40 top-20 left-10 z-0"></div>
-        <div className="blob w-80 h-80 bg-gradient-to-r from-indigo-400/30 to-purple-500/30 top-40 right-20 z-0 animation-delay-2000"></div>
-        <div className="blob w-48 h-48 bg-gradient-to-r from-violet-300/50 to-indigo-400/50 bottom-20 left-1/4 z-0 animation-delay-4000"></div>
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 radiant-mesh-bg relative overflow-hidden">
+        {/* Enhanced floating gradient blobs */}
+        <div className="blob w-96 h-96 bg-gradient-to-r from-purple-600/50 to-violet-700/40 top-10 left-0 z-0"></div>
+        <div className="blob w-[500px] h-[500px] bg-gradient-to-r from-indigo-600/40 to-purple-600/30 top-20 right-10 z-0 animation-delay-2000"></div>
+        <div className="blob w-80 h-80 bg-gradient-to-r from-violet-500/60 to-indigo-600/50 bottom-10 left-1/3 z-0 animation-delay-4000"></div>
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
-          <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
+          <Badge className="mb-6 frosted-glass text-purple-300 border-purple-500/30">
             ✨ {language === 'de' ? 'Jetzt verfügbar - Transformieren Sie Ihr Geschäft' : 'Now Available - Transform Your Business'}
           </Badge>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fadeInUp">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fadeInUp animate-textGlow">
             {language === 'de' ? 'Wartezeiten eliminieren mit' : 'Eliminate Wait Times with'}
-            <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">
               {language === 'de' ? 'Intelligentem Warteschlangen-Management' : 'Smart Queue Management'}
             </span>
           </h1>
           
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fadeInUp animation-delay-200">
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto animate-fadeInUp animation-delay-200">
             {t('landing.hero_subtitle')}
           </p>
           
@@ -251,7 +251,7 @@ export default function LandingPage() {
             <Button 
               size="lg"
               onClick={() => setLocation("/register")}
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-6 text-lg btn-hero animate-glow"
+              className="btn-glow text-white px-8 py-6 text-lg animate-pulseGlow"
             >
               {t('landing.get_started')}
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -260,41 +260,41 @@ export default function LandingPage() {
               variant="outline" 
               size="lg"
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg btn-hero"
+              className="frosted-glass-hover border-purple-400/30 text-purple-300 px-8 py-6 text-lg"
             >
               {t('landing.watch_demo')}
             </Button>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fadeInUp animation-delay-600">
-            <div className="animate-fadeInScale">
-              <div className="text-3xl font-bold text-purple-600">500+</div>
-              <div className="text-gray-600">{t('landing.stats_businesses')}</div>
+            <div className="animate-fadeInScale frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400 animate-textGlow">500+</div>
+              <div className="text-gray-300">{t('landing.stats_businesses')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-200">
-              <div className="text-3xl font-bold text-purple-600">50K+</div>
-              <div className="text-gray-600">{t('landing.stats_customers')}</div>
+            <div className="animate-fadeInScale animation-delay-200 frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400 animate-textGlow">50K+</div>
+              <div className="text-gray-300">{t('landing.stats_customers')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-400">
-              <div className="text-3xl font-bold text-purple-600">2h</div>
-              <div className="text-gray-600">{t('landing.stats_time_saved')}</div>
+            <div className="animate-fadeInScale animation-delay-400 frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400 animate-textGlow">2h</div>
+              <div className="text-gray-300">{t('landing.stats_time_saved')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-600">
-              <div className="text-3xl font-bold text-purple-600">98%</div>
-              <div className="text-gray-600">{t('landing.stats_satisfaction')}</div>
+            <div className="animate-fadeInScale animation-delay-600 frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400 animate-textGlow">98%</div>
+              <div className="text-gray-300">{t('landing.stats_satisfaction')}</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8 radiant-mesh-bg">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
               {t('landing.features_title')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               {language === 'de' 
                 ? 'Leistungsstarke Funktionen zur Verbesserung der Kundenerfahrung und Optimierung von Betriebsabläufen'
                 : 'Powerful features designed to improve customer experience and streamline operations'
@@ -304,15 +304,15 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className={`border-purple-100 feature-card shadow-lg animate-fadeInUp animation-delay-${index * 200}`}>
+              <Card key={index} className={`frosted-glass frosted-glass-hover animate-fadeInUp animation-delay-${index * 200}`}>
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg flex items-center justify-center mb-4 icon-hover">
-                    <feature.icon className="w-6 h-6 text-purple-600 animate-iconFloat" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center mb-4 icon-hover animate-pulseGlow">
+                    <feature.icon className="w-6 h-6 text-white animate-iconFloat" />
                   </div>
-                  <CardTitle className="text-gray-900">{feature.title}</CardTitle>
+                  <CardTitle className="text-white">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p className="text-gray-300">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -321,13 +321,13 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 to-indigo-50">
+      <section id="pricing" className="py-16 px-4 sm:px-6 lg:px-8 radiant-dark-bg">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
               {t('landing.pricing_title')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               {language === 'de' 
                 ? 'Wählen Sie den perfekten Plan für Ihre Unternehmensgröße und Bedürfnisse'
                 : 'Choose the perfect plan for your business size and needs'
@@ -337,16 +337,16 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Starter Plan */}
-            <Card className="border-purple-200 pricing-card shadow-lg animate-fadeInUp">
+            <Card className="frosted-glass frosted-glass-hover animate-fadeInUp">
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-purple-600" />
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulseGlow">
+                  <Users className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl text-gray-900">{t('landing.pricing_starter')}</CardTitle>
-                <div className="text-4xl font-bold text-purple-600 mt-4">
-                  €29<span className="text-lg text-gray-600">/{t('landing.pricing_month')}</span>
+                <CardTitle className="text-2xl text-white">{t('landing.pricing_starter')}</CardTitle>
+                <div className="text-4xl font-bold text-purple-400 mt-4 animate-textGlow">
+                  €29<span className="text-lg text-gray-300">/{t('landing.pricing_month')}</span>
                 </div>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-300 mt-2">
                   {language === 'de' ? 'Perfekt für kleine Unternehmen' : 'Perfect for small businesses'}
                 </p>
               </CardHeader>
@@ -397,21 +397,21 @@ export default function LandingPage() {
             </Card>
 
             {/* Professional Plan */}
-            <Card className="border-purple-300 pricing-card shadow-lg animate-fadeInUp animation-delay-200 relative">
+            <Card className="frosted-glass frosted-glass-hover animate-fadeInUp animation-delay-200 relative border-purple-500/50">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1">
+                <Badge className="btn-glow text-white px-4 py-1 animate-pulseGlow">
                   {t('landing.pricing_most_popular')}
                 </Badge>
               </div>
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulseGlow">
                   <BarChart3 className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl text-gray-900">{t('landing.pricing_professional')}</CardTitle>
-                <div className="text-4xl font-bold text-purple-600 mt-4">
-                  €79<span className="text-lg text-gray-600">/{t('landing.pricing_month')}</span>
+                <CardTitle className="text-2xl text-white">{t('landing.pricing_professional')}</CardTitle>
+                <div className="text-4xl font-bold text-purple-400 mt-4 animate-textGlow">
+                  €79<span className="text-lg text-gray-300">/{t('landing.pricing_month')}</span>
                 </div>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-300 mt-2">
                   {language === 'de' ? 'Für wachsende Unternehmen' : 'For growing businesses'}
                 </p>
               </CardHeader>
@@ -543,7 +543,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900">
+      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-black/90">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -551,9 +551,9 @@ export default function LandingPage() {
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
                   <Users className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold text-white">QueueUp Pro</span>
+                <span className="text-xl font-bold text-white animate-textGlow">QueueUp Pro</span>
               </div>
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 {language === 'de' 
                   ? 'Intelligente Warteschlangenmanagement für moderne Unternehmen.'
                   : 'Smart queue management for modern businesses.'
