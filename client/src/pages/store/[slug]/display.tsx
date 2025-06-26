@@ -107,7 +107,7 @@ export default function KioskDisplayPage() {
   };
 
   const currentCustomer = queue?.[0];
-  const upcomingCustomers = queue?.slice(1, 6) || [];
+  const upcomingCustomers = queue?.slice(1, 11) || [];
 
   if (storeLoading || staffLoading || queueLoading) {
     return (
@@ -210,7 +210,7 @@ export default function KioskDisplayPage() {
             <h3 className="text-lg font-bold text-white mb-4 text-center">Next in Line</h3>
             {upcomingCustomers.length > 0 ? (
               <div className="space-y-3">
-                {upcomingCustomers.slice(0, 5).map((customer, index) => (
+                {upcomingCustomers.slice(0, 10).map((customer, index) => (
                   <div key={customer.id} className="flex items-center justify-between p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
                     <div className="flex items-center space-x-3">
                       <div className={`w-8 h-8 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg ${
