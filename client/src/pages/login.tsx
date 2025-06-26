@@ -12,7 +12,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { PasswordReset } from "@/components/PasswordReset";
 import { WeeklyScheduleSetup } from "@/components/WeeklyScheduleSetup";
 import { FileUpload } from "@/components/FileUpload";
-import { Users, Store, Sparkles, ArrowRight } from "lucide-react";
+import { Users, Store, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -87,6 +87,17 @@ export default function LoginPage() {
           </p>
         </CardHeader>
         <CardContent>
+          {/* Back to Landing Button */}
+          <div className="mb-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => setLocation("/")}
+              className="text-gray-600 hover:text-purple-600 p-0 h-auto font-normal"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </div>
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 p-1 rounded-xl">
               <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">

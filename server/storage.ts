@@ -2,7 +2,7 @@
 import { users, stores, staff, queues, type User, type InsertUser, type Store, type InsertStore, type Staff, type InsertStaff, type Queue, type InsertQueue } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import { eq, and, desc, asc } from "drizzle-orm";
+import { eq, and, desc, asc, gte, lt } from "drizzle-orm";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {

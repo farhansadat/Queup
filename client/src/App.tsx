@@ -8,6 +8,7 @@ import CustomerQueuePage from "@/pages/store/[slug]";
 import KioskDisplayPage from "@/pages/store/[slug]/display";
 import DashboardPage from "@/pages/dashboard";
 import LoginPage from "@/pages/login";
+import LandingPage from "@/pages/landing";
 
 function Router() {
   return (
@@ -16,7 +17,7 @@ function Router() {
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/store/:slug/display" component={KioskDisplayPage} />
       <Route path="/store/:slug" component={CustomerQueuePage} />
-      <Route path="/" component={LoginPage} />
+      <Route path="/" component={LandingPage} />
       <Route component={NotFound} />
     </Switch>
   );
