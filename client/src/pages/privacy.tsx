@@ -20,7 +20,80 @@ export default function PrivacyPage() {
   const [, setLocation] = useLocation();
   const { language, t } = useLanguage();
 
-  const sections = [
+  const sections = language === 'de' ? [
+    {
+      title: "Informationen, die wir sammeln",
+      icon: Database,
+      content: [
+        "Kontoinformationen (Name, E-Mail, Passwort)",
+        "Geschäftsinformationen (Firmenname, Adresse, Telefonnummer)",
+        "Mitarbeiterdetails und Fotos",
+        "Kunden-Warteschlangendaten (Namen, Kontaktinformationen, Warteschlangenposition)",
+        "Nutzungsanalysen und Leistungsmetriken",
+        "Zahlungs- und Abrechnungsinformationen"
+      ]
+    },
+    {
+      title: "Wie wir Ihre Informationen verwenden",
+      icon: Settings,
+      content: [
+        "Bereitstellung und Wartung unserer Warteschlangen-Management-Services",
+        "Verarbeitung von Kunden-Warteschlangeneinträgen und Benachrichtigungen",
+        "Generierung von Analysen und Geschäftseinblicken",
+        "Kommunikation über Ihr Konto und unsere Services",
+        "Verbesserung unserer Plattform und Entwicklung neuer Funktionen",
+        "Gewährleistung der Sicherheit und Betrugsprävention"
+      ]
+    },
+    {
+      title: "Informationsaustausch",
+      icon: Globe,
+      content: [
+        "Wir verkaufen, tauschen oder vermieten Ihre persönlichen Informationen nicht",
+        "Kunden-Warteschlangendaten sind nur für Ihr autorisiertes Personal sichtbar",
+        "Aggregierte, anonymisierte Daten können für Plattformverbesserungen verwendet werden",
+        "Informationen können unter strengen Vereinbarungen mit Dienstleistern geteilt werden",
+        "Gesetzliche Compliance kann Offenlegung unter bestimmten Umständen erfordern",
+        "Geschäftsübertragungen würden angemessene Datenschutzmaßnahmen beinhalten"
+      ]
+    },
+    {
+      title: "Datensicherheit",
+      icon: Shield,
+      content: [
+        "Ende-zu-Ende-Verschlüsselung für alle Datenübertragungen",
+        "Branchenstandard SSL/TLS-Verschlüsselung",
+        "Regelmäßige Sicherheitsaudits und Penetrationstests",
+        "SOC 2 Type II Compliance",
+        "Multi-Faktor-Authentifizierungsoptionen",
+        "Regelmäßige automatisierte Backups mit Verschlüsselung"
+      ]
+    },
+    {
+      title: "Ihre Rechte",
+      icon: UserCheck,
+      content: [
+        "Jederzeit Zugang zu Ihren persönlichen Daten",
+        "Berichtigung ungenauer Informationen anfordern",
+        "Ihr Konto und zugehörige Daten löschen",
+        "Ihre Daten in portablen Formaten exportieren",
+        "Abmeldung von Marketing-Kommunikation",
+        "Einschränkung der Datenverarbeitung anfordern"
+      ]
+    },
+    {
+      title: "Datenspeicherung",
+      icon: FileText,
+      content: [
+        "Aktive Kontodaten werden für die Servicebereitstellung gespeichert",
+        "Warteschlangendaten werden 12 Monate für Analysen gespeichert",
+        "Gelöschte Konten werden innerhalb von 30 Tagen bereinigt",
+        "Backup-Daten werden 90 Tage nach Löschung gespeichert",
+        "Finanzunterlagen werden für gesetzliche Compliance-Zeiträume aufbewahrt",
+        "Anonymisierte Analysedaten können unbegrenzt gespeichert werden"
+      ]
+    }
+  ] : [
     {
       title: "Information We Collect",
       icon: Database,
@@ -241,27 +314,35 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto">
           <Card className="border-purple-100">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Regulatory Compliance</CardTitle>
-              <p className="text-gray-600">We comply with major privacy regulations worldwide</p>
+              <CardTitle className="text-2xl">
+                {language === 'de' ? 'Regulatorische Compliance' : 'Regulatory Compliance'}
+              </CardTitle>
+              <p className="text-gray-600">
+                {language === 'de' ? 'Wir befolgen wichtige Datenschutzbestimmungen weltweit' : 'We comply with major privacy regulations worldwide'}
+              </p>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">GDPR (European Union)</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    {language === 'de' ? 'DSGVO (Europäische Union)' : 'GDPR (European Union)'}
+                  </h3>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• Lawful basis for processing personal data</li>
-                    <li>• Right to access and portability</li>
-                    <li>• Right to rectification and erasure</li>
-                    <li>• Data protection by design</li>
+                    <li>• {language === 'de' ? 'Rechtmäßige Grundlage für die Verarbeitung personenbezogener Daten' : 'Lawful basis for processing personal data'}</li>
+                    <li>• {language === 'de' ? 'Recht auf Zugang und Portabilität' : 'Right to access and portability'}</li>
+                    <li>• {language === 'de' ? 'Recht auf Berichtigung und Löschung' : 'Right to rectification and erasure'}</li>
+                    <li>• {language === 'de' ? 'Datenschutz durch Technikgestaltung' : 'Data protection by design'}</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">CCPA (California)</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    {language === 'de' ? 'CCPA (Kalifornien)' : 'CCPA (California)'}
+                  </h3>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• Right to know about data collection</li>
-                    <li>• Right to delete personal information</li>
-                    <li>• Right to opt-out of sale</li>
-                    <li>• Non-discrimination for exercising rights</li>
+                    <li>• {language === 'de' ? 'Recht auf Information über Datensammlung' : 'Right to know about data collection'}</li>
+                    <li>• {language === 'de' ? 'Recht auf Löschung persönlicher Informationen' : 'Right to delete personal information'}</li>
+                    <li>• {language === 'de' ? 'Recht auf Widerspruch gegen Verkauf' : 'Right to opt-out of sale'}</li>
+                    <li>• {language === 'de' ? 'Keine Diskriminierung bei Rechtsausübung' : 'Non-discrimination for exercising rights'}</li>
                   </ul>
                 </div>
               </div>
@@ -275,20 +356,28 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto">
           <Card className="border-purple-100 bg-purple-50">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Privacy Questions?</CardTitle>
-              <p className="text-gray-600">Contact our Data Protection Officer</p>
+              <CardTitle className="text-2xl">
+                {language === 'de' ? 'Datenschutz-Fragen?' : 'Privacy Questions?'}
+              </CardTitle>
+              <p className="text-gray-600">
+                {language === 'de' ? 'Kontaktieren Sie unseren Datenschutzbeauftragten' : 'Contact our Data Protection Officer'}
+              </p>
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <p className="text-gray-700">
-                If you have questions about this privacy policy or how we handle your data, 
-                please contact our Data Protection Officer.
+                {language === 'de'
+                  ? 'Wenn Sie Fragen zu dieser Datenschutzerklärung oder zum Umgang mit Ihren Daten haben, kontaktieren Sie bitte unseren Datenschutzbeauftragten.'
+                  : 'If you have questions about this privacy policy or how we handle your data, please contact our Data Protection Officer.'
+                }
               </p>
               <div className="space-y-2">
                 <div className="font-medium">Email: privacy@queueuppro.com</div>
-                <div className="text-gray-600">Response time: Within 72 hours</div>
+                <div className="text-gray-600">
+                  {language === 'de' ? 'Antwortzeit: Innerhalb von 72 Stunden' : 'Response time: Within 72 hours'}
+                </div>
               </div>
               <Button className="bg-purple-600 hover:bg-purple-700">
-                Contact Privacy Team
+                {language === 'de' ? 'Datenschutz-Team kontaktieren' : 'Contact Privacy Team'}
               </Button>
             </CardContent>
           </Card>

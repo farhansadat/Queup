@@ -245,7 +245,7 @@ export default function AboutPage() {
             onClick={() => setLocation("/register")}
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Start Your Free Trial
+            {language === 'de' ? 'Kostenlose Testversion starten' : 'Start Your Free Trial'}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
