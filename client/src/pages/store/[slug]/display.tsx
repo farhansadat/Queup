@@ -103,15 +103,23 @@ export default function KioskDisplayPage() {
         <div className="max-w-7xl mx-auto px-8 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
-              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center shadow-2xl border border-white/30">
+              <div className="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center shadow-2xl border border-white/30 overflow-hidden">
                 {store.logoUrl ? (
-                  <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover rounded-2xl" />
+                  <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover rounded-3xl" />
                 ) : (
-                  <Scissors className="w-10 h-10 text-white" />
+                  <div className="text-center">
+                    <div className="animate-pulse text-3xl font-bold text-white tracking-wider">
+                      {store.name.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                    </div>
+                  </div>
                 )}
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">{store.name}</h1>
+                <h1 className="text-5xl font-bold text-white mb-2 tracking-tight">
+                  {store.logoUrl ? store.name : (
+                    <span className="animate-fade-in-up">{store.name}</span>
+                  )}
+                </h1>
                 <p className="text-xl text-white/90 font-medium">Welcome • Please take a number</p>
               </div>
             </div>
@@ -149,42 +157,42 @@ export default function KioskDisplayPage() {
             </div>
           </div>
 
-          {/* Next in Line */}
-          <Card className="card-elevated p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 text-center">Next in Line</h3>
+          {/* Next in Line - Professional Display */}
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 shadow-2xl">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">Next in Line</h3>
             {upcomingCustomers.length > 0 ? (
               <div className="space-y-4">
                 {upcomingCustomers.map((customer, index) => (
-                  <div key={customer.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                  <div key={customer.id} className="flex items-center justify-between p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
                     <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 text-white rounded-full flex items-center justify-center text-lg font-bold ${
-                        index === 0 ? "bg-primary" : "bg-orange-500"
+                      <div className={`w-12 h-12 text-white rounded-full flex items-center justify-center text-lg font-bold shadow-lg ${
+                        index === 0 ? "bg-gradient-to-br from-orange-400 to-red-500" : "bg-gradient-to-br from-purple-400 to-pink-500"
                       }`}>
-                        {index + 1}
+                        {index + 2}
                       </div>
                       <div>
-                        <p className="text-lg font-semibold text-gray-900">
+                        <p className="text-lg font-semibold text-white">
                           {customer.customerName || "Anonymous"}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-white/80">
                           with {staff.find(s => s.id === customer.staffId)?.name || "First Available"}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-gray-500">Est. wait</p>
-                      <p className="text-lg font-semibold text-gray-900">{(index + 1) * 20} min</p>
+                      <p className="text-white/70 text-sm">Est. wait</p>
+                      <p className="text-lg font-semibold text-white">{(index + 2) * 20} min</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Clock className="w-16 h-16 mx-auto mb-3 text-gray-300" />
+              <div className="text-center py-8 text-white/60">
+                <Clock className="w-16 h-16 mx-auto mb-3 text-white/40" />
                 <p className="text-lg">No one waiting</p>
               </div>
             )}
-          </Card>
+          </div>
         </div>
 
         {/* Right Side - Join Queue */}
@@ -252,7 +260,7 @@ export default function KioskDisplayPage() {
               {/* Name Input */}
               <div>
                 <Label htmlFor="kiosk-name" className="block text-lg font-medium text-gray-900 mb-3">
-                  Your Name (Optional)
+                  Your Name
                 </Label>
                 <Input
                   id="kiosk-name"

@@ -109,17 +109,25 @@ export default function CustomerQueuePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {store.logoUrl ? (
-                <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-md bg-white">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg bg-white border-2 border-white/50">
                   <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
-                  <Scissors className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg border-2 border-white/30">
+                  <div className="text-center">
+                    <div className="animate-pulse text-xl font-bold text-white tracking-wider">
+                      {store.name.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                    </div>
+                  </div>
                 </div>
               )}
               <div>
-                <h1 className="text-lg font-bold text-gray-900 leading-tight">{store.name}</h1>
-                <p className="text-xs text-gray-500 font-medium">Touch to join the queue</p>
+                <h1 className="text-xl font-bold text-gray-900 leading-tight">
+                  {store.logoUrl ? store.name : (
+                    <span className="animate-fade-in-up">{store.name}</span>
+                  )}
+                </h1>
+                <p className="text-sm text-gray-600 font-medium">Touch to join the queue</p>
               </div>
             </div>
             <div className="text-right">
@@ -169,15 +177,18 @@ export default function CustomerQueuePage() {
         </div>
 
         {/* Join Queue Section */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-white/30 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-center">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-blue-600">+</span>
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/40 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 p-8 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div className="relative z-10">
+              <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl border border-white/30">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                  <span className="text-3xl font-bold text-blue-600 animate-pulse">+</span>
+                </div>
               </div>
+              <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">Join the Queue</h2>
+              <p className="text-blue-100 text-lg font-medium">Touch-friendly experience for walk-in customers</p>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Join the Queue</h2>
-            <p className="text-blue-100">Walk-in customers can join here</p>
           </div>
 
           <div className="p-6 space-y-6">
@@ -246,7 +257,7 @@ export default function CustomerQueuePage() {
             <form onSubmit={handleJoinQueue} className="space-y-4">
               <div>
                 <Label htmlFor="customer-name" className="text-base font-semibold text-gray-800 mb-2 block">
-                  Your Name (Optional)
+                  Your Name
                 </Label>
                 <Input
                   id="customer-name"
