@@ -24,7 +24,38 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, language } = useLanguage();
 
-  const features = [
+  const features = language === 'de' ? [
+    {
+      icon: QrCode,
+      title: "QR-Code Integration",
+      description: "Kunden scannen QR-Codes, um sofort über ihr Handy in die Warteschlange einzusteigen"
+    },
+    {
+      icon: Clock,
+      title: "Echtzeit-Updates",
+      description: "Live-Warteschlangenstatus und Wartezeitschätzungen für Kunden und Personal"
+    },
+    {
+      icon: Users,
+      title: "Personal-Management",
+      description: "Verwalten Sie Teamzeitpläne, weisen Sie Kunden zu und verfolgen Sie die Leistung"
+    },
+    {
+      icon: BarChart3,
+      title: "Analytics Dashboard",
+      description: "Umfassende Einblicke in Kundenfluss und Geschäftskennzahlen"
+    },
+    {
+      icon: Smartphone,
+      title: "Mobil Optimiert",
+      description: "Perfekte Erfahrung auf allen Geräten - Handys, Tablets und Desktops"
+    },
+    {
+      icon: Shield,
+      title: "Sicher & Zuverlässig",
+      description: "Enterprise-Sicherheit mit 99,9% Verfügbarkeitsgarantie"
+    }
+  ] : [
     {
       icon: QrCode,
       title: "QR Code Integration",
@@ -228,20 +259,20 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
+              <div className="text-3xl font-bold text-purple-600">500+</div>
+              <div className="text-gray-600">{t('landing.stats_businesses')}</div>
+            </div>
+            <div>
               <div className="text-3xl font-bold text-purple-600">50K+</div>
-              <div className="text-gray-600">Happy Customers</div>
+              <div className="text-gray-600">{t('landing.stats_customers')}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600">99.9%</div>
-              <div className="text-gray-600">Uptime</div>
+              <div className="text-3xl font-bold text-purple-600">2h</div>
+              <div className="text-gray-600">{t('landing.stats_time_saved')}</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-600">2.5M+</div>
-              <div className="text-gray-600">Queues Managed</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-purple-600">4.9/5</div>
-              <div className="text-gray-600">User Rating</div>
+              <div className="text-3xl font-bold text-purple-600">98%</div>
+              <div className="text-gray-600">{t('landing.stats_satisfaction')}</div>
             </div>
           </div>
         </div>
@@ -252,10 +283,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Everything You Need to Manage Queues
+              {t('landing.features_title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Powerful features designed to improve customer experience and streamline operations
+              {language === 'de' 
+                ? 'Leistungsstarke Funktionen zur Verbesserung der Kundenerfahrung und Optimierung von Betriebsabläufen'
+                : 'Powerful features designed to improve customer experience and streamline operations'
+              }
             </p>
           </div>
           

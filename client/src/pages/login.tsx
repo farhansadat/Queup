@@ -13,11 +13,14 @@ import { apiRequest } from "@/lib/queryClient";
 import { PasswordReset } from "@/components/PasswordReset";
 import { WeeklyScheduleSetup } from "@/components/WeeklyScheduleSetup";
 import { FileUpload } from "@/components/FileUpload";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/lib/i18n";
 import { Users, Store, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState("login");
 
   useEffect(() => {
@@ -149,9 +152,9 @@ export default function LoginPage() {
                   className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group" 
                   disabled={loginMutation.isPending}
                 >
-                  {loginMutation.isPending ? "Signing in..." : (
+                  {loginMutation.isPending ? (language === 'de' ? "Wird angemeldet..." : "Signing in...") : (
                     <span className="flex items-center gap-2">
-                      Sign In
+                      {t('common.sign_in')}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                   )}
@@ -189,13 +192,20 @@ export default function LoginPage() {
                     setRegistrationStep(2);
                   }} className="space-y-5">
                     <div className="text-center mb-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Personal Information</h3>
-                      <p className="text-sm text-gray-600">Let's start with your basic details</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        {language === 'de' ? 'Persönliche Informationen' : 'Personal Information'}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {language === 'de' ? 'Beginnen wir mit Ihren grundlegenden Daten' : "Let's start with your basic details"}
+                      </p>
+                      <div className="flex justify-center mt-4">
+                        <LanguageSelector />
+                      </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="register-firstName" className="text-sm font-medium">First Name</Label>
+                        <Label htmlFor="register-firstName" className="text-sm font-medium">{t('forms.first_name')}</Label>
                         <Input
                           id="register-firstName"
                           type="text"
@@ -203,11 +213,11 @@ export default function LoginPage() {
                           value={registerData.firstName}
                           onChange={(e) => setRegisterData(prev => ({ ...prev, firstName: e.target.value }))}
                           className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                          placeholder="John"
+                          placeholder={language === 'de' ? 'Max' : 'John'}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="register-lastName" className="text-sm font-medium">Last Name</Label>
+                        <Label htmlFor="register-lastName" className="text-sm font-medium">{t('forms.last_name')}</Label>
                         <Input
                           id="register-lastName"
                           type="text"
@@ -215,12 +225,12 @@ export default function LoginPage() {
                           value={registerData.lastName}
                           onChange={(e) => setRegisterData(prev => ({ ...prev, lastName: e.target.value }))}
                           className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                          placeholder="Doe"
+                          placeholder={language === 'de' ? 'Mustermann' : 'Doe'}
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-email" className="text-sm font-medium">Email</Label>
+                      <Label htmlFor="register-email" className="text-sm font-medium">{t('common.email')}</Label>
                       <Input
                         id="register-email"
                         type="email"
@@ -228,11 +238,11 @@ export default function LoginPage() {
                         value={registerData.email}
                         onChange={(e) => setRegisterData(prev => ({ ...prev, email: e.target.value }))}
                         className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                        placeholder="john@example.com"
+                        placeholder={language === 'de' ? 'max@beispiel.de' : 'john@example.com'}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-password" className="text-sm font-medium">Password</Label>
+                      <Label htmlFor="register-password" className="text-sm font-medium">{t('common.password')}</Label>
                       <Input
                         id="register-password"
                         type="password"

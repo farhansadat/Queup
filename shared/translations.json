@@ -194,7 +194,16 @@
       "password": "Passwort",
       "name": "Name",
       "phone": "Telefon",
-      "address": "Adresse"
+      "address": "Adresse",
+      "create_account": "Konto erstellen",
+      "sign_up": "Registrieren",
+      "sign_in": "Anmelden",
+      "free_trial": "Kostenlose Testversion",
+      "start_trial": "Testversion starten",
+      "learn_more": "Mehr erfahren",
+      "get_started": "Jetzt starten",
+      "demo": "Demo",
+      "watch_demo": "Demo ansehen"
     },
     "navigation": {
       "home": "Startseite",
@@ -210,13 +219,24 @@
     },
     "landing": {
       "hero_title": "Professionelles Warteschlangen-Management für moderne Unternehmen",
-      "hero_subtitle": "Optimieren Sie den Kundenfluss mit QR-basiertem Warteschlangen-Management. Echtzeit-Updates, Analytics und nahtlose Kundenerfahrung.",
+      "hero_subtitle": "QueueUp Pro hilft Unternehmen dabei, den Kundenfluss mit QR-Codes, Echtzeit-Updates und leistungsstarken Analytics zu optimieren. Perfekt für Friseure, Salons, Praxen und Dienstleistungsunternehmen.",
       "get_started": "Kostenlos starten",
       "watch_demo": "Demo ansehen",
       "trusted_by": "Vertraut von über 500 Unternehmen in Deutschland",
       "features_title": "Alles was Sie für effizientes Warteschlangen-Management brauchen",
       "pricing_title": "Einfache, transparente Preise",
-      "testimonials_title": "Was unsere Kunden sagen"
+      "testimonials_title": "Was unsere Kunden sagen",
+      "stats_businesses": "Zufriedene Unternehmen",
+      "stats_customers": "Verwaltete Kunden",
+      "stats_time_saved": "Gesparte Zeit täglich",
+      "stats_satisfaction": "Kundenzufriedenheit",
+      "cta_title": "Bereit, Ihr Geschäft zu transformieren?",
+      "cta_subtitle": "Schließen Sie sich Tausenden von Unternehmen an, die bereits QueueUp Pro verwenden",
+      "cta_start_trial": "30-Tage kostenlose Testversion starten",
+      "footer_company": "Unternehmen",
+      "footer_product": "Produkt",
+      "footer_support": "Support",
+      "footer_legal": "Rechtliches"
     },
     "dashboard": {
       "welcome": "Willkommen zurück",
