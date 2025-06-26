@@ -80,6 +80,111 @@ export default function DashboardPage() {
   });
 
   const currentStore = stores[0]; // For simplicity, use first store
+  
+  // Store-type-specific configurations
+  const getStoreConfig = (storeType: string) => {
+    const configs = {
+      barbershop: {
+        queueLabel: "Customer Queue",
+        customerLabel: "Customer",
+        serviceLabel: "Haircut Services",
+        staffLabel: "Barbers",
+        waitLabel: "Wait Time",
+        servedLabel: "Completed Cuts",
+        addCustomerLabel: "Add Customer",
+        defaultServices: ["Haircut", "Beard Trim", "Styling", "Wash & Cut"],
+        icon: "✂️",
+        primaryColor: "#7C3AED"
+      },
+      salon: {
+        queueLabel: "Client Queue",
+        customerLabel: "Client",
+        serviceLabel: "Beauty Services", 
+        staffLabel: "Stylists",
+        waitLabel: "Service Time",
+        servedLabel: "Completed Services",
+        addCustomerLabel: "Add Client",
+        defaultServices: ["Hair Styling", "Color Treatment", "Manicure", "Facial"],
+        icon: "💄",
+        primaryColor: "#EC4899"
+      },
+      restaurant: {
+        queueLabel: "Waiting List",
+        customerLabel: "Party",
+        serviceLabel: "Table Sizes",
+        staffLabel: "Hosts",
+        waitLabel: "Wait Time",
+        servedLabel: "Seated Today",
+        addCustomerLabel: "Add Party",
+        defaultServices: ["Table for 2", "Table for 4", "Table for 6", "Table for 8+"],
+        icon: "🍽️",
+        primaryColor: "#F59E0B"
+      },
+      clinic: {
+        queueLabel: "Patient Queue",
+        customerLabel: "Patient", 
+        serviceLabel: "Medical Services",
+        staffLabel: "Medical Staff",
+        waitLabel: "Wait Time",
+        servedLabel: "Patients Seen",
+        addCustomerLabel: "Add Patient",
+        defaultServices: ["Consultation", "Check-up", "Treatment", "Follow-up"],
+        icon: "🏥",
+        primaryColor: "#10B981"
+      },
+      retail: {
+        queueLabel: "Service Queue",
+        customerLabel: "Customer",
+        serviceLabel: "Store Services",
+        staffLabel: "Associates",
+        waitLabel: "Wait Time", 
+        servedLabel: "Customers Helped",
+        addCustomerLabel: "Add Customer",
+        defaultServices: ["Personal Shopping", "Fitting", "Returns", "Consultation"],
+        icon: "🛍️",
+        primaryColor: "#6366F1"
+      },
+      dentist: {
+        queueLabel: "Patient Queue",
+        customerLabel: "Patient",
+        serviceLabel: "Dental Services",
+        staffLabel: "Dental Staff",
+        waitLabel: "Wait Time",
+        servedLabel: "Patients Treated",
+        addCustomerLabel: "Add Patient", 
+        defaultServices: ["Cleaning", "Examination", "Filling", "Consultation"],
+        icon: "🦷",
+        primaryColor: "#06B6D4"
+      },
+      spa: {
+        queueLabel: "Guest Queue",
+        customerLabel: "Guest",
+        serviceLabel: "Spa Services",
+        staffLabel: "Therapists",
+        waitLabel: "Wait Time",
+        servedLabel: "Treatments Completed",
+        addCustomerLabel: "Add Guest",
+        defaultServices: ["Massage", "Facial", "Body Treatment", "Relaxation"],
+        icon: "🧘",
+        primaryColor: "#8B5CF6"
+      },
+      other: {
+        queueLabel: "Customer Queue",
+        customerLabel: "Customer",
+        serviceLabel: "Services",
+        staffLabel: "Staff",
+        waitLabel: "Wait Time",
+        servedLabel: "Customers Served",
+        addCustomerLabel: "Add Customer",
+        defaultServices: ["Service 1", "Service 2", "Service 3", "Service 4"],
+        icon: "🏢",
+        primaryColor: "#64748B"
+      }
+    };
+    return configs[storeType as keyof typeof configs] || configs.other;
+  };
+
+  const storeConfig = getStoreConfig(currentStore?.type || "other");
 
   const { data: staff = [] } = useQuery<Staff[]>({
     queryKey: [`/api/stores/${currentStore?.id}/staff`],
@@ -325,8 +430,8 @@ export default function DashboardPage() {
                   <Crown className="w-5 h-5 text-yellow-300" />
                 </h1>
                 <p className="text-purple-100 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  {currentStore.name}
+                  <span className="text-lg">{storeConfig.icon}</span>
+                  {currentStore.name} • {currentStore.type.charAt(0).toUpperCase() + currentStore.type.slice(1)}
                 </p>
               </div>
             </div>
@@ -468,21 +573,21 @@ export default function DashboardPage() {
               {/* Animated Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <AnimatedStatsCard
-                  title="Today's Customers"
+                  title={`Today's ${storeConfig.customerLabel}s`}
                   value={stats?.totalCustomers || 0}
                   icon={Users}
                   color="bg-primary"
                   delay={0}
                 />
                 <AnimatedStatsCard
-                  title="Avg Wait Time (min)"
+                  title={`Avg ${storeConfig.waitLabel} (min)`}
                   value={stats?.avgWaitTime || 0}
                   icon={Clock}
                   color="bg-orange-500"
                   delay={100}
                 />
                 <AnimatedStatsCard
-                  title="Completed"
+                  title={storeConfig.servedLabel}
                   value={stats?.completed || 0}
                   icon={CheckCircle}
                   color="bg-accent"
@@ -499,7 +604,7 @@ export default function DashboardPage() {
 
               {/* Queue Management Actions */}
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Current Queue</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{storeConfig.queueLabel}</h3>
                 <AddToQueueDialog storeId={currentStore?.id || ""} staff={staff} />
               </div>
 
@@ -512,8 +617,8 @@ export default function DashboardPage() {
           <TabsContent value="served" className="mt-6">
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Served Customers</h2>
-                <p className="text-gray-600 dark:text-gray-300">View customers served today</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{storeConfig.servedLabel}</h2>
+                <p className="text-gray-600 dark:text-gray-300">View {storeConfig.customerLabel.toLowerCase()}s served today</p>
               </div>
 
               <Card>
@@ -540,8 +645,8 @@ export default function DashboardPage() {
                   ) : (
                     <div className="text-center py-8 text-gray-500">
                       <CheckCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                      <p>No customers served today</p>
-                      <p className="text-sm">Served customers will appear here</p>
+                      <p>No {storeConfig.customerLabel.toLowerCase()}s served today</p>
+                      <p className="text-sm">Served {storeConfig.customerLabel.toLowerCase()}s will appear here</p>
                     </div>
                   )}
                 </CardContent>
@@ -554,19 +659,19 @@ export default function DashboardPage() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Staff Management</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">{storeConfig.staffLabel} Management</h2>
                   <p className="text-gray-600">Manage your team members and their availability</p>
                 </div>
                 <Dialog open={isAddStaffOpen} onOpenChange={setIsAddStaffOpen}>
                   <DialogTrigger asChild>
                     <Button className="btn-primary">
                       <Plus className="w-4 h-4 mr-2" />
-                      Add Staff Member
+                      Add {storeConfig.staffLabel.slice(0, -1)} Member
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Add Staff Member</DialogTitle>
+                      <DialogTitle>Add {storeConfig.staffLabel.slice(0, -1)} Member</DialogTitle>
                     </DialogHeader>
                     <form onSubmit={(e) => {
                       e.preventDefault();

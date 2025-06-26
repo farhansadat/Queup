@@ -474,16 +474,31 @@ export default function LandingPage() {
                 >
                   Pricing
                 </div>
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">API</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/api")}
+                >
+                  API
+                </div>
               </div>
             </div>
             
             <div>
               <h3 className="text-white font-semibold mb-4">Support</h3>
               <div className="space-y-2">
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Help Center</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/help")}
+                >
+                  Help Center
+                </div>
                 <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Contact</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Status</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/status")}
+                >
+                  Status
+                </div>
               </div>
             </div>
             
@@ -496,8 +511,18 @@ export default function LandingPage() {
                 >
                   About
                 </div>
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Privacy</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Terms</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/privacy")}
+                >
+                  Privacy
+                </div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/terms")}
+                >
+                  Terms
+                </div>
               </div>
             </div>
           </div>
