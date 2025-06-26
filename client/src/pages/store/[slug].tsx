@@ -312,7 +312,7 @@ export default function CustomerQueuePage() {
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-white/20">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Queue Preview</h3>
             <div className="space-y-3">
-              {queue.slice(0, 3).map((customer, index) => (
+              {queue.slice(0, 5).map((customer, index) => (
                 <div key={customer.id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-100">
                   <div className="flex items-center space-x-3">
                     <div className={`w-10 h-10 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md ${
@@ -337,10 +337,10 @@ export default function CustomerQueuePage() {
                   </div>
                 </div>
               ))}
-              {queue.length > 3 && (
+              {queue.length > 5 && (
                 <div className="text-center py-2">
                   <span className="text-sm text-gray-500 font-medium">
-                    +{queue.length - 3} more in queue
+                    +{queue.length - 5} more in queue
                   </span>
                 </div>
               )}
