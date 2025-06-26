@@ -116,7 +116,14 @@ export default function TermsPage() {
     "Violating others' privacy or intellectual property"
   ];
 
-  const liability = [
+  const liability = language === 'de' ? [
+    "Service-Unterbrechungen oder Ausfallzeiten",
+    "Datenverlust aufgrund technischer Ausfälle",
+    "Drittanbieter-Integrationen oder -Services",
+    "Indirekte, zufällige oder Folgeschäden",
+    "Gewinnverluste oder Geschäftsmöglichkeiten",
+    "Schäden, die die in den letzten 12 Monaten gezahlten Gebühren übersteigen"
+  ] : [
     "Service interruptions or downtime",
     "Data loss due to technical failures",
     "Third-party integrations or services",
@@ -287,7 +294,9 @@ export default function TermsPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-700 mb-4">We are not liable for:</p>
+                <p className="text-gray-700 mb-4">
+                  {language === 'de' ? 'Wir haften nicht für:' : 'We are not liable for:'}
+                </p>
                 <ul className="space-y-2">
                   {liability.map((item, index) => (
                     <li key={index} className="flex items-start space-x-3">
