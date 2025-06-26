@@ -225,11 +225,21 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-24 pb-0 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Enhanced floating gradient blobs */}
         <div className="blob w-96 h-96 bg-gradient-to-r from-purple-600/50 to-violet-700/40 top-10 left-0 z-0"></div>
         <div className="blob w-[500px] h-[500px] bg-gradient-to-r from-indigo-600/40 to-purple-600/30 top-20 right-10 z-0 animation-delay-2000"></div>
         <div className="blob w-80 h-80 bg-gradient-to-r from-violet-500/60 to-indigo-600/50 bottom-10 left-1/3 z-0 animation-delay-4000"></div>
+        
+        {/* Floating particles */}
+        <div className="particle particle-float w-3 h-3 bg-purple-400/60 top-1/4 left-1/4" style={{animationDelay: '0s'}}></div>
+        <div className="particle particle-drift w-2 h-2 bg-violet-400/50 top-1/3 right-1/4" style={{animationDelay: '2s'}}></div>
+        <div className="particle particle-float w-4 h-4 bg-indigo-400/40 bottom-1/3 left-1/2" style={{animationDelay: '4s'}}></div>
+        <div className="particle particle-drift w-2 h-2 bg-purple-300/60 top-1/2 left-1/5" style={{animationDelay: '1s'}}></div>
+        <div className="particle particle-float w-3 h-3 bg-violet-500/50 bottom-1/4 right-1/3" style={{animationDelay: '3s'}}></div>
+        <div className="particle particle-drift w-1 h-1 bg-purple-400/70 top-3/4 left-3/4" style={{animationDelay: '5s'}}></div>
+        <div className="particle particle-float w-2 h-2 bg-indigo-300/60 top-1/5 right-1/2" style={{animationDelay: '6s'}}></div>
+        <div className="particle particle-drift w-4 h-4 bg-violet-400/40 bottom-1/2 left-1/6" style={{animationDelay: '7s'}}></div>
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <Badge className="mb-6 frosted-glass text-purple-300 border-purple-500/30">
@@ -288,7 +298,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+      <section id="features" className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -471,7 +481,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="pt-8 pb-8 px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="pt-8 pb-2 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-textGlow">
@@ -513,7 +523,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="pt-8 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-2 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Floating gradient blobs */}
         <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
         <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
