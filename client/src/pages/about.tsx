@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   Target, 
@@ -16,6 +17,7 @@ import {
 
 export default function AboutPage() {
   const [, setLocation] = useLocation();
+  const { language, t } = useLanguage();
 
   const stats = [
     { number: "50K+", label: "Happy Customers", icon: Users },
@@ -86,19 +88,21 @@ export default function AboutPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            🚀 Our Story
+            {language === 'de' ? '🚀 Unsere Geschichte' : '🚀 Our Story'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Transforming Business
+            {language === 'de' ? 'Unternehmen transformieren' : 'Transforming Business'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              One Queue at a Time
+              {language === 'de' ? 'Eine Warteschlange nach der anderen' : 'One Queue at a Time'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Founded in 2023, QueueUp Pro was born from a simple observation: 
-            waiting in line shouldn't be a source of frustration for customers or stress for businesses.
+            {language === 'de' 
+              ? 'QueueUp Pro wurde 2023 aus einer einfachen Beobachtung heraus gegründet: Das Warten in der Schlange sollte weder für Kunden frustrierend noch für Unternehmen stressig sein.'
+              : 'Founded in 2023, QueueUp Pro was born from a simple observation: waiting in line shouldn\'t be a source of frustration for customers or stress for businesses.'
+            }
           </p>
         </div>
       </section>

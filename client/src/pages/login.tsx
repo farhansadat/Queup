@@ -106,25 +106,25 @@ export default function LoginPage() {
               className="text-gray-600 hover:text-purple-600 p-0 h-auto font-normal"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
+              {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
             </Button>
           </div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 p-1 rounded-xl">
               <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
                 <Users className="w-4 h-4 mr-2" />
-                Sign In
+                {t('auth.login_title')}
               </TabsTrigger>
               <TabsTrigger value="register" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
                 <Store className="w-4 h-4 mr-2" />
-                Sign Up
+                {t('auth.register_title')}
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="login" className="mt-6">
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-sm font-medium">Email</Label>
+                  <Label htmlFor="login-email" className="text-sm font-medium">{t('auth.email')}</Label>
                   <Input
                     id="login-email"
                     type="email"
@@ -132,11 +132,11 @@ export default function LoginPage() {
                     value={loginData.email}
                     onChange={(e) => setLoginData(prev => ({ ...prev, email: e.target.value }))}
                     className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                    placeholder="Enter your email"
+                    placeholder={language === 'de' ? 'E-Mail eingeben' : 'Enter your email'}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-sm font-medium">Password</Label>
+                  <Label htmlFor="login-password" className="text-sm font-medium">{t('auth.password')}</Label>
                   <Input
                     id="login-password"
                     type="password"
@@ -144,7 +144,7 @@ export default function LoginPage() {
                     value={loginData.password}
                     onChange={(e) => setLoginData(prev => ({ ...prev, password: e.target.value }))}
                     className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                    placeholder="Enter your password"
+                    placeholder={language === 'de' ? 'Passwort eingeben' : 'Enter your password'}
                   />
                 </div>
                 <Button 
@@ -154,7 +154,7 @@ export default function LoginPage() {
                 >
                   {loginMutation.isPending ? (language === 'de' ? "Wird angemeldet..." : "Signing in...") : (
                     <span className="flex items-center gap-2">
-                      {t('common.sign_in')}
+                      {t('auth.login_button')}
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                   )}
@@ -162,7 +162,7 @@ export default function LoginPage() {
                 <div className="text-center">
                   <PasswordReset>
                     <Button variant="ghost" type="button" className="text-sm text-purple-600 hover:text-purple-700 h-auto p-0 font-normal">
-                      Forgot your password?
+                      {language === 'de' ? 'Passwort vergessen?' : 'Forgot your password?'}
                     </Button>
                   </PasswordReset>
                 </div>
@@ -205,7 +205,7 @@ export default function LoginPage() {
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="register-firstName" className="text-sm font-medium">{t('forms.first_name')}</Label>
+                        <Label htmlFor="register-firstName" className="text-sm font-medium">{t('auth.first_name')}</Label>
                         <Input
                           id="register-firstName"
                           type="text"
@@ -217,7 +217,7 @@ export default function LoginPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="register-lastName" className="text-sm font-medium">{t('forms.last_name')}</Label>
+                        <Label htmlFor="register-lastName" className="text-sm font-medium">{t('auth.last_name')}</Label>
                         <Input
                           id="register-lastName"
                           type="text"
@@ -230,7 +230,7 @@ export default function LoginPage() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-email" className="text-sm font-medium">{t('common.email')}</Label>
+                      <Label htmlFor="register-email" className="text-sm font-medium">{t('auth.email')}</Label>
                       <Input
                         id="register-email"
                         type="email"
@@ -242,7 +242,7 @@ export default function LoginPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-password" className="text-sm font-medium">{t('common.password')}</Label>
+                      <Label htmlFor="register-password" className="text-sm font-medium">{t('auth.password')}</Label>
                       <Input
                         id="register-password"
                         type="password"
@@ -251,23 +251,26 @@ export default function LoginPage() {
                         value={registerData.password}
                         onChange={(e) => setRegisterData(prev => ({ ...prev, password: e.target.value }))}
                         className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500 transition-colors"
-                        placeholder="At least 6 characters"
+                        placeholder={language === 'de' ? 'Mindestens 6 Zeichen' : 'At least 6 characters'}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-storeType" className="text-sm font-medium">Store Type</Label>
+                      <Label htmlFor="register-storeType" className="text-sm font-medium">{t('auth.store_type')}</Label>
                       <Select value={registerData.storeType} onValueChange={(value) => setRegisterData(prev => ({ ...prev, storeType: value }))}>
                         <SelectTrigger className="h-11 rounded-xl border-gray-200 focus:border-purple-500 focus:ring-purple-500">
-                          <SelectValue placeholder="Select your business type" />
+                          <SelectValue placeholder={language === 'de' ? 'Geschäftstyp auswählen' : 'Select your business type'} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="barbershop">Barbershop</SelectItem>
-                          <SelectItem value="salon">Hair Salon</SelectItem>
-                          <SelectItem value="clinic">Medical Clinic</SelectItem>
-                          <SelectItem value="restaurant">Restaurant</SelectItem>
-                          <SelectItem value="retail">Retail Store</SelectItem>
-                          <SelectItem value="service">Service Business</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                          <SelectItem value="barbershop">{t('auth.store_type_barbershop')}</SelectItem>
+                          <SelectItem value="salon">{t('auth.store_type_salon')}</SelectItem>
+                          <SelectItem value="clinic">{t('auth.store_type_clinic')}</SelectItem>
+                          <SelectItem value="restaurant">{t('auth.store_type_restaurant')}</SelectItem>
+                          <SelectItem value="retail">{t('auth.store_type_retail')}</SelectItem>
+                          <SelectItem value="spa">{t('auth.store_type_spa')}</SelectItem>
+                          <SelectItem value="dental">{t('auth.store_type_dental')}</SelectItem>
+                          <SelectItem value="veterinary">{t('auth.store_type_veterinary')}</SelectItem>
+                          <SelectItem value="automotive">{t('auth.store_type_automotive')}</SelectItem>
+                          <SelectItem value="other">{t('auth.store_type_other')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -276,7 +279,7 @@ export default function LoginPage() {
                       className="w-full h-11 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl group"
                     >
                       <span className="flex items-center gap-2">
-                        Continue to Store Setup
+                        {t('auth.next')}
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </span>
                     </Button>

@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   Shield, 
@@ -17,6 +18,7 @@ import {
 
 export default function PrivacyPage() {
   const [, setLocation] = useLocation();
+  const { language, t } = useLanguage();
 
   const sections = [
     {
@@ -104,7 +106,7 @@ export default function PrivacyPage() {
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Privacy Policy
+                {t('pages.privacy_title')}
               </span>
             </div>
             
@@ -115,7 +117,7 @@ export default function PrivacyPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
