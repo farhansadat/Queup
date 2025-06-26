@@ -49,7 +49,11 @@
       "cta_start_trial": "Start Your Free Trial",
       "footer_product": "Product",
       "footer_support": "Support",
-      "footer_company": "Company"
+      "footer_company": "Company",
+      "pricing_starter": "Starter",
+      "pricing_professional": "Professional", 
+      "pricing_month": "month",
+      "pricing_most_popular": "Most Popular"
     },
     "pages": {
       "login_title": "Sign In",

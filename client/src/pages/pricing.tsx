@@ -240,7 +240,7 @@ export default function PricingPage() {
                   </div>
                   <CardTitle className="text-2xl text-gray-900">{plan.name}</CardTitle>
                   <div className="text-4xl font-bold text-purple-600 mt-4">
-                    ${plan.price}<span className="text-lg text-gray-600">/month</span>
+                    €{plan.price}<span className="text-lg text-gray-600">/{language === 'de' ? 'Monat' : 'month'}</span>
                   </div>
                   <p className="text-gray-600 mt-2">{plan.description}</p>
                 </CardHeader>
