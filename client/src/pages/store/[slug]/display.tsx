@@ -135,171 +135,174 @@ export default function KioskDisplayPage() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex p-8 gap-8">
-        {/* Left Side - Queue Status Display */}
-        <div className="flex-1 space-y-8">
-          {/* Now Serving - Large Display */}
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 border border-white/20 shadow-2xl">
+      {/* Main Content - Redesigned Kiosk Layout */}
+      <div className="flex-1 flex gap-8 p-8">
+        {/* Left Side - Queue Status (Compact) */}
+        <div className="w-80 space-y-6">
+          {/* Now Serving - Compact Display */}
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
             <div className="text-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
-                <UserCheck className="w-12 h-12 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
+                <UserCheck className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-3xl font-bold text-white mb-4">Now Serving</h2>
-              <div className="text-8xl font-bold text-white mb-4 font-mono tracking-wider">
+              <h2 className="text-xl font-bold text-white mb-3">Now Serving</h2>
+              <div className="text-4xl font-bold text-white mb-2 font-mono tracking-wider">
                 {currentCustomer?.customerName || "---"}
               </div>
               {currentCustomer && (
-                <p className="text-xl text-white/90 font-medium">
+                <p className="text-sm text-white/90 font-medium">
                   with {staff.find(s => s.id === currentCustomer.staffId)?.name || "Staff Member"}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Next in Line - Professional Display */}
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">Next in Line</h3>
+          {/* Next in Line - Compact Display */}
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
+            <h3 className="text-lg font-bold text-white mb-4 text-center">Next in Line</h3>
             {upcomingCustomers.length > 0 ? (
-              <div className="space-y-4">
-                {upcomingCustomers.map((customer, index) => (
-                  <div key={customer.id} className="flex items-center justify-between p-4 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 text-white rounded-full flex items-center justify-center text-lg font-bold shadow-lg ${
+              <div className="space-y-3">
+                {upcomingCustomers.slice(0, 2).map((customer, index) => (
+                  <div key={customer.id} className="flex items-center justify-between p-3 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-8 h-8 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg ${
                         index === 0 ? "bg-gradient-to-br from-orange-400 to-red-500" : "bg-gradient-to-br from-purple-400 to-pink-500"
                       }`}>
                         {index + 2}
                       </div>
                       <div>
-                        <p className="text-lg font-semibold text-white">
+                        <p className="text-sm font-semibold text-white">
                           {customer.customerName || "Anonymous"}
                         </p>
-                        <p className="text-white/80">
-                          with {staff.find(s => s.id === customer.staffId)?.name || "First Available"}
+                        <p className="text-xs text-white/80">
+                          {staff.find(s => s.id === customer.staffId)?.name || "First Available"}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-white/70 text-sm">Est. wait</p>
-                      <p className="text-lg font-semibold text-white">{(index + 2) * 20} min</p>
+                      <p className="text-xs font-semibold text-white">{(index + 2) * 20}m</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-8 text-white/60">
-                <Clock className="w-16 h-16 mx-auto mb-3 text-white/40" />
-                <p className="text-lg">No one waiting</p>
+              <div className="text-center py-4 text-white/60">
+                <Clock className="w-8 h-8 mx-auto mb-2 text-white/40" />
+                <p className="text-sm">No one waiting</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* Right Side - Join Queue */}
-        <div className="w-96 p-8">
-          <Card className="card-elevated p-8 h-full flex flex-col">
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+        {/* Center/Right - Prominent Join Queue Section */}
+        <div className="flex-1">
+          <div className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg rounded-3xl border-2 border-white/30 shadow-2xl h-full flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-500/30 to-purple-500/30 p-8 text-center border-b border-white/20">
+              <div className="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl">
                 <Plus className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Join the Queue</h2>
-              <p className="text-gray-600">Walk-in customers can join here</p>
+              <h2 className="text-4xl font-bold text-white mb-2 tracking-tight">Join the Queue</h2>
+              <p className="text-white/90 text-lg">Touch to get started</p>
             </div>
 
-            <form onSubmit={handleKioskJoin} className="flex-1 flex flex-col space-y-6">
-              {/* Staff Selection */}
-              <div>
-                <Label className="block text-lg font-medium text-gray-900 mb-4">Choose Your Staff Member</Label>
-                <div className="space-y-3">
-                  {staff.filter(member => member.status === "available").map((member) => (
+            <div className="flex-1 p-8 flex flex-col justify-center">
+              <form onSubmit={handleKioskJoin} className="space-y-8">
+                {/* Staff Selection - Large Touch Targets */}
+                <div>
+                  <Label className="block text-2xl font-bold text-white mb-6 text-center">Choose Your Staff Member</Label>
+                  <div className="grid grid-cols-1 gap-4">
+                    {/* First Available Option - Prominent */}
                     <button
-                      key={member.id}
                       type="button"
-                      className={`w-full p-4 border-2 rounded-2xl transition-all text-left ${
-                        selectedStaff === member.id
-                          ? "border-primary bg-primary/10"
-                          : "border-gray-300 hover:border-primary"
+                      className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-[1.02] ${
+                        selectedStaff === "any"
+                          ? "border-white bg-white/20 shadow-2xl scale-[1.02]"
+                          : "border-white/40 hover:border-white/60 bg-white/10"
                       }`}
-                      onClick={() => setSelectedStaff(member.id)}
+                      onClick={() => setSelectedStaff("any")}
                     >
-                      <div className="flex items-center space-x-3">
-                        <Avatar className="w-12 h-12">
-                          <AvatarImage src={member.photoUrl || ""} alt={member.name} />
-                          <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg">
+                          <Star className="w-8 h-8 text-white" />
+                        </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{member.name}</p>
-                          <p className="text-sm text-accent">Available</p>
+                          <p className="text-xl font-bold text-white">First Available</p>
+                          <p className="text-white/80 text-lg">Fastest service • No preference</p>
                         </div>
                       </div>
                     </button>
-                  ))}
-                  
-                  <button
-                    type="button"
-                    className={`w-full p-4 border-2 rounded-2xl transition-all text-left ${
-                      selectedStaff === "any"
-                        ? "border-primary bg-primary/10"
-                        : "border-gray-300 hover:border-primary"
-                    }`}
-                    onClick={() => setSelectedStaff("any")}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-                        <Star className="w-6 h-6 text-gray-500" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-primary">First Available</p>
-                        <p className="text-sm text-primary">Fastest service</p>
-                      </div>
-                    </div>
-                  </button>
+
+                    {/* Individual Staff Members */}
+                    {staff.filter(member => member.status === "available").map((member) => (
+                      <button
+                        key={member.id}
+                        type="button"
+                        className={`w-full p-6 border-3 rounded-3xl transition-all text-left transform hover:scale-[1.02] ${
+                          selectedStaff === member.id
+                            ? "border-white bg-white/20 shadow-2xl scale-[1.02]"
+                            : "border-white/40 hover:border-white/60 bg-white/10"
+                        }`}
+                        onClick={() => setSelectedStaff(member.id)}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <Avatar className="w-16 h-16 border-2 border-white/30">
+                            <AvatarImage src={member.photoUrl || ""} alt={member.name} />
+                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl font-bold">
+                              {member.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="text-xl font-bold text-white">{member.name}</p>
+                            <p className="text-white/80 text-lg">Available now</p>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Name Input - Large */}
+                <div>
+                  <Label htmlFor="kiosk-name" className="block text-2xl font-bold text-white mb-4 text-center">
+                    Your Name
+                  </Label>
+                  <Input
+                    id="kiosk-name"
+                    type="text"
+                    placeholder="Enter your name (optional)"
+                    className="w-full px-6 py-6 text-2xl rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
+                </div>
+
+                {/* Join Button - Very Prominent */}
+                <Button 
+                  type="submit" 
+                  className="w-full py-8 text-3xl font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={joinQueueMutation.isPending || !selectedStaff}
+                >
+                  <Plus className="w-8 h-8 mr-4" />
+                  {joinQueueMutation.isPending ? "Joining..." : "Join Queue Now"}
+                </Button>
+              </form>
+
+              {/* QR Code Section */}
+              <div className="mt-8 pt-6 border-t border-white/20 text-center">
+                <p className="text-white/80 mb-4 text-lg">Or scan with your phone</p>
+                <div className="flex justify-center">
+                  <div className="bg-white/20 p-4 rounded-2xl">
+                    <QRCodeGenerator 
+                      value={`${window.location.origin}/store/${slug}`}
+                      size={100}
+                    />
+                  </div>
                 </div>
               </div>
-
-              {/* Name Input */}
-              <div>
-                <Label htmlFor="kiosk-name" className="block text-lg font-medium text-gray-900 mb-3">
-                  Your Name
-                </Label>
-                <Input
-                  id="kiosk-name"
-                  type="text"
-                  placeholder="Enter your name"
-                  className="input-field text-lg py-4"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                />
-              </div>
-
-              {/* Join Button */}
-              <Button 
-                type="submit" 
-                className="w-full btn-accent py-6 text-xl"
-                disabled={joinQueueMutation.isPending}
-              >
-                <Plus className="w-6 h-6 mr-3" />
-                {joinQueueMutation.isPending ? "Joining..." : "Join Queue Now"}
-              </Button>
-            </form>
-
-            {/* QR Code for Mobile */}
-            <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-              <p className="text-sm text-gray-600 mb-3">Or scan to join on your phone</p>
-              <div className="flex justify-center">
-                <QRCodeGenerator 
-                  value={`${window.location.origin}/store/${slug}`}
-                  size={80}
-                />
-              </div>
             </div>
-          </Card>
+          </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-white/10 backdrop-blur-sm p-4 text-center">
-        <p className="text-white/80 text-sm">Powered by QueueUp Pro • Real-time queue management</p>
       </div>
     </div>
   );
