@@ -352,38 +352,38 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Bis zu 2 Mitarbeiter' : 'Up to 2 staff members'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? '100 Kunden pro Tag' : '100 customers per day'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'QR-Code Generierung' : 'QR code generation'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Echtzeit-Warteschlangen Updates' : 'Real-time queue updates'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Basis Analytics' : 'Basic analytics'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'E-Mail Support' : 'Email support'}
                   </span>
                 </div>
@@ -417,44 +417,44 @@ export default function LandingPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Unbegrenzte Mitarbeiteranzahl' : 'Unlimited staff members'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Unbegrenzte Kundenanzahl' : 'Unlimited customers'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Erweiterte QR-Code Anpassung' : 'Advanced QR customization'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Kiosk-Display Modus' : 'Kiosk display mode'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Erweiterte Analytics & Berichte' : 'Advanced analytics & reports'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Individuelles Branding' : 'Custom branding'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-gray-200">
                     {language === 'de' ? 'Priority Support' : 'Priority support'}
                   </span>
                 </div>
@@ -507,7 +507,7 @@ export default function LandingPage() {
                     <div className="font-semibold text-white">
                       {language === 'de' ? t(`landing.testimonial_${index + 1}_name`) : testimonial.name}
                     </div>
-                    <div className="text-sm text-gray-400">
+                    <div className="text-sm text-gray-300">
                       {language === 'de' ? t(`landing.testimonial_${index + 1}_role`) : testimonial.business}
                     </div>
                   </div>
@@ -565,13 +565,13 @@ export default function LandingPage() {
               <h3 className="text-white font-semibold mb-4">{t('landing.footer_product')}</h3>
               <div className="space-y-2">
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/features")}
                 >
                   {t('navigation.features')}
                 </div>
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/pricing")}
                 >
                   {t('navigation.pricing')}
@@ -582,11 +582,11 @@ export default function LandingPage() {
             <div>
               <h3 className="text-white font-semibold mb-4">{t('landing.footer_support')}</h3>
               <div className="space-y-2">
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">
+                <div className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors">
                   {language === 'de' ? 'Kontakt' : 'Contact'}
                 </div>
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/status")}
                 >
                   {language === 'de' ? 'Status' : 'Status'}
@@ -598,19 +598,19 @@ export default function LandingPage() {
               <h3 className="text-white font-semibold mb-4">{t('landing.footer_company')}</h3>
               <div className="space-y-2">
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/about")}
                 >
                   {t('navigation.about')}
                 </div>
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/privacy")}
                 >
                   {language === 'de' ? 'Datenschutz' : 'Privacy'}
                 </div>
                 <div 
-                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  className="text-gray-300 hover:text-purple-400 cursor-pointer transition-colors"
                   onClick={() => setLocation("/terms")}
                 >
                   {language === 'de' ? 'AGB' : 'Terms'}

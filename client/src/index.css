@@ -66,8 +66,9 @@
 
 /* Radiant dark theme backgrounds */
 .radiant-dark-bg {
-  background: linear-gradient(135deg, #0f0f0f, #1a032d, #7e22ce, #0f0f0f);
+  background: linear-gradient(135deg, #0f0f0f, #1a032d, #7e22ce, #5b21b6, #1a032d, #0f0f0f);
   color: #fdfdfd;
+  min-height: 100vh;
 }
 
 .radiant-mesh-bg {
@@ -78,15 +79,15 @@
 }
 
 .frosted-glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .frosted-glass-hover:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
 }
 
 .animate-fadeInUp {
