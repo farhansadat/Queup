@@ -3,6 +3,8 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   Clock, 
@@ -20,6 +22,7 @@ import {
 export default function LandingPage() {
   const [, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t, language } = useLanguage();
 
   const features = [
     {
@@ -96,27 +99,30 @@ export default function LandingPage() {
                 className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
                 onClick={() => setLocation("/features")}
               >
-                Features
+                {t('navigation.features')}
               </div>
               <div 
                 className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
                 onClick={() => setLocation("/pricing")}
               >
-                Pricing
+                {t('navigation.pricing')}
               </div>
-              <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">Reviews</a>
+              <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">
+                {language === 'de' ? 'Bewertungen' : 'Reviews'}
+              </a>
+              <LanguageSelector />
               <Button 
                 variant="outline" 
                 onClick={() => setLocation("/login")}
                 className="border-purple-200 text-purple-600 hover:bg-purple-50"
               >
-                Login
+                {t('common.login')}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {t('landing.get_started')}
               </Button>
             </div>
 
@@ -136,6 +142,9 @@ export default function LandingPage() {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-purple-100">
               <div className="flex flex-col space-y-3">
+                <div className="flex justify-center mb-3">
+                  <LanguageSelector />
+                </div>
                 <div 
                   className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
                   onClick={() => {
@@ -143,7 +152,7 @@ export default function LandingPage() {
                     setMobileMenuOpen(false);
                   }}
                 >
-                  Features
+                  {t('navigation.features')}
                 </div>
                 <div 
                   className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
@@ -152,27 +161,27 @@ export default function LandingPage() {
                     setMobileMenuOpen(false);
                   }}
                 >
-                  Pricing
+                  {t('navigation.pricing')}
                 </div>
                 <a 
                   href="#testimonials" 
                   className="text-gray-600 hover:text-purple-600 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Reviews
+                  {language === 'de' ? 'Bewertungen' : 'Reviews'}
                 </a>
                 <Button 
                   variant="outline" 
                   onClick={() => setLocation("/login")}
                   className="border-purple-200 text-purple-600 hover:bg-purple-50 w-full"
                 >
-                  Login
+                  {t('common.login')}
                 </Button>
                 <Button 
                   onClick={() => setLocation("/register")}
                   className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 w-full"
                 >
-                  Get Started
+                  {t('landing.get_started')}
                 </Button>
               </div>
             </div>
@@ -184,19 +193,18 @@ export default function LandingPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            ✨ Now Available - Transform Your Business
+            ✨ {language === 'de' ? 'Jetzt verfügbar - Transformieren Sie Ihr Geschäft' : 'Now Available - Transform Your Business'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Eliminate Wait Times with
+            {language === 'de' ? 'Wartezeiten eliminieren mit' : 'Eliminate Wait Times with'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Smart Queue Management
+              {language === 'de' ? 'Intelligentem Warteschlangen-Management' : 'Smart Queue Management'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            QueueUp Pro helps businesses streamline customer flow with QR codes, real-time updates, 
-            and powerful analytics. Perfect for barbershops, salons, clinics, and service businesses.
+            {t('landing.hero_subtitle')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -205,7 +213,7 @@ export default function LandingPage() {
               onClick={() => setLocation("/register")}
               className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-6 text-lg"
             >
-              Start Free Trial
+              {t('landing.get_started')}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button 
@@ -214,7 +222,7 @@ export default function LandingPage() {
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
               className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg"
             >
-              Watch Demo
+              {t('landing.watch_demo')}
             </Button>
           </div>
 

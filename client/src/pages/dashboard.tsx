@@ -458,12 +458,26 @@ export default function DashboardPage() {
                     <DialogTitle>Profile Settings</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-6">
-                    <div className="text-center p-6 bg-gray-50 rounded-xl">
+                    <div className="text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-3">
                         <User className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="font-semibold">{user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : 'User'}</h3>
-                      <p className="text-sm text-gray-600">{user?.user?.email}</p>
+                      <h3 className="font-semibold dark:text-white">{user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : 'User'}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{user?.user?.email}</p>
+                    </div>
+
+                    {/* Language Settings */}
+                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                      <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 block">
+                        {language === 'de' ? 'Sprache / Language' : 'Language / Sprache'}
+                      </Label>
+                      <LanguageSelector />
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        {language === 'de' 
+                          ? 'Ihre Sprachauswahl wird für Ihr Dashboard und Ihre Kundenwarteschlange verwendet'
+                          : 'Your language choice will be used for your dashboard and customer queue'
+                        }
+                      </p>
                     </div>
                     
                     <form onSubmit={(e) => {
