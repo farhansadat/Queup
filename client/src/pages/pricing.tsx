@@ -327,8 +327,12 @@ export default function PricingPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-gray-600">Everything you need to know about our pricing</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {language === 'de' ? 'Häufig gestellte Fragen' : 'Frequently Asked Questions'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'de' ? 'Alles, was Sie über unsere Preise wissen müssen' : 'Everything you need to know about our pricing'}
+            </p>
           </div>
           
           <div className="space-y-6">
@@ -348,17 +352,17 @@ export default function PricingPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Transform Your Business?
+            {language === 'de' ? 'Bereit, Ihr Unternehmen zu transformieren?' : 'Ready to Transform Your Business?'}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Join thousands of businesses already using QueueUp Pro
+            {language === 'de' ? 'Schließen Sie sich Tausenden von Unternehmen an, die bereits QueueUp Pro verwenden' : 'Join thousands of businesses already using QueueUp Pro'}
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Start Free Trial Today
+            {language === 'de' ? 'Kostenlose Testversion heute starten' : 'Start Free Trial Today'}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
