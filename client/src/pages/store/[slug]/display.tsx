@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useRealTimeQueue } from "@/hooks/useRealTimeQueue";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
-import { Plus, UserCheck, Clock, Scissors, Star } from "lucide-react";
+import { Plus, UserCheck, Clock, Scissors, Star, Maximize, Minimize } from "lucide-react";
 import type { Store, Staff } from "@shared/schema";
 
 export default function KioskDisplayPage() {
@@ -19,11 +19,48 @@ export default function KioskDisplayPage() {
   const [selectedStaff, setSelectedStaff] = useState<string>("any");
   const [customerName, setCustomerName] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Update time every minute
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Fullscreen functionality
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isFullscreen) {
+        exitFullscreen();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
+
+  const enterFullscreen = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    }
+  };
+
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
   const { data: store, isLoading: storeLoading } = useQuery<Store>({
@@ -123,12 +160,27 @@ export default function KioskDisplayPage() {
                 <p className="text-xl text-white/90 font-medium">Welcome • Please take a number</p>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-5xl font-bold text-white mb-2 font-mono tracking-wider">
-                {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-              <div className="text-lg text-white/90 font-medium">
-                {currentTime.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
+            <div className="flex items-center space-x-6">
+              <Button
+                onClick={isFullscreen ? exitFullscreen : enterFullscreen}
+                className="bg-white/20 hover:bg-white/30 border-2 border-white/30 hover:border-white/50 px-6 py-3 rounded-2xl transition-all"
+              >
+                {isFullscreen ? (
+                  <Minimize className="w-6 h-6 text-white mr-2" />
+                ) : (
+                  <Maximize className="w-6 h-6 text-white mr-2" />
+                )}
+                <span className="text-white font-medium">
+                  {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                </span>
+              </Button>
+              <div className="text-right">
+                <div className="text-5xl font-bold text-white mb-2 font-mono tracking-wider">
+                  {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+                <div className="text-lg text-white/90 font-medium">
+                  {currentTime.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
+                </div>
               </div>
             </div>
           </div>
@@ -290,15 +342,16 @@ export default function KioskDisplayPage() {
 
               {/* QR Code Section */}
               <div className="mt-8 pt-6 border-t border-white/20 text-center">
-                <p className="text-white/80 mb-4 text-lg">Or scan with your phone</p>
+                <p className="text-white/80 mb-6 text-xl font-medium">Or scan with your phone</p>
                 <div className="flex justify-center">
-                  <div className="bg-white/20 p-4 rounded-2xl">
+                  <div className="bg-white/20 p-6 rounded-3xl shadow-2xl border border-white/30">
                     <QRCodeGenerator 
                       value={`${window.location.origin}/store/${slug}`}
-                      size={100}
+                      size={180}
                     />
                   </div>
                 </div>
+                <p className="text-white/60 mt-4 text-sm">Point your camera at the QR code to join</p>
               </div>
             </div>
           </div>
