@@ -319,7 +319,7 @@ export default function KioskDisplayPage() {
                     id="kiosk-name"
                     type="text"
                     placeholder="Enter your name"
-                    className="w-full px-6 py-6 text-2xl text-center rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30 transition-all"
+                    className="w-full px-6 py-6 text-4xl text-center rounded-2xl border-2 border-white/40 bg-white/10 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/30 transition-all"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     required

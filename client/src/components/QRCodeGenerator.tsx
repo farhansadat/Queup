@@ -30,13 +30,12 @@ export function QRCodeGenerator({ value, size = 200, className = "" }: QRCodeGen
   }, [externalUrl, size]);
 
   return (
-    <div className={`flex flex-col items-center space-y-2 ${className}`}>
+    <div className={`flex flex-col items-center ${className}`}>
       <canvas 
         ref={canvasRef} 
         className="rounded-lg border"
         style={{ maxWidth: "100%", height: "auto" }}
       />
-      <p className="text-xs text-muted-foreground break-all">{externalUrl}</p>
     </div>
   );
 }
