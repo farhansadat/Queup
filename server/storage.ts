@@ -2,7 +2,7 @@
 import { users, stores, staff, queues, type User, type InsertUser, type Store, type InsertStore, type Staff, type InsertStaff, type Queue, type InsertQueue } from "@shared/schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
-import { eq, and, desc, asc, gte, lt } from "drizzle-orm";
+import { eq, and, desc, asc, gte, lt, sql } from "drizzle-orm";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -43,6 +43,10 @@ export interface IStorage {
     waiting: number;
   }>;
   getServedCustomers(storeId: string): Promise<Queue[]>;
+  
+  // Admin operations
+  getAllStoresWithStats(): Promise<any[]>;
+  deleteStore(storeId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -190,6 +194,87 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(queues.joinedAt));
 
     return servedToday;
+  }
+
+  async getAllStoresWithStats(): Promise<any[]> {
+    try {
+      // Get all stores with user information
+      const storesWithUsers = await db
+        .select({
+          id: stores.id,
+          name: stores.name,
+          slug: stores.slug,
+          description: stores.description,
+          address: stores.address,
+          phoneNumber: stores.phoneNumber,
+          logoUrl: stores.logoUrl,
+          storeType: stores.storeType,
+          language: stores.language,
+          weeklySchedule: stores.weeklySchedule,
+          createdAt: stores.createdAt,
+          updatedAt: stores.updatedAt,
+          userId: stores.userId,
+          userEmail: users.email,
+          userFirstName: users.firstName,
+          userLastName: users.lastName
+        })
+        .from(stores)
+        .leftJoin(users, eq(stores.userId, users.id))
+        .orderBy(desc(stores.createdAt));
+
+      // Get staff and queue counts for each store
+      const storesWithStats = await Promise.all(
+        storesWithUsers.map(async (store) => {
+          const [staffCount] = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(staff)
+            .where(eq(staff.storeId, store.id));
+
+          const [queueCount] = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(queues)
+            .where(
+              and(
+                eq(queues.storeId, store.id),
+                eq(queues.status, "waiting")
+              )
+            );
+
+          return {
+            ...store,
+            staffCount: staffCount?.count || 0,
+            queueCount: queueCount?.count || 0,
+            user: {
+              id: store.userId,
+              email: store.userEmail,
+              firstName: store.userFirstName,
+              lastName: store.userLastName
+            }
+          };
+        })
+      );
+
+      return storesWithStats;
+    } catch (error) {
+      console.error("Error fetching stores with stats:", error);
+      throw error;
+    }
+  }
+
+  async deleteStore(storeId: string): Promise<void> {
+    try {
+      // Delete all queue entries for this store
+      await db.delete(queues).where(eq(queues.storeId, storeId));
+      
+      // Delete all staff for this store
+      await db.delete(staff).where(eq(staff.storeId, storeId));
+      
+      // Delete the store
+      await db.delete(stores).where(eq(stores.id, storeId));
+    } catch (error) {
+      console.error("Error deleting store:", error);
+      throw error;
+    }
   }
 }
 

@@ -13,7 +13,7 @@ import LandingPage from "@/pages/landing";
 import FeaturesPage from "@/pages/features";
 import PricingPage from "@/pages/pricing";
 import AboutPage from "@/pages/about";
-
+import AdminDashboard from "@/pages/admin";
 import StatusPage from "@/pages/status";
 import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
@@ -24,6 +24,7 @@ function Router() {
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={LoginPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route path="/features" component={FeaturesPage} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/about" component={AboutPage} />

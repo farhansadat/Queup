@@ -28,6 +28,10 @@ const queueActionSchema = z.object({
   })).optional()
 });
 
+const adminLoginSchema = z.object({
+  password: z.string()
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session middleware
   app.use(session({
@@ -41,6 +45,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const requireAuth = (req: any, res: any, next: any) => {
     if (!req.session?.userId) {
       return res.status(401).json({ message: "Authentication required" });
+    }
+    next();
+  };
+
+  // Admin middleware - simple password check for demo
+  const requireAdmin = (req: any, res: any, next: any) => {
+    const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token || token !== adminPassword) {
+      return res.status(401).json({ message: "Admin authentication required" });
     }
     next();
   };
@@ -379,6 +394,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(servedCustomers);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch served customers" });
+    }
+  });
+
+  // Admin routes
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { password } = adminLoginSchema.parse(req.body);
+      const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+      
+      if (password === adminPassword) {
+        res.json({ token: adminPassword, message: "Admin authenticated" });
+      } else {
+        res.status(401).json({ message: "Invalid admin password" });
+      }
+    } catch (error) {
+      res.status(400).json({ message: "Invalid request data" });
+    }
+  });
+
+  app.get("/api/admin/stores", requireAdmin, async (req, res) => {
+    try {
+      const stores = await storage.getAllStoresWithStats();
+      res.json(stores);
+    } catch (error) {
+      console.error("Error fetching admin stores:", error);
+      res.status(500).json({ message: "Failed to fetch stores" });
+    }
+  });
+
+  app.patch("/api/admin/stores/:storeId", requireAdmin, async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      const updates = req.body;
+      
+      const updatedStore = await storage.updateStore(storeId, updates);
+      res.json(updatedStore);
+    } catch (error) {
+      console.error("Error updating store:", error);
+      res.status(500).json({ message: "Failed to update store" });
+    }
+  });
+
+  app.delete("/api/admin/stores/:storeId", requireAdmin, async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      await storage.deleteStore(storeId);
+      res.json({ message: "Store deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting store:", error);
+      res.status(500).json({ message: "Failed to delete store" });
     }
   });
 
