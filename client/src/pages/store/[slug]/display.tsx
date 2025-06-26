@@ -97,29 +97,29 @@ export default function KioskDisplayPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-blue-800 flex flex-col kiosk-mode">
-      {/* Header */}
-      <div className="bg-white/10 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-8 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex flex-col overflow-hidden">
+      {/* Professional Kiosk Header */}
+      <div className="bg-white/10 backdrop-blur-md border-b border-white/20">
+        <div className="max-w-7xl mx-auto px-8 py-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+            <div className="flex items-center space-x-6">
+              <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center shadow-2xl border border-white/30">
                 {store.logoUrl ? (
-                  <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover rounded-xl" />
+                  <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover rounded-2xl" />
                 ) : (
-                  <Scissors className="w-6 h-6 text-primary" />
+                  <Scissors className="w-10 h-10 text-white" />
                 )}
               </div>
-              <div className="text-white">
-                <h1 className="text-2xl font-bold">{store.name}</h1>
-                <p className="text-blue-100">Touch to join the queue</p>
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">{store.name}</h1>
+                <p className="text-xl text-white/90 font-medium">Welcome • Please take a number</p>
               </div>
             </div>
-            <div className="text-white text-right">
-              <div className="text-3xl font-bold">
+            <div className="text-right">
+              <div className="text-5xl font-bold text-white mb-2 font-mono tracking-wider">
                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
-              <div className="text-blue-100">
+              <div className="text-lg text-white/90 font-medium">
                 {currentTime.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
               </div>
             </div>
@@ -128,26 +128,26 @@ export default function KioskDisplayPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex">
-        {/* Left Side - Queue Status */}
-        <div className="flex-1 p-8">
-          {/* Now Serving */}
-          <Card className="card-elevated p-8 mb-8">
+      <div className="flex-1 flex p-8 gap-8">
+        {/* Left Side - Queue Status Display */}
+        <div className="flex-1 space-y-8">
+          {/* Now Serving - Large Display */}
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 border border-white/20 shadow-2xl">
             <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <UserCheck className="w-8 h-8 text-white" />
+              <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                <UserCheck className="w-12 h-12 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Now Serving</h2>
-              <div className="text-4xl font-bold text-primary mb-2">
-                {currentCustomer?.customerName || "No one"}
+              <h2 className="text-3xl font-bold text-white mb-4">Now Serving</h2>
+              <div className="text-8xl font-bold text-white mb-4 font-mono tracking-wider">
+                {currentCustomer?.customerName || "---"}
               </div>
               {currentCustomer && (
-                <p className="text-gray-600">
+                <p className="text-xl text-white/90 font-medium">
                   with {staff.find(s => s.id === currentCustomer.staffId)?.name || "Staff Member"}
                 </p>
               )}
             </div>
-          </Card>
+          </div>
 
           {/* Next in Line */}
           <Card className="card-elevated p-8">

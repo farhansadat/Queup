@@ -102,198 +102,240 @@ export default function CustomerQueuePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Store Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-gray-200 rounded-xl flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Mobile-Optimized Header */}
+      <div className="bg-white/90 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
+        <div className="px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
               {store.logoUrl ? (
-                <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover rounded-xl" />
+                <div className="w-12 h-12 rounded-2xl overflow-hidden shadow-md bg-white">
+                  <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover" />
+                </div>
               ) : (
-                <Scissors className="w-8 h-8 text-gray-400" />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
+                  <Scissors className="w-6 h-6 text-white" />
+                </div>
               )}
+              <div>
+                <h1 className="text-lg font-bold text-gray-900 leading-tight">{store.name}</h1>
+                <p className="text-xs text-gray-500 font-medium">Touch to join the queue</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{store.name}</h1>
-              <p className="text-gray-600">{store.description}</p>
-              <div className="flex items-center mt-2 text-sm text-gray-500">
-                <Clock className="w-4 h-4 mr-1" />
-                <span>
-                  {store.workingHours?.monday ? 
-                    `${store.workingHours.monday.open} - ${store.workingHours.monday.close}` : 
-                    "Hours not set"
-                  }
-                </span>
-                <span className="mx-2">•</span>
-                <Badge variant="secondary" className="bg-accent text-accent-foreground">
-                  Currently Open
-                </Badge>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-slate-800">
+                {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </div>
+              <div className="text-xs text-gray-500 font-medium">
+                {new Date().toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Queue Status */}
-        <Card className="card-elevated p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Queue Status</h2>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-accent rounded-full animate-pulse-dot"></div>
-              <span className="text-sm text-gray-600">Live Updates</span>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-4 bg-primary/5 rounded-xl">
-              <UserCheck className="w-8 h-8 text-primary mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900 mb-1">Now Serving</h3>
-              <p className="text-lg font-semibold text-primary">
-                {currentCustomer?.customerName || "No one"}
+      <div className="px-4 py-6 space-y-6">
+        {/* Live Queue Status Cards */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Now Serving Card */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-white/20">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+                <UserCheck className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-sm font-semibold text-gray-700 mb-1">Now Serving</h3>
+              <p className="text-2xl font-bold text-blue-600 leading-tight">
+                {currentCustomer?.customerName || (
+                  <span className="text-blue-400">No one</span>
+                )}
               </p>
             </div>
-            
-            <div className="text-center p-4 bg-orange-50 rounded-xl">
-              <Users className="w-8 h-8 text-orange-600 mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900 mb-1">People Waiting</h3>
-              <p className="text-lg font-semibold text-orange-600">{waitingCount}</p>
-            </div>
-            
-            <div className="text-center p-4 bg-purple-50 rounded-xl">
-              <Clock className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900 mb-1">Est. Wait Time</h3>
-              <p className="text-lg font-semibold text-purple-600">{estimatedWait} min</p>
+          </div>
+
+          {/* Next in Line Card */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-white/20">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+                <Clock className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-sm font-semibold text-gray-700 mb-1">Next in Line</h3>
+              <p className="text-2xl font-bold text-gray-600 leading-tight">
+                {queue?.[1]?.customerName || (
+                  <span className="text-gray-400">No one waiting</span>
+                )}
+              </p>
             </div>
           </div>
-        </Card>
+        </div>
 
-        {/* Staff Selection */}
-        <Card className="card-elevated p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Choose Your Staff Member</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {staff.map((member) => (
-              <div
-                key={member.id}
-                className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                  selectedStaff === member.id
-                    ? "border-primary bg-primary/5"
-                    : "border-gray-200 hover:border-primary"
+        {/* Join Queue Section */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-white/30 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-center">
+            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                <span className="text-2xl font-bold text-blue-600">+</span>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-white mb-2">Join the Queue</h2>
+            <p className="text-blue-100">Walk-in customers can join here</p>
+          </div>
+
+          <div className="p-6 space-y-6">
+            {/* Staff Selection */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Choose Your Staff Member</h3>
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedStaff("any")}
+                  className={`w-full p-4 rounded-2xl border-2 transition-all transform ${
+                    selectedStaff === "any"
+                      ? "border-blue-500 bg-blue-50 scale-[1.02] shadow-md"
+                      : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                  }`}
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-md">
+                      <Star className="w-7 h-7 text-white" />
+                    </div>
+                    <div className="text-left flex-1">
+                      <h4 className="font-bold text-gray-900 text-base">First Available</h4>
+                      <p className="text-sm text-green-600 font-medium">Fastest service</p>
+                    </div>
+                  </div>
+                </button>
+                
+                {staff.map((member) => (
+                  <button
+                    key={member.id}
+                    type="button"
+                    onClick={() => setSelectedStaff(member.id)}
+                    className={`w-full p-4 rounded-2xl border-2 transition-all transform ${
+                      selectedStaff === member.id
+                        ? "border-blue-500 bg-blue-50 scale-[1.02] shadow-md"
+                        : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                    }`}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="relative">
+                        <Avatar className="w-14 h-14 border-2 border-white shadow-md">
+                          <AvatarImage src={member.photoUrl} />
+                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white font-bold text-lg">
+                            {member.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white ${
+                          member.status === "available" ? "bg-green-500" : "bg-gray-400"
+                        }`}></div>
+                      </div>
+                      <div className="text-left flex-1">
+                        <h4 className="font-bold text-gray-900 text-base">{member.name}</h4>
+                        <p className={`text-sm font-medium ${
+                          member.status === "available" ? "text-green-600" : "text-gray-500"
+                        }`}>
+                          {member.status === "available" ? "Available" : "Busy"}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Customer Information Form */}
+            <form onSubmit={handleJoinQueue} className="space-y-4">
+              <div>
+                <Label htmlFor="customer-name" className="text-base font-semibold text-gray-800 mb-2 block">
+                  Your Name (Optional)
+                </Label>
+                <Input
+                  id="customer-name"
+                  type="text"
+                  placeholder="Enter your name"
+                  className="h-14 text-lg rounded-2xl border-2 border-gray-200 focus:border-blue-500 bg-gray-50/50 transition-all"
+                  value={customerForm.name}
+                  onChange={(e) => setCustomerForm(prev => ({ ...prev, name: e.target.value }))}
+                />
+              </div>
+
+              {/* Join Button */}
+              <Button 
+                type="submit" 
+                className={`w-full h-16 text-xl font-bold rounded-2xl shadow-lg transition-all transform ${
+                  selectedStaff && !joinQueueMutation.isPending
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 hover:scale-[1.02] shadow-xl"
+                    : "bg-gray-300 cursor-not-allowed"
                 }`}
-                onClick={() => setSelectedStaff(member.id)}
+                disabled={joinQueueMutation.isPending || !selectedStaff}
               >
-                <Avatar className="w-16 h-16 mx-auto mb-3">
-                  <AvatarImage src={member.photoUrl || ""} alt={member.name} />
-                  <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                </Avatar>
-                <h4 className="text-center font-medium text-gray-900">{member.name}</h4>
-                <p className="text-center text-sm text-gray-600">{member.title}</p>
-                <div className="flex items-center justify-center mt-2">
-                  <div className={`w-2 h-2 rounded-full mr-1 ${
-                    member.status === "available" ? "bg-accent" : "bg-gray-400"
-                  }`}></div>
-                  <span className={`text-xs font-medium ${
-                    member.status === "available" ? "text-accent" : "text-gray-400"
-                  }`}>
-                    {member.status === "available" ? "Available" : "Busy"}
-                  </span>
-                </div>
+                {joinQueueMutation.isPending ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Joining Queue...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <span className="text-2xl">+</span>
+                    <span>Join Queue Now</span>
+                  </div>
+                )}
+              </Button>
+            </form>
+
+            {/* Queue Statistics */}
+            <div className="bg-gray-50 rounded-2xl p-4 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 font-medium">People in queue:</span>
+                <span className="text-xl font-bold text-gray-800">{waitingCount}</span>
               </div>
-            ))}
-            
-            <div
-              className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                selectedStaff === "any"
-                  ? "border-primary bg-primary/5"
-                  : "border-gray-200 hover:border-primary"
-              }`}
-              onClick={() => setSelectedStaff("any")}
-            >
-              <div className="w-16 h-16 rounded-full mx-auto mb-3 bg-gray-200 flex items-center justify-center">
-                <Star className="w-8 h-8 text-gray-500" />
-              </div>
-              <h4 className="text-center font-medium text-primary">First Available</h4>
-              <p className="text-center text-sm text-gray-600">Any staff member</p>
-              <div className="flex items-center justify-center mt-2">
-                <div className="w-2 h-2 bg-accent rounded-full mr-1"></div>
-                <span className="text-xs text-accent font-medium">Recommended</span>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600 font-medium">Estimated wait:</span>
+                <span className="text-xl font-bold text-orange-600">{estimatedWait} min</span>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
-        {/* Current Queue */}
-        <Card className="card-elevated p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Current Queue</h3>
-          {queue && queue.length > 0 ? (
+        {/* Current Queue Preview */}
+        {queue && queue.length > 0 && (
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-white/20">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Queue Preview</h3>
             <div className="space-y-3">
-              {queue.map((customer, index) => (
-                <div key={customer.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+              {queue.slice(0, 3).map((customer, index) => (
+                <div key={customer.id} className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border border-gray-100">
                   <div className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 text-white rounded-full flex items-center justify-center text-sm font-medium ${
-                      index === 0 ? "bg-primary" :
-                      index === 1 ? "bg-orange-500" :
-                      index === 2 ? "bg-purple-500" : "bg-gray-500"
+                    <div className={`w-10 h-10 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md ${
+                      index === 0 ? "bg-gradient-to-r from-emerald-500 to-teal-500" :
+                      index === 1 ? "bg-gradient-to-r from-orange-500 to-red-500" :
+                      "bg-gradient-to-r from-purple-500 to-pink-500"
                     }`}>
                       {index + 1}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-bold text-gray-900 text-base">
                         {customer.customerName || "Anonymous"}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 font-medium">
                         with {staff.find(s => s.id === customer.staffId)?.name || "First Available"}
                       </p>
                     </div>
                   </div>
-                  <span className="text-sm text-gray-500">~{(index + 1) * 20} min</span>
+                  <div className="text-right">
+                    <div className="text-sm font-bold text-orange-600">~{(index + 1) * 20} min</div>
+                    <div className="text-xs text-gray-500">wait time</div>
+                  </div>
                 </div>
               ))}
+              {queue.length > 3 && (
+                <div className="text-center py-2">
+                  <span className="text-sm text-gray-500 font-medium">
+                    +{queue.length - 3} more in queue
+                  </span>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              <Users className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-              <p>No one in queue</p>
-            </div>
-          )}
-        </Card>
-
-        {/* Join Queue Form */}
-        <Card className="card-elevated p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Join the Queue</h3>
-          <form onSubmit={handleJoinQueue} className="space-y-4">
-            <div>
-              <Label htmlFor="customer-name">Your Name</Label>
-              <Input
-                id="customer-name"
-                type="text"
-                placeholder="Enter your name"
-                className="input-field"
-                value={customerForm.name}
-                onChange={(e) => setCustomerForm(prev => ({ ...prev, name: e.target.value }))}
-              />
-            </div>
-            <div>
-              <Label htmlFor="customer-contact">Contact (Optional)</Label>
-              <Input
-                id="customer-contact"
-                type="text"
-                placeholder="Phone or email for notifications"
-                className="input-field"
-                value={customerForm.contact}
-                onChange={(e) => setCustomerForm(prev => ({ ...prev, contact: e.target.value }))}
-              />
-            </div>
-            <Button 
-              type="submit" 
-              className="w-full btn-accent py-4"
-              disabled={joinQueueMutation.isPending || !selectedStaff}
-            >
-              {joinQueueMutation.isPending ? "Joining..." : "Join Queue"}
-            </Button>
-          </form>
-        </Card>
+          </div>
+        )}
       </div>
     </div>
   );
