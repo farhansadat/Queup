@@ -198,66 +198,57 @@ export class DatabaseStorage implements IStorage {
 
   async getAllStoresWithStats(): Promise<any[]> {
     try {
-      // Get all stores with user information
-      const storesWithUsers = await db
-        .select({
-          id: stores.id,
-          name: stores.name,
-          slug: stores.slug,
-          description: stores.description,
-          address: stores.address,
-          phoneNumber: stores.phoneNumber,
-          logoUrl: stores.logoUrl,
-          storeType: stores.storeType,
-          language: stores.language,
-          weeklySchedule: stores.weeklySchedule,
-          createdAt: stores.createdAt,
-          updatedAt: stores.updatedAt,
-          userId: stores.userId,
-          userEmail: users.email,
-          userFirstName: users.firstName,
-          userLastName: users.lastName
-        })
-        .from(stores)
-        .leftJoin(users, eq(stores.userId, users.id))
-        .orderBy(desc(stores.createdAt));
+      // Raw SQL query to avoid Drizzle ORM issues
+      const storesResult = await db.execute(sql`
+        SELECT 
+          s.*,
+          u.email as user_email,
+          u."firstName" as user_first_name,
+          u."lastName" as user_last_name,
+          COALESCE(staff_count.count, 0) as staff_count,
+          COALESCE(queue_count.count, 0) as queue_count
+        FROM stores s
+        LEFT JOIN users u ON s."userId" = u.id
+        LEFT JOIN (
+          SELECT "storeId", COUNT(*) as count 
+          FROM staff 
+          GROUP BY "storeId"
+        ) staff_count ON s.id = staff_count."storeId"
+        LEFT JOIN (
+          SELECT "storeId", COUNT(*) as count 
+          FROM queues 
+          WHERE status = 'waiting'
+          GROUP BY "storeId"
+        ) queue_count ON s.id = queue_count."storeId"
+        ORDER BY s."createdAt" DESC
+      `);
 
-      // Get staff and queue counts for each store
-      const storesWithStats = await Promise.all(
-        storesWithUsers.map(async (store) => {
-          const [staffCount] = await db
-            .select({ count: sql<number>`count(*)` })
-            .from(staff)
-            .where(eq(staff.storeId, store.id));
-
-          const [queueCount] = await db
-            .select({ count: sql<number>`count(*)` })
-            .from(queues)
-            .where(
-              and(
-                eq(queues.storeId, store.id),
-                eq(queues.status, "waiting")
-              )
-            );
-
-          return {
-            ...store,
-            staffCount: staffCount?.count || 0,
-            queueCount: queueCount?.count || 0,
-            user: {
-              id: store.userId,
-              email: store.userEmail,
-              firstName: store.userFirstName,
-              lastName: store.userLastName
-            }
-          };
-        })
-      );
-
-      return storesWithStats;
+      return storesResult.rows.map((row: any) => ({
+        id: row.id,
+        name: row.name,
+        slug: row.slug,
+        description: row.description,
+        address: row.address,
+        phoneNumber: row.phoneNumber,
+        logoUrl: row.logoUrl,
+        storeType: row.storeType,
+        language: row.language,
+        weeklySchedule: row.weeklySchedule,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt,
+        userId: row.userId,
+        staffCount: parseInt(row.staff_count) || 0,
+        queueCount: parseInt(row.queue_count) || 0,
+        user: row.user_email ? {
+          id: row.userId,
+          email: row.user_email,
+          firstName: row.user_first_name,
+          lastName: row.user_last_name
+        } : null
+      }));
     } catch (error) {
-      console.error("Error fetching stores with stats:", error);
-      throw error;
+      console.error("Error in getAllStoresWithStats:", error);
+      return [];
     }
   }
 

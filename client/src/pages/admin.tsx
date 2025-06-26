@@ -155,22 +155,32 @@ export default function AdminDashboard() {
     });
   };
 
-  // Admin login screen
+  // Admin login screen with liquid glass design
   if (!adminAuth) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mb-4">
-              <Shield className="w-8 h-8 text-white" />
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-32 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+          <div className="absolute -bottom-40 -left-32 w-80 h-80 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        </div>
+
+        {/* Liquid glass form */}
+        <div className="relative z-10 w-full max-w-md">
+          <div className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white border-opacity-20">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="mx-auto w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                <Shield className="w-10 h-10 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold text-white mb-2">QueueUp Admin</h1>
+              <p className="text-white text-opacity-80">Secure administrative access</p>
             </div>
-            <CardTitle className="text-2xl font-bold">QueueUp Admin</CardTitle>
-            <p className="text-gray-600">Enter admin password to access dashboard</p>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <Label htmlFor="password">Admin Password</Label>
+
+            {/* Form */}
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div className="relative">
                 <Input
                   id="password"
                   type="password"
@@ -178,18 +188,40 @@ export default function AdminDashboard() {
                   value={loginForm.password}
                   onChange={(e) => setLoginForm({ password: e.target.value })}
                   required
+                  className="w-full px-4 py-3 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-xl border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300"
                 />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none"></div>
               </div>
+
               <Button 
                 type="submit" 
-                className="w-full"
                 disabled={adminLoginMutation.isPending}
+                className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {adminLoginMutation.isPending ? "Authenticating..." : "Access Dashboard"}
+                {adminLoginMutation.isPending ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Authenticating...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center space-x-2">
+                    <Shield className="w-5 h-5" />
+                    <span>Access Dashboard</span>
+                  </div>
+                )}
               </Button>
             </form>
-          </CardContent>
-        </Card>
+
+            {/* Footer */}
+            <div className="mt-6 text-center">
+              <p className="text-white text-opacity-60 text-sm">
+                Protected administrative area
+              </p>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     );
   }

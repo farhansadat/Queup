@@ -51,7 +51,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Admin middleware - simple password check for demo
   const requireAdmin = (req: any, res: any, next: any) => {
-    const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+    const adminPassword = process.env.ADMIN_PASSWORD || "Admin@Sadat!";
     const token = req.headers.authorization?.replace('Bearer ', '');
     
     if (!token || token !== adminPassword) {
@@ -401,7 +401,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/admin/login", async (req, res) => {
     try {
       const { password } = adminLoginSchema.parse(req.body);
-      const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+      const adminPassword = process.env.ADMIN_PASSWORD || "Admin@Sadat!";
       
       if (password === adminPassword) {
         res.json({ token: adminPassword, message: "Admin authenticated" });
