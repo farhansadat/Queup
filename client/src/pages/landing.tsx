@@ -225,28 +225,33 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 hero-gradient relative overflow-hidden">
+        {/* Floating gradient blobs */}
+        <div className="blob w-64 h-64 bg-gradient-to-r from-purple-400/40 to-violet-600/40 top-20 left-10 z-0"></div>
+        <div className="blob w-80 h-80 bg-gradient-to-r from-indigo-400/30 to-purple-500/30 top-40 right-20 z-0 animation-delay-2000"></div>
+        <div className="blob w-48 h-48 bg-gradient-to-r from-violet-300/50 to-indigo-400/50 bottom-20 left-1/4 z-0 animation-delay-4000"></div>
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
             ✨ {language === 'de' ? 'Jetzt verfügbar - Transformieren Sie Ihr Geschäft' : 'Now Available - Transform Your Business'}
           </Badge>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fadeInUp">
             {language === 'de' ? 'Wartezeiten eliminieren mit' : 'Eliminate Wait Times with'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
               {language === 'de' ? 'Intelligentem Warteschlangen-Management' : 'Smart Queue Management'}
             </span>
           </h1>
           
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fadeInUp animation-delay-200">
             {t('landing.hero_subtitle')}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fadeInUp animation-delay-400">
             <Button 
               size="lg"
               onClick={() => setLocation("/register")}
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-6 text-lg"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-6 text-lg btn-hero animate-glow"
             >
               {t('landing.get_started')}
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -255,26 +260,26 @@ export default function LandingPage() {
               variant="outline" 
               size="lg"
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-              className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg"
+              className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg btn-hero"
             >
               {t('landing.watch_demo')}
             </Button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fadeInUp animation-delay-600">
+            <div className="animate-fadeInScale">
               <div className="text-3xl font-bold text-purple-600">500+</div>
               <div className="text-gray-600">{t('landing.stats_businesses')}</div>
             </div>
-            <div>
+            <div className="animate-fadeInScale animation-delay-200">
               <div className="text-3xl font-bold text-purple-600">50K+</div>
               <div className="text-gray-600">{t('landing.stats_customers')}</div>
             </div>
-            <div>
+            <div className="animate-fadeInScale animation-delay-400">
               <div className="text-3xl font-bold text-purple-600">2h</div>
               <div className="text-gray-600">{t('landing.stats_time_saved')}</div>
             </div>
-            <div>
+            <div className="animate-fadeInScale animation-delay-600">
               <div className="text-3xl font-bold text-purple-600">98%</div>
               <div className="text-gray-600">{t('landing.stats_satisfaction')}</div>
             </div>
@@ -299,10 +304,10 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-purple-100 hover:shadow-lg transition-shadow">
+              <Card key={index} className={`border-purple-100 feature-card shadow-lg animate-fadeInUp animation-delay-${index * 200}`}>
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg flex items-center justify-center mb-4 icon-hover">
+                    <feature.icon className="w-6 h-6 text-purple-600 animate-iconFloat" />
                   </div>
                   <CardTitle className="text-gray-900">{feature.title}</CardTitle>
                 </CardHeader>
@@ -332,7 +337,7 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Starter Plan */}
-            <Card className="border-purple-200 hover:shadow-xl transition-shadow">
+            <Card className="border-purple-200 pricing-card shadow-lg animate-fadeInUp">
               <CardHeader className="text-center pb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8 text-purple-600" />
@@ -392,7 +397,7 @@ export default function LandingPage() {
             </Card>
 
             {/* Professional Plan */}
-            <Card className="border-purple-300 hover:shadow-xl transition-shadow relative">
+            <Card className="border-purple-300 pricing-card shadow-lg animate-fadeInUp animation-delay-200 relative">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1">
                   {t('landing.pricing_most_popular')}
@@ -514,18 +519,22 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600 relative overflow-hidden">
+        {/* Floating gradient blobs */}
+        <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
+        <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-fadeInUp">
             {t('landing.cta_title')}
           </h2>
-          <p className="text-xl text-purple-100 mb-8">
+          <p className="text-xl text-purple-100 mb-8 animate-fadeInUp animation-delay-200">
             {t('landing.cta_subtitle')}
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
-            className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
+            className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg btn-hero animate-glow animate-fadeInUp animation-delay-400"
           >
             {t('landing.cta_start_trial')}
             <ArrowRight className="w-5 h-5 ml-2" />

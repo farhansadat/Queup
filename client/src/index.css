@@ -2,6 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Landing page gradient animations */
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-20px) translateX(10px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+@keyframes fadeInUp {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeInScale {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.6); }
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    circle at 20% 20%, 
+    rgba(168, 85, 247, 0.4), 
+    rgba(91, 33, 182, 0.6), 
+    #fff 70%
+  );
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-fadeInScale {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.animate-iconFloat {
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+
+.animation-delay-800 {
+  animation-delay: 0.8s;
+}
+
+/* Button hover effects */
+.btn-hero:hover {
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: scale(1.03) translateY(-5px);
+  transition: all 0.3s ease-in-out;
+}
+
+.pricing-card:hover {
+  transform: scale(1.03);
+  transition: all 0.3s ease-in-out;
+}
+
+.icon-hover:hover {
+  transform: rotate(3deg) translateY(-2px);
+  transition: all 0.3s ease-in-out;
+}
+
 /* Admin liquid glass form animations */
 @keyframes blob {
   0% {
