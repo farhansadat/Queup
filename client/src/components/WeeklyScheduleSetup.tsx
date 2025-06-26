@@ -86,17 +86,17 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
           Set your business hours for each day of the week
         </p>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {days.map(({ key, label }) => (
           <div
             key={key}
-            className={`p-4 rounded-xl border transition-colors ${
+            className={`p-3 rounded-xl border transition-colors ${
               schedule[key as keyof WeeklySchedule].isOpen
                 ? "bg-white bg-opacity-10 border-purple-300 border-opacity-50"
                 : "bg-white bg-opacity-5 border-white border-opacity-20"
             }`}
           >
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-3">
                 <Switch
                   checked={schedule[key as keyof WeeklySchedule].isOpen}
@@ -114,24 +114,24 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
             </div>
 
             {schedule[key as keyof WeeklySchedule].isOpen && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 flex-1">
                   <Input
                     type="time"
                     value={schedule[key as keyof WeeklySchedule].open}
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'open', e.target.value)
                     }
-                    className="w-28 h-9 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-24 h-8 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
-                  <span className="text-white text-opacity-80 text-sm">to</span>
+                  <span className="text-white text-opacity-80 text-sm px-1">to</span>
                   <Input
                     type="time"
                     value={schedule[key as keyof WeeklySchedule].close}
                     onChange={(e) =>
                       updateDaySchedule(key as keyof WeeklySchedule, 'close', e.target.value)
                     }
-                    className="w-28 h-9 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+                    className="w-24 h-8 text-sm bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm border border-white border-opacity-20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
                   />
                 </div>
                 <Button
@@ -139,7 +139,7 @@ export function WeeklyScheduleSetup({ onScheduleChange, initialSchedule }: Weekl
                   variant="outline"
                   size="sm"
                   onClick={() => copyToAllDays(key as keyof WeeklySchedule)}
-                  className="text-xs px-2 py-1 h-7"
+                  className="text-xs px-3 py-1 h-8 bg-white bg-opacity-10 backdrop-blur-sm text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20 ml-2"
                 >
                   Copy
                 </Button>

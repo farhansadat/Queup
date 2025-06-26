@@ -98,15 +98,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         firstName: z.string().min(1),
         lastName: z.string().min(1),
         storeType: z.string().optional(),
-        name: z.string().optional(),
-        description: z.string().optional(),
-        logoUrl: z.string().optional(),
-        language: z.string().optional(),
+        storeName: z.string().optional(),
+        storeDescription: z.string().optional(),
+        storeAddress: z.string().optional(),
+        storePhoneNumber: z.string().optional(),
+        storeLogoUrl: z.string().optional(),
+        storeLanguage: z.string().optional(),
         weeklySchedule: z.any().optional(),
         workingHours: z.any().optional()
       });
       
-      const { email, password, firstName, lastName, storeType, name, description, logoUrl, language, weeklySchedule, workingHours } = registerSchema.parse(req.body);
+      const { email, password, firstName, lastName, storeType, storeName, storeDescription, storeAddress, storePhoneNumber, storeLogoUrl, storeLanguage, weeklySchedule, workingHours } = registerSchema.parse(req.body);
       
       // Check if user exists
       const existingUser = await storage.getUserByEmail(email);
@@ -124,19 +126,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Create initial store with provided data
-      if (storeType || name) {
-        const storeName = name || `${firstName}'s ${storeType?.charAt(0).toUpperCase() + storeType?.slice(1)}`;
+      if (storeType || storeName) {
+        const finalStoreName = storeName || `${firstName}'s ${storeType?.charAt(0).toUpperCase() + storeType?.slice(1)}`;
         const slug = `${firstName.toLowerCase()}-${(storeType || 'store').toLowerCase()}-${Date.now()}`;
         
         await storage.createStore({
           userId: user.id,
-          name: storeName,
+          name: finalStoreName,
           slug,
-          description: description || "",
-          logoUrl: logoUrl || "",
-          language: language || "en",
-          type: storeType as any,
-          workingHours: weeklySchedule || workingHours || {
+          description: storeDescription || "",
+          address: storeAddress || "",
+          phoneNumber: storePhoneNumber || "",
+          logoUrl: storeLogoUrl || "",
+          language: storeLanguage || "en",
+          storeType: storeType || "barbershop",
+          weeklySchedule: weeklySchedule || workingHours || {
             monday: { open: "09:00", close: "17:00", isOpen: true },
             tuesday: { open: "09:00", close: "17:00", isOpen: true },
             wednesday: { open: "09:00", close: "17:00", isOpen: true },
