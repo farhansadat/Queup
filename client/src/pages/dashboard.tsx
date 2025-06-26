@@ -251,6 +251,21 @@ export default function DashboardPage() {
     }
   });
 
+  // Delete staff mutation
+  const deleteStaffMutation = useMutation({
+    mutationFn: async (staffId: string) => {
+      const response = await apiRequest("DELETE", `/api/staff/${staffId}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Staff removed!", description: "Staff member has been removed successfully." });
+      queryClient.invalidateQueries({ queryKey: [`/api/stores/${currentStore?.id}/staff`] });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "Failed to remove staff member. Please try again.", variant: "destructive" });
+    }
+  });
+
   // Change password mutation
   const changePasswordMutation = useMutation({
     mutationFn: async (passwordData: { currentPassword: string; newPassword: string }) => {
@@ -767,7 +782,17 @@ export default function DashboardPage() {
                             <Edit className="w-4 h-4 mr-1" />
                             Edit
                           </Button>
-                          <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => {
+                              if (confirm(`Are you sure you want to remove ${member.name} from your staff?`)) {
+                                deleteStaffMutation.mutate(member.id);
+                              }
+                            }}
+                            disabled={deleteStaffMutation.isPending}
+                          >
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
