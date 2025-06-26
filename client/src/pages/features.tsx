@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   Clock, 
@@ -19,6 +20,7 @@ import {
 
 export default function FeaturesPage() {
   const [, setLocation] = useLocation();
+  const { language, t } = useLanguage();
 
   const features = [
     {
@@ -132,19 +134,21 @@ export default function FeaturesPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            ✨ Complete Feature Overview
+            {language === 'de' ? '✨ Vollständige Funktionsübersicht' : '✨ Complete Feature Overview'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Powerful Features for
+            {language === 'de' ? 'Leistungsstarke Funktionen für' : 'Powerful Features for'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Modern Businesses
+              {language === 'de' ? 'Moderne Unternehmen' : 'Modern Businesses'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Discover how QueueUp Pro's comprehensive feature set can transform your business operations 
-            and deliver exceptional customer experiences.
+            {language === 'de' 
+              ? 'Entdecken Sie, wie QueueUp Pros umfassende Funktionen Ihre Geschäftsabläufe transformieren und außergewöhnliche Kundenerfahrungen liefern können.'
+              : 'Discover how QueueUp Pro\'s comprehensive feature set can transform your business operations and deliver exceptional customer experiences.'
+            }
           </p>
         </div>
       </section>

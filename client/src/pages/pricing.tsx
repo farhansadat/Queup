@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/lib/i18n";
 import { 
   Users, 
   BarChart3, 
@@ -16,6 +17,7 @@ import {
 
 export default function PricingPage() {
   const [, setLocation] = useLocation();
+  const { language, t } = useLanguage();
 
   const plans = [
     {
@@ -113,13 +115,13 @@ export default function PricingPage() {
                 className="text-gray-600 hover:text-purple-600"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Home
+                {language === 'de' ? 'Zurück zur Startseite' : 'Back to Home'}
               </Button>
               <Button 
                 onClick={() => setLocation("/register")}
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
               >
-                Get Started
+                {language === 'de' ? 'Loslegen' : 'Get Started'}
               </Button>
             </div>
           </div>
@@ -130,19 +132,21 @@ export default function PricingPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            💰 Simple, Transparent Pricing
+            {language === 'de' ? '💰 Einfache, transparente Preise' : '💰 Simple, Transparent Pricing'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Choose the Perfect Plan
+            {language === 'de' ? 'Wählen Sie den perfekten Plan' : 'Choose the Perfect Plan'}
             <span className="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              for Your Business
+              {language === 'de' ? 'für Ihr Unternehmen' : 'for Your Business'}
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Start with our 14-day free trial. No credit card required. 
-            Scale as you grow with our flexible pricing options.
+            {language === 'de' 
+              ? 'Starten Sie mit unserer 14-tägigen kostenlosen Testversion. Keine Kreditkarte erforderlich. Skalieren Sie mit unseren flexiblen Preisoptionen.'
+              : 'Start with our 14-day free trial. No credit card required. Scale as you grow with our flexible pricing options.'
+            }
           </p>
         </div>
       </section>

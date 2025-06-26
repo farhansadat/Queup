@@ -24,6 +24,10 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, language } = useLanguage();
 
+  const getGermanTestimonial = (index: number) => {
+    return t(`landing.testimonial_${index + 1}_content`);
+  };
+
   const features = language === 'de' ? [
     {
       icon: QrCode,
@@ -316,10 +320,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Simple, Transparent Pricing
+              {t('landing.pricing_title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Choose the perfect plan for your business size and needs
+              {language === 'de' 
+                ? 'Wählen Sie den perfekten Plan für Ihre Unternehmensgröße und Bedürfnisse'
+                : 'Choose the perfect plan for your business size and needs'
+              }
             </p>
           </div>
           
@@ -330,42 +337,56 @@ export default function LandingPage() {
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8 text-purple-600" />
                 </div>
-                <CardTitle className="text-2xl text-gray-900">Starter</CardTitle>
+                <CardTitle className="text-2xl text-gray-900">{t('landing.pricing_starter')}</CardTitle>
                 <div className="text-4xl font-bold text-purple-600 mt-4">
-                  $29<span className="text-lg text-gray-600">/month</span>
+                  €29<span className="text-lg text-gray-600">/{t('landing.pricing_month')}</span>
                 </div>
-                <p className="text-gray-600 mt-2">Perfect for small businesses</p>
+                <p className="text-gray-600 mt-2">
+                  {language === 'de' ? 'Perfekt für kleine Unternehmen' : 'Perfect for small businesses'}
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Up to 2 staff members</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Bis zu 2 Mitarbeiter' : 'Up to 2 staff members'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">100 customers per day</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? '100 Kunden pro Tag' : '100 customers per day'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">QR code generation</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'QR-Code Generierung' : 'QR code generation'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Real-time queue updates</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Echtzeit-Warteschlangen Updates' : 'Real-time queue updates'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Basic analytics</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Basis Analytics' : 'Basic analytics'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Email support</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'E-Mail Support' : 'Email support'}
+                  </span>
                 </div>
                 <Button 
                   className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
                   onClick={() => setLocation("/register")}
                 >
-                  Start 14-Day Free Trial
+                  {language === 'de' ? '14-tägige kostenlose Testversion starten' : 'Start 14-Day Free Trial'}
                 </Button>
               </CardContent>
             </Card>
@@ -374,57 +395,75 @@ export default function LandingPage() {
             <Card className="border-purple-300 hover:shadow-xl transition-shadow relative">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1">
-                  Most Popular
+                  {t('landing.pricing_most_popular')}
                 </Badge>
               </div>
               <CardHeader className="text-center pb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-2xl text-gray-900">Professional</CardTitle>
+                <CardTitle className="text-2xl text-gray-900">{t('landing.pricing_professional')}</CardTitle>
                 <div className="text-4xl font-bold text-purple-600 mt-4">
-                  $79<span className="text-lg text-gray-600">/month</span>
+                  €79<span className="text-lg text-gray-600">/{t('landing.pricing_month')}</span>
                 </div>
-                <p className="text-gray-600 mt-2">For growing businesses</p>
+                <p className="text-gray-600 mt-2">
+                  {language === 'de' ? 'Für wachsende Unternehmen' : 'For growing businesses'}
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Unlimited staff members</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Unbegrenzte Mitarbeiteranzahl' : 'Unlimited staff members'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Unlimited customers</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Unbegrenzte Kundenanzahl' : 'Unlimited customers'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Advanced QR customization</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Erweiterte QR-Code Anpassung' : 'Advanced QR customization'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Kiosk display mode</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Kiosk-Display Modus' : 'Kiosk display mode'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Advanced analytics & reports</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Erweiterte Analytics & Berichte' : 'Advanced analytics & reports'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Custom branding</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Individuelles Branding' : 'Custom branding'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">Priority support</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'Priority Support' : 'Priority support'}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700">API access</span>
+                  <span className="text-gray-700">
+                    {language === 'de' ? 'API Zugang' : 'API access'}
+                  </span>
                 </div>
                 <Button 
                   className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
                   onClick={() => setLocation("/register")}
                 >
-                  Start 14-Day Free Trial
+                  {language === 'de' ? '14-tägige kostenlose Testversion starten' : 'Start 14-Day Free Trial'}
                 </Button>
               </CardContent>
             </Card>
@@ -437,10 +476,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Loved by Businesses Worldwide
+              {language === 'de' ? 'Geliebt von Unternehmen weltweit' : 'Loved by Businesses Worldwide'}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              See what our customers have to say about QueueUp Pro
+              {language === 'de' 
+                ? 'Sehen Sie, was unsere Kunden über QueueUp Pro sagen'
+                : 'See what our customers have to say about QueueUp Pro'
+              }
             </p>
           </div>
           
@@ -453,10 +495,16 @@ export default function LandingPage() {
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-700 mb-4 italic">"{testimonial.text}"</p>
+                  <p className="text-gray-700 mb-4 italic">
+                    "{language === 'de' ? getGermanTestimonial(index) : testimonial.text}"
+                  </p>
                   <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.business}</div>
+                    <div className="font-semibold text-gray-900">
+                      {language === 'de' ? t(`landing.testimonial_${index + 1}_name`) : testimonial.name}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {language === 'de' ? t(`landing.testimonial_${index + 1}_role`) : testimonial.business}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -469,17 +517,17 @@ export default function LandingPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Transform Your Business?
+            {t('landing.cta_title')}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Join thousands of businesses already using QueueUp Pro to improve customer experience
+            {t('landing.cta_subtitle')}
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Get Started Today - Free Trial
+            {t('landing.cta_start_trial')}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
@@ -497,24 +545,27 @@ export default function LandingPage() {
                 <span className="text-xl font-bold text-white">QueueUp Pro</span>
               </div>
               <p className="text-gray-400">
-                Smart queue management for modern businesses.
+                {language === 'de' 
+                  ? 'Intelligente Warteschlangenmanagement für moderne Unternehmen.'
+                  : 'Smart queue management for modern businesses.'
+                }
               </p>
             </div>
             
             <div>
-              <h3 className="text-white font-semibold mb-4">Product</h3>
+              <h3 className="text-white font-semibold mb-4">{t('landing.footer_product')}</h3>
               <div className="space-y-2">
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/features")}
                 >
-                  Features
+                  {t('navigation.features')}
                 </div>
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/pricing")}
                 >
-                  Pricing
+                  {t('navigation.pricing')}
                 </div>
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
@@ -526,44 +577,46 @@ export default function LandingPage() {
             </div>
             
             <div>
-              <h3 className="text-white font-semibold mb-4">Support</h3>
+              <h3 className="text-white font-semibold mb-4">{t('landing.footer_support')}</h3>
               <div className="space-y-2">
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/help")}
                 >
-                  Help Center
+                  {language === 'de' ? 'Hilfe-Center' : 'Help Center'}
                 </div>
-                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Contact</div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">
+                  {language === 'de' ? 'Kontakt' : 'Contact'}
+                </div>
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/status")}
                 >
-                  Status
+                  {language === 'de' ? 'Status' : 'Status'}
                 </div>
               </div>
             </div>
             
             <div>
-              <h3 className="text-white font-semibold mb-4">Company</h3>
+              <h3 className="text-white font-semibold mb-4">{t('landing.footer_company')}</h3>
               <div className="space-y-2">
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/about")}
                 >
-                  About
+                  {t('navigation.about')}
                 </div>
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/privacy")}
                 >
-                  Privacy
+                  {language === 'de' ? 'Datenschutz' : 'Privacy'}
                 </div>
                 <div 
                   className="text-gray-400 hover:text-white cursor-pointer transition-colors"
                   onClick={() => setLocation("/terms")}
                 >
-                  Terms
+                  {language === 'de' ? 'AGB' : 'Terms'}
                 </div>
               </div>
             </div>
