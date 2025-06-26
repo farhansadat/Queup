@@ -134,20 +134,22 @@ export default function PrivacyPage() {
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <Badge className="mb-6 bg-purple-100 text-purple-600 hover:bg-purple-100">
-            🔒 Privacy & Data Protection
+            {language === 'de' ? '🔒 Datenschutz & Datenschutz' : '🔒 Privacy & Data Protection'}
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Privacy Policy
+            {language === 'de' ? 'Datenschutzerklärung' : 'Privacy Policy'}
           </h1>
           
           <p className="text-xl text-gray-600 mb-8">
-            Your privacy is important to us. This policy explains how we collect, use, 
-            and protect your information when you use QueueUp Pro.
+            {language === 'de'
+              ? 'Ihre Privatsphäre ist uns wichtig. Diese Richtlinie erklärt, wie wir Ihre Informationen sammeln, verwenden und schützen, wenn Sie QueueUp Pro verwenden.'
+              : 'Your privacy is important to us. This policy explains how we collect, use, and protect your information when you use QueueUp Pro.'
+            }
           </p>
           
           <div className="text-sm text-gray-500">
-            Last updated: June 25, 2025
+            {language === 'de' ? 'Zuletzt aktualisiert: 25. Juni 2025' : 'Last updated: June 25, 2025'}
           </div>
         </div>
       </section>
@@ -156,38 +158,48 @@ export default function PrivacyPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Privacy at a Glance</h2>
-            <p className="text-xl text-gray-600">Key principles that guide our data practices</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {language === 'de' ? 'Datenschutz auf einen Blick' : 'Privacy at a Glance'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'de' ? 'Grundlegende Prinzipien, die unsere Datenpraktiken leiten' : 'Key principles that guide our data practices'}
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="border-purple-100 text-center">
               <CardHeader>
                 <Lock className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Data Minimization</CardTitle>
+                <CardTitle>{language === 'de' ? 'Datenminimierung' : 'Data Minimization'}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">We only collect data necessary to provide our services</p>
+                <p className="text-gray-600">
+                  {language === 'de' ? 'Wir sammeln nur die für unsere Services notwendigen Daten' : 'We only collect data necessary to provide our services'}
+                </p>
               </CardContent>
             </Card>
 
             <Card className="border-purple-100 text-center">
               <CardHeader>
                 <Eye className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Transparency</CardTitle>
+                <CardTitle>{language === 'de' ? 'Transparenz' : 'Transparency'}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Clear information about what data we collect and why</p>
+                <p className="text-gray-600">
+                  {language === 'de' ? 'Klare Informationen darüber, welche Daten wir sammeln und warum' : 'Clear information about what data we collect and why'}
+                </p>
               </CardContent>
             </Card>
 
             <Card className="border-purple-100 text-center">
               <CardHeader>
                 <Shield className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Security First</CardTitle>
+                <CardTitle>{language === 'de' ? 'Sicherheit zuerst' : 'Security First'}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">Enterprise-grade security protects your information</p>
+                <p className="text-gray-600">
+                  {language === 'de' ? 'Unternehmens-Sicherheit schützt Ihre Informationen' : 'Enterprise-grade security protects your information'}
+                </p>
               </CardContent>
             </Card>
           </div>

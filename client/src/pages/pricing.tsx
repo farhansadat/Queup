@@ -274,7 +274,7 @@ export default function PricingPage() {
                     className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
                     onClick={() => setLocation("/register")}
                   >
-                    Start 14-Day Free Trial
+                    {language === 'de' ? '14-tägige kostenlose Testversion starten' : 'Start 14-Day Free Trial'}
                   </Button>
                 </CardContent>
               </Card>
@@ -287,8 +287,12 @@ export default function PricingPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose QueueUp Pro?</h2>
-            <p className="text-xl text-gray-600">More than just pricing - we deliver exceptional value</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {language === 'de' ? 'Warum QueueUp Pro wählen?' : 'Why Choose QueueUp Pro?'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'de' ? 'Mehr als nur Preise - wir liefern außergewöhnlichen Wert' : 'More than just pricing - we deliver exceptional value'}
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -370,7 +374,7 @@ export default function PricingPage() {
             <span className="text-xl font-bold text-white">QueueUp Pro</span>
           </div>
           <p className="text-gray-400">
-            © 2025 QueueUp Pro. All rights reserved.
+            © 2025 QueueUp Pro. {language === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
           </p>
         </div>
       </footer>

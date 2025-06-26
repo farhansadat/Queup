@@ -168,16 +168,21 @@ export default function TermsPage() {
           </Badge>
           
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Terms of Service
+            {language === 'de' ? 'Allgemeine Geschäftsbedingungen' : 'Terms of Service'}
           </h1>
           
           <p className="text-xl text-gray-600 mb-8">
-            Please read these terms carefully before using QueueUp Pro. 
-            By using our service, you agree to be bound by these terms.
+            {language === 'de'
+              ? 'Bitte lesen Sie diese Bedingungen sorgfältig, bevor Sie QueueUp Pro verwenden. Durch die Nutzung unseres Service stimmen Sie zu, an diese Bedingungen gebunden zu sein.'
+              : 'Please read these terms carefully before using QueueUp Pro. By using our service, you agree to be bound by these terms.'
+            }
           </p>
           
           <div className="text-sm text-gray-500">
-            Effective Date: June 25, 2025 | Last Updated: June 25, 2025
+            {language === 'de' 
+              ? 'Gültigkeitsdatum: 25. Juni 2025 | Zuletzt aktualisiert: 25. Juni 2025'
+              : 'Effective Date: June 25, 2025 | Last Updated: June 25, 2025'
+            }
           </div>
         </div>
       </section>
@@ -187,27 +192,35 @@ export default function TermsPage() {
         <div className="max-w-4xl mx-auto">
           <Card className="border-purple-100 bg-purple-50">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Agreement Summary</CardTitle>
-              <p className="text-gray-600">Key points of our service agreement</p>
+              <CardTitle className="text-2xl">
+                {language === 'de' ? 'Vereinbarungsübersicht' : 'Agreement Summary'}
+              </CardTitle>
+              <p className="text-gray-600">
+                {language === 'de' ? 'Kernpunkte unserer Servicevereinbarung' : 'Key points of our service agreement'}
+              </p>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">What We Provide</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">
+                    {language === 'de' ? 'Was wir bereitstellen' : 'What We Provide'}
+                  </h3>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• Queue management software platform</li>
-                    <li>• Real-time updates and notifications</li>
-                    <li>• Analytics and reporting tools</li>
-                    <li>• Customer support and documentation</li>
+                    <li>• {language === 'de' ? 'Warteschlangen-Management-Software-Plattform' : 'Queue management software platform'}</li>
+                    <li>• {language === 'de' ? 'Echtzeit-Updates und Benachrichtigungen' : 'Real-time updates and notifications'}</li>
+                    <li>• {language === 'de' ? 'Analytics und Berichts-Tools' : 'Analytics and reporting tools'}</li>
+                    <li>• {language === 'de' ? 'Kundensupport und Dokumentation' : 'Customer support and documentation'}</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">What We Expect</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">
+                    {language === 'de' ? 'Was wir erwarten' : 'What We Expect'}
+                  </h3>
                   <ul className="space-y-2 text-gray-700">
-                    <li>• Lawful use of our platform</li>
-                    <li>• Timely payment of subscription fees</li>
-                    <li>• Accurate account information</li>
-                    <li>• Respect for our intellectual property</li>
+                    <li>• {language === 'de' ? 'Rechtmäßige Nutzung unserer Plattform' : 'Lawful use of our platform'}</li>
+                    <li>• {language === 'de' ? 'Rechtzeitige Zahlung von Abonnementgebühren' : 'Timely payment of subscription fees'}</li>
+                    <li>• {language === 'de' ? 'Genaue Kontoinformationen' : 'Accurate account information'}</li>
+                    <li>• {language === 'de' ? 'Respekt für unser geistiges Eigentum' : 'Respect for our intellectual property'}</li>
                   </ul>
                 </div>
               </div>
@@ -247,7 +260,9 @@ export default function TermsPage() {
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <AlertTriangle className="w-6 h-6 text-red-600" />
-                  <CardTitle className="text-xl text-red-800">Prohibited Activities</CardTitle>
+                  <CardTitle className="text-xl text-red-800">
+                    {language === 'de' ? 'Verbotene Aktivitäten' : 'Prohibited Activities'}
+                  </CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
@@ -266,7 +281,9 @@ export default function TermsPage() {
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <Shield className="w-6 h-6 text-yellow-600" />
-                  <CardTitle className="text-xl text-yellow-800">Limitation of Liability</CardTitle>
+                  <CardTitle className="text-xl text-yellow-800">
+                    {language === 'de' ? 'Haftungsbeschränkung' : 'Limitation of Liability'}
+                  </CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
@@ -290,14 +307,20 @@ export default function TermsPage() {
         <div className="max-w-4xl mx-auto">
           <Card className="border-purple-100">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Governing Law & Disputes</CardTitle>
+              <CardTitle className="text-2xl">
+                {language === 'de' ? 'Anwendbares Recht & Streitigkeiten' : 'Governing Law & Disputes'}
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Jurisdiction</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  {language === 'de' ? 'Gerichtsbarkeit' : 'Jurisdiction'}
+                </h3>
                 <p className="text-gray-700">
-                  These terms are governed by the laws of Delaware, United States. 
-                  Any disputes will be resolved in the courts of Delaware.
+                  {language === 'de'
+                    ? 'Diese Bedingungen unterliegen deutschem Recht. Alle Streitigkeiten werden vor deutschen Gerichten gelöst.'
+                    : 'These terms are governed by the laws of Delaware, United States. Any disputes will be resolved in the courts of Delaware.'
+                  }
                 </p>
               </div>
               <div>
@@ -323,20 +346,22 @@ export default function TermsPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Questions About These Terms?
+            {language === 'de' ? 'Fragen zu diesen Bedingungen?' : 'Questions About These Terms?'}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Contact our legal team for clarification
+            {language === 'de' ? 'Kontaktieren Sie unser Rechtsteam für Klarstellung' : 'Contact our legal team for clarification'}
           </p>
           <div className="space-y-2 mb-8">
             <div className="text-white font-medium">Email: legal@queueuppro.com</div>
-            <div className="text-purple-100">Address: 123 Business St, Delaware, DE 19801</div>
+            <div className="text-purple-100">
+              {language === 'de' ? 'Adresse: Musterstraße 123, 10115 Berlin, Deutschland' : 'Address: 123 Business St, Delaware, DE 19801'}
+            </div>
           </div>
           <Button 
             size="lg"
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Contact Legal Team
+            {language === 'de' ? 'Rechtsteam kontaktieren' : 'Contact Legal Team'}
           </Button>
         </div>
       </section>
@@ -348,10 +373,12 @@ export default function TermsPage() {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
               <Scale className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">QueueUp Pro Terms</span>
+            <span className="text-xl font-bold text-white">
+              {language === 'de' ? 'QueueUp Pro AGB' : 'QueueUp Pro Terms'}
+            </span>
           </div>
           <p className="text-gray-400">
-            © 2025 QueueUp Pro. All rights reserved.
+            © 2025 QueueUp Pro. {language === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
           </p>
         </div>
       </footer>

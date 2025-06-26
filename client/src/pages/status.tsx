@@ -248,8 +248,12 @@ export default function StatusPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Service Status</h2>
-            <p className="text-xl text-gray-600">Individual component status and uptime</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {language === 'de' ? 'Service-Status' : 'Service Status'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'de' ? 'Individueller Komponentenstatus und Verfügbarkeit' : 'Individual component status and uptime'}
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -269,14 +273,16 @@ export default function StatusPage() {
                       </div>
                       <Badge className={getStatusColor(service.status)}>
                         <StatusIcon className="w-3 h-3 mr-1" />
-                        Operational
+                        {language === 'de' ? 'Betriebsbereit' : 'Operational'}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-gray-600 mb-3">{service.description}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">30-day uptime</span>
+                      <span className="text-sm text-gray-500">
+                        {language === 'de' ? '30-Tage-Verfügbarkeit' : '30-day uptime'}
+                      </span>
                       <span className="font-semibold text-green-600">{service.uptime}</span>
                     </div>
                   </CardContent>
@@ -291,8 +297,12 @@ export default function StatusPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Recent Incidents</h2>
-            <p className="text-xl text-gray-600">Past 30 days incident history</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {language === 'de' ? 'Aktuelle Vorfälle' : 'Recent Incidents'}
+            </h2>
+            <p className="text-xl text-gray-600">
+              {language === 'de' ? 'Vorfallshistorie der letzten 30 Tage' : 'Past 30 days incident history'}
+            </p>
           </div>
           
           <div className="space-y-6">
@@ -349,10 +359,15 @@ export default function StatusPage() {
             <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
               <Server className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">QueueUp Pro Status</span>
+            <span className="text-xl font-bold text-white">
+              {language === 'de' ? 'QueueUp Pro Status' : 'QueueUp Pro Status'}
+            </span>
           </div>
           <p className="text-gray-400">
-            Last updated: June 25, 2025 at 4:23 PM UTC
+            {language === 'de' 
+              ? 'Zuletzt aktualisiert: 25. Juni 2025 um 16:23 UTC'
+              : 'Last updated: June 25, 2025 at 4:23 PM UTC'
+            }
           </p>
         </div>
       </footer>

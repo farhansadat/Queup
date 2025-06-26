@@ -19,7 +19,12 @@ export default function AboutPage() {
   const [, setLocation] = useLocation();
   const { language, t } = useLanguage();
 
-  const stats = [
+  const stats = language === 'de' ? [
+    { number: "50K+", label: "Zufriedene Kunden", icon: Users },
+    { number: "2,5M+", label: "Verwaltete Warteschlangen", icon: TrendingUp },
+    { number: "150+", label: "Länder", icon: Globe },
+    { number: "99,9%", label: "Verfügbarkeit", icon: Award }
+  ] : [
     { number: "50K+", label: "Happy Customers", icon: Users },
     { number: "2.5M+", label: "Queues Managed", icon: TrendingUp },
     { number: "150+", label: "Countries", icon: Globe },
@@ -203,17 +208,25 @@ export default function AboutPage() {
       {/* Team Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Built by Experts</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            {language === 'de' ? 'Von Experten entwickelt' : 'Built by Experts'}
+          </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Our team combines decades of experience in software development, 
-            customer experience design, and business operations to create solutions that truly work.
+            {language === 'de'
+              ? 'Unser Team kombiniert jahrzehntelange Erfahrung in Softwareentwicklung, Kundenerlebnisdesign und Geschäftsabläufen, um Lösungen zu schaffen, die wirklich funktionieren.'
+              : 'Our team combines decades of experience in software development, customer experience design, and business operations to create solutions that truly work.'
+            }
           </p>
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-8 text-white">
             <blockquote className="text-xl italic mb-4">
-              "We don't just build software – we solve real problems that businesses face every day. 
-              Every feature we develop is tested in real-world scenarios to ensure it delivers genuine value."
+              {language === 'de'
+                ? '"Wir bauen nicht nur Software – wir lösen echte Probleme, mit denen Unternehmen täglich konfrontiert sind. Jede Funktion, die wir entwickeln, wird in realen Szenarien getestet, um sicherzustellen, dass sie echten Wert liefert."'
+                : '"We don\'t just build software – we solve real problems that businesses face every day. Every feature we develop is tested in real-world scenarios to ensure it delivers genuine value."'
+              }
             </blockquote>
-            <div className="text-lg font-semibold">QueueUp Pro Development Team</div>
+            <div className="text-lg font-semibold">
+              {language === 'de' ? 'QueueUp Pro Entwicklungsteam' : 'QueueUp Pro Development Team'}
+            </div>
           </div>
         </div>
       </section>
@@ -222,10 +235,10 @@ export default function AboutPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Join Our Journey
+            {language === 'de' ? 'Werden Sie Teil unserer Reise' : 'Join Our Journey'}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Become part of the queue management revolution
+            {language === 'de' ? 'Werden Sie Teil der Warteschlangen-Management-Revolution' : 'Become part of the queue management revolution'}
           </p>
           <Button 
             size="lg"

@@ -262,17 +262,20 @@ export default function FeaturesPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-600 to-indigo-600">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Experience These Features?
+            {language === 'de' ? 'Bereit, diese Funktionen zu erleben?' : 'Ready to Experience These Features?'}
           </h2>
           <p className="text-xl text-purple-100 mb-8">
-            Start your free trial today and see how QueueUp Pro can transform your business
+            {language === 'de' 
+              ? 'Starten Sie heute Ihre kostenlose Testversion und sehen Sie, wie QueueUp Pro Ihr Unternehmen transformieren kann'
+              : 'Start your free trial today and see how QueueUp Pro can transform your business'
+            }
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
-            Start Free Trial Now
+            {language === 'de' ? 'Kostenlose Testversion jetzt starten' : 'Start Free Trial Now'}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
@@ -288,7 +291,7 @@ export default function FeaturesPage() {
             <span className="text-xl font-bold text-white">QueueUp Pro</span>
           </div>
           <p className="text-gray-400">
-            © 2025 QueueUp Pro. All rights reserved.
+            © 2025 QueueUp Pro. {language === 'de' ? 'Alle Rechte vorbehalten.' : 'All rights reserved.'}
           </p>
         </div>
       </footer>

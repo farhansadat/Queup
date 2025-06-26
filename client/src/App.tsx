@@ -13,7 +13,6 @@ import LandingPage from "@/pages/landing";
 import FeaturesPage from "@/pages/features";
 import PricingPage from "@/pages/pricing";
 import AboutPage from "@/pages/about";
-import APIPage from "@/pages/api";
 import HelpPage from "@/pages/help";
 import StatusPage from "@/pages/status";
 import PrivacyPage from "@/pages/privacy";
@@ -28,7 +27,7 @@ function Router() {
       <Route path="/features" component={FeaturesPage} />
       <Route path="/pricing" component={PricingPage} />
       <Route path="/about" component={AboutPage} />
-      <Route path="/api" component={APIPage} />
+
       <Route path="/help" component={HelpPage} />
       <Route path="/status" component={StatusPage} />
       <Route path="/privacy" component={PrivacyPage} />
