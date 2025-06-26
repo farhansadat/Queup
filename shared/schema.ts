@@ -8,6 +8,7 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
   firstName: text("first_name"),
   lastName: text("last_name"),
+  language: text("language").default("de").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -23,6 +24,7 @@ export const stores = pgTable("stores", {
   description: text("description"),
   address: text("address"),
   phone: text("phone"),
+  language: text("language").default("de").notNull(),
   workingHours: json("working_hours").$type<{
     monday: { open: string; close: string; isOpen: boolean };
     tuesday: { open: string; close: string; isOpen: boolean };

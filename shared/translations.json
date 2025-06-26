@@ -1,0 +1,348 @@
+{
+  "en": {
+    "common": {
+      "loading": "Loading...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "confirm": "Confirm",
+      "yes": "Yes",
+      "no": "No",
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit",
+      "welcome": "Welcome",
+      "logout": "Sign Out",
+      "login": "Sign In",
+      "register": "Register",
+      "email": "Email",
+      "password": "Password",
+      "name": "Name",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "navigation": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "features": "Features",
+      "pricing": "Pricing",
+      "about": "About",
+      "help": "Help",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "status": "Status"
+    },
+    "landing": {
+      "hero_title": "Professional Queue Management for Modern Businesses",
+      "hero_subtitle": "Streamline customer flow with QR-based queue management. Real-time updates, analytics, and seamless customer experience.",
+      "get_started": "Get Started Free",
+      "watch_demo": "Watch Demo",
+      "trusted_by": "Trusted by 500+ businesses across Germany",
+      "features_title": "Everything you need to manage queues efficiently",
+      "pricing_title": "Simple, transparent pricing",
+      "testimonials_title": "What our customers say"
+    },
+    "dashboard": {
+      "welcome": "Welcome back",
+      "overview": "Overview",
+      "queue": "Queue",
+      "staff": "Staff",
+      "analytics": "Analytics",
+      "settings": "Settings",
+      "served": "Served",
+      "today_customers": "Today's Customers",
+      "avg_wait_time": "Avg Wait Time (min)",
+      "completed": "Completed",
+      "currently_waiting": "Currently Waiting",
+      "queue_management": "Queue Management",
+      "staff_management": "Staff Management",
+      "add_staff_member": "Add Staff Member",
+      "no_customers_served": "No customers served today",
+      "served_customers_note": "Served customers will appear here"
+    },
+    "queue": {
+      "join_queue": "Join Queue",
+      "your_position": "Your Position",
+      "estimated_wait": "Estimated Wait Time",
+      "people_ahead": "people ahead of you",
+      "queue_for": "Queue for",
+      "customer_name": "Customer Name",
+      "add_to_queue": "Add to Queue",
+      "serve_customer": "Serve Customer",
+      "cancel_appointment": "Cancel",
+      "position": "Position",
+      "wait_time": "Wait Time",
+      "status": "Status",
+      "waiting": "Waiting",
+      "served": "Served",
+      "cancelled": "Cancelled"
+    },
+    "store_types": {
+      "barbershop": "Barbershop",
+      "salon": "Beauty Salon",
+      "clinic": "Medical Clinic",
+      "restaurant": "Restaurant",
+      "retail": "Retail Store",
+      "bank": "Bank",
+      "government": "Government Office",
+      "other": "Other"
+    },
+    "business_labels": {
+      "barbershop": {
+        "staff": "Barbers",
+        "customer": "Customer",
+        "queue": "Barber Queue",
+        "wait": "Wait Time",
+        "served": "Customers Served"
+      },
+      "salon": {
+        "staff": "Stylists",
+        "customer": "Client",
+        "queue": "Salon Queue",
+        "wait": "Appointment Wait",
+        "served": "Clients Served"
+      },
+      "clinic": {
+        "staff": "Doctors",
+        "customer": "Patient",
+        "queue": "Patient Queue",
+        "wait": "Wait Time",
+        "served": "Patients Seen"
+      },
+      "restaurant": {
+        "staff": "Hosts",
+        "customer": "Guest",
+        "queue": "Waiting List",
+        "wait": "Table Wait",
+        "served": "Guests Seated"
+      },
+      "retail": {
+        "staff": "Associates",
+        "customer": "Customer",
+        "queue": "Service Queue",
+        "wait": "Service Wait",
+        "served": "Customers Helped"
+      },
+      "bank": {
+        "staff": "Tellers",
+        "customer": "Customer",
+        "queue": "Banking Queue",
+        "wait": "Service Wait",
+        "served": "Customers Served"
+      },
+      "government": {
+        "staff": "Officers",
+        "customer": "Citizen",
+        "queue": "Service Queue",
+        "wait": "Processing Time",
+        "served": "Citizens Served"
+      },
+      "other": {
+        "staff": "Staff",
+        "customer": "Customer",
+        "queue": "Queue",
+        "wait": "Wait Time",
+        "served": "Customers Served"
+      }
+    },
+    "forms": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "business_name": "Business Name",
+      "business_type": "Business Type",
+      "business_address": "Business Address",
+      "business_phone": "Business Phone",
+      "weekly_schedule": "Weekly Schedule",
+      "operating_hours": "Operating Hours",
+      "closed": "Closed",
+      "open": "Open",
+      "from": "From",
+      "to": "To"
+    },
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday", 
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
+  },
+  "de": {
+    "common": {
+      "loading": "Wird geladen...",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "close": "Schließen",
+      "confirm": "Bestätigen",
+      "yes": "Ja",
+      "no": "Nein",
+      "back": "Zurück",
+      "next": "Weiter",
+      "submit": "Absenden",
+      "welcome": "Willkommen",
+      "logout": "Abmelden",
+      "login": "Anmelden",
+      "register": "Registrieren",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "name": "Name",
+      "phone": "Telefon",
+      "address": "Adresse"
+    },
+    "navigation": {
+      "home": "Startseite",
+      "dashboard": "Dashboard",
+      "features": "Funktionen",
+      "pricing": "Preise",
+      "about": "Über uns",
+      "help": "Hilfe",
+      "contact": "Kontakt",
+      "privacy": "Datenschutz",
+      "terms": "AGB",
+      "status": "Status"
+    },
+    "landing": {
+      "hero_title": "Professionelles Warteschlangen-Management für moderne Unternehmen",
+      "hero_subtitle": "Optimieren Sie den Kundenfluss mit QR-basiertem Warteschlangen-Management. Echtzeit-Updates, Analytics und nahtlose Kundenerfahrung.",
+      "get_started": "Kostenlos starten",
+      "watch_demo": "Demo ansehen",
+      "trusted_by": "Vertraut von über 500 Unternehmen in Deutschland",
+      "features_title": "Alles was Sie für effizientes Warteschlangen-Management brauchen",
+      "pricing_title": "Einfache, transparente Preise",
+      "testimonials_title": "Was unsere Kunden sagen"
+    },
+    "dashboard": {
+      "welcome": "Willkommen zurück",
+      "overview": "Übersicht",
+      "queue": "Warteschlange",
+      "staff": "Personal",
+      "analytics": "Analytics",
+      "settings": "Einstellungen",
+      "served": "Bedient",
+      "today_customers": "Heutige Kunden",
+      "avg_wait_time": "Durchschn. Wartezeit (min)",
+      "completed": "Abgeschlossen",
+      "currently_waiting": "Aktuell wartend",
+      "queue_management": "Warteschlangen-Management",
+      "staff_management": "Personal-Management",
+      "add_staff_member": "Mitarbeiter hinzufügen",
+      "no_customers_served": "Heute keine Kunden bedient",
+      "served_customers_note": "Bediente Kunden werden hier angezeigt"
+    },
+    "queue": {
+      "join_queue": "In Warteschlange einreihen",
+      "your_position": "Ihre Position",
+      "estimated_wait": "Geschätzte Wartezeit",
+      "people_ahead": "Personen vor Ihnen",
+      "queue_for": "Warteschlange für",
+      "customer_name": "Kundenname",
+      "add_to_queue": "Zur Warteschlange hinzufügen",
+      "serve_customer": "Kunde bedienen",
+      "cancel_appointment": "Stornieren",
+      "position": "Position",
+      "wait_time": "Wartezeit",
+      "status": "Status",
+      "waiting": "Wartend",
+      "served": "Bedient",
+      "cancelled": "Storniert"
+    },
+    "store_types": {
+      "barbershop": "Friseurladen",
+      "salon": "Schönheitssalon",
+      "clinic": "Arztpraxis",
+      "restaurant": "Restaurant",
+      "retail": "Einzelhandel",
+      "bank": "Bank",
+      "government": "Behörde",
+      "other": "Sonstiges"
+    },
+    "business_labels": {
+      "barbershop": {
+        "staff": "Friseure",
+        "customer": "Kunde",
+        "queue": "Friseur-Warteschlange",
+        "wait": "Wartezeit",
+        "served": "Kunden bedient"
+      },
+      "salon": {
+        "staff": "Stylisten",
+        "customer": "Klient",
+        "queue": "Salon-Warteschlange",
+        "wait": "Termin-Wartezeit",
+        "served": "Klienten bedient"
+      },
+      "clinic": {
+        "staff": "Ärzte",
+        "customer": "Patient",
+        "queue": "Patienten-Warteschlange",
+        "wait": "Wartezeit",
+        "served": "Patienten behandelt"
+      },
+      "restaurant": {
+        "staff": "Gastgeber",
+        "customer": "Gast",
+        "queue": "Warteliste",
+        "wait": "Tisch-Wartezeit",
+        "served": "Gäste platziert"
+      },
+      "retail": {
+        "staff": "Mitarbeiter",
+        "customer": "Kunde",
+        "queue": "Service-Warteschlange",
+        "wait": "Service-Wartezeit",
+        "served": "Kunden geholfen"
+      },
+      "bank": {
+        "staff": "Kassierer",
+        "customer": "Kunde",
+        "queue": "Bank-Warteschlange",
+        "wait": "Service-Wartezeit",
+        "served": "Kunden bedient"
+      },
+      "government": {
+        "staff": "Beamte",
+        "customer": "Bürger",
+        "queue": "Service-Warteschlange",
+        "wait": "Bearbeitungszeit",
+        "served": "Bürger bedient"
+      },
+      "other": {
+        "staff": "Personal",
+        "customer": "Kunde",
+        "queue": "Warteschlange",
+        "wait": "Wartezeit",
+        "served": "Kunden bedient"
+      }
+    },
+    "forms": {
+      "first_name": "Vorname",
+      "last_name": "Nachname", 
+      "business_name": "Geschäftsname",
+      "business_type": "Geschäftsart",
+      "business_address": "Geschäftsadresse",
+      "business_phone": "Geschäftstelefon",
+      "weekly_schedule": "Wochenplan",
+      "operating_hours": "Öffnungszeiten",
+      "closed": "Geschlossen",
+      "open": "Geöffnet",
+      "from": "Von",
+      "to": "Bis"
+    },
+    "days": {
+      "monday": "Montag",
+      "tuesday": "Dienstag",
+      "wednesday": "Mittwoch", 
+      "thursday": "Donnerstag",
+      "friday": "Freitag",
+      "saturday": "Samstag",
+      "sunday": "Sonntag"
+    }
+  }
+}

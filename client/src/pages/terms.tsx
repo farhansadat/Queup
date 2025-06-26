@@ -14,11 +14,55 @@ import {
   CreditCard,
   RefreshCw
 } from "lucide-react";
+import { useLanguage } from "../lib/i18n";
+import { LanguageSelector } from "../components/LanguageSelector";
 
 export default function TermsPage() {
   const [, setLocation] = useLocation();
+  const { t, language } = useLanguage();
 
-  const sections = [
+  const sections = language === 'de' ? [
+    {
+      title: "Leistungsbeschreibung",
+      icon: FileText,
+      content: "QueueUp Pro bietet digitale Warteschlangen-Management-Software, die es Unternehmen ermöglicht, den Kundenfluss durch QR-Codes, Echtzeit-Updates und Analytics zu verwalten. Unser Service umfasst webbasierte Anwendungen, mobile Optimierung und API-Zugang je nach Ihrem Abonnement-Plan."
+    },
+    {
+      title: "Kontoregistrierung",
+      icon: Users,
+      content: "Sie müssen genaue und vollständige Informationen bei der Kontoerstellung angeben. Sie sind verantwortlich für die Wahrung der Vertraulichkeit Ihrer Kontodaten und für alle Aktivitäten, die unter Ihrem Konto auftreten. Sie müssen uns unverzüglich über jede unbefugte Nutzung informieren."
+    },
+    {
+      title: "Nutzungsrechte und -beschränkungen",
+      icon: Scale,
+      content: "Wir gewähren Ihnen ein begrenztes, nicht-exklusives, nicht-übertragbares Recht zur Nutzung unserer Software gemäß den Bestimmungen Ihres Abonnements. Sie dürfen die Software nicht reverse-engineeren, dekompilieren oder versuchen, den Quellcode zu extrahieren."
+    },
+    {
+      title: "Datenschutz und DSGVO-Konformität",
+      icon: Shield,
+      content: "Als in Deutschland ansässiges Unternehmen halten wir uns vollständig an die DSGVO (Datenschutz-Grundverordnung). Wir verarbeiten personenbezogene Daten nur für die Bereitstellung unserer Dienstleistungen und mit Ihrer ausdrücklichen Einwilligung. Detaillierte Informationen finden Sie in unserer Datenschutzerklärung."
+    },
+    {
+      title: "Zahlungsbedingungen",
+      icon: CreditCard,
+      content: "Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer (MwSt.). Zahlungen sind im Voraus zu leisten. Bei Zahlungsrückständen behalten wir uns das Recht vor, den Service zu suspendieren. Rückerstattungen erfolgen gemäß unserem Widerrufsrecht und den gesetzlichen Bestimmungen."
+    },
+    {
+      title: "Haftungsausschluss",
+      icon: AlertTriangle,
+      content: "Unsere Haftung ist auf Vorsatz und grobe Fahrlässigkeit beschränkt, soweit gesetzlich zulässig. Für leichte Fahrlässigkeit haften wir nur bei Verletzung wesentlicher Vertragspflichten. Die Haftung für mittelbare Schäden ist ausgeschlossen, soweit gesetzlich zulässig."
+    },
+    {
+      title: "Kündigung",
+      icon: XCircle,
+      content: "Beide Parteien können das Abonnement mit einer Frist von 30 Tagen zum Monatsende kündigen. Bei Verstößen gegen diese AGB können wir das Konto sofort kündigen. Nach Kündigung werden Ihre Daten gemäß unserer Datenschutzerklärung behandelt."
+    },
+    {
+      title: "Anwendbares Recht",
+      icon: Scale,
+      content: "Diese AGB unterliegen deutschem Recht unter Ausschluss des UN-Kaufrechts. Ausschließlicher Gerichtsstand für alle Streitigkeiten ist Berlin, Deutschland. Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt."
+    }
+  ] : [
     {
       title: "Service Description",
       icon: FileText,

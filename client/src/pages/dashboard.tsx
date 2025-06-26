@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage, getStoreTypeLabels } from "@/lib/i18n";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,6 +47,7 @@ import type { Store, Staff } from "@shared/schema";
 export default function DashboardPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState("queue");
   const [isAddStaffOpen, setIsAddStaffOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -441,11 +444,13 @@ export default function DashboardPage() {
                 {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
               </div>
               
+              <LanguageSelector className="text-white" />
+              
               <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
                 <DialogTrigger asChild>
                   <Button variant="ghost" size="sm" className="text-white hover:bg-white/20 rounded-xl">
                     <Settings className="w-4 h-4 mr-2" />
-                    Profile
+                    {t('dashboard.settings')}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
