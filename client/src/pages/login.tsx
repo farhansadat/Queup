@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,8 +16,15 @@ import { FileUpload } from "@/components/FileUpload";
 import { Users, Store, Sparkles, ArrowRight, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("login");
+
+  useEffect(() => {
+    if (location === "/register") {
+      setActiveTab("register");
+    }
+  }, [location]);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [registerData, setRegisterData] = useState({ 
     email: "", 
@@ -98,7 +106,7 @@ export default function LoginPage() {
               Back to Home
             </Button>
           </div>
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 p-1 rounded-xl">
               <TabsTrigger value="login" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
                 <Users className="w-4 h-4 mr-2" />

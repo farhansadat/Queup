@@ -92,8 +92,18 @@ export default function LandingPage() {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">Features</a>
-              <a href="#pricing" className="text-gray-600 hover:text-purple-600 transition-colors">Pricing</a>
+              <div 
+                className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                onClick={() => setLocation("/features")}
+              >
+                Features
+              </div>
+              <div 
+                className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                onClick={() => setLocation("/pricing")}
+              >
+                Pricing
+              </div>
               <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">Reviews</a>
               <Button 
                 variant="outline" 
@@ -103,7 +113,7 @@ export default function LandingPage() {
                 Login
               </Button>
               <Button 
-                onClick={() => setLocation("/login")}
+                onClick={() => setLocation("/register")}
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
               >
                 Get Started
@@ -126,9 +136,31 @@ export default function LandingPage() {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-purple-100">
               <div className="flex flex-col space-y-3">
-                <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">Features</a>
-                <a href="#pricing" className="text-gray-600 hover:text-purple-600 transition-colors">Pricing</a>
-                <a href="#testimonials" className="text-gray-600 hover:text-purple-600 transition-colors">Reviews</a>
+                <div 
+                  className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setLocation("/features");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Features
+                </div>
+                <div 
+                  className="text-gray-600 hover:text-purple-600 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setLocation("/pricing");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Pricing
+                </div>
+                <a 
+                  href="#testimonials" 
+                  className="text-gray-600 hover:text-purple-600 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Reviews
+                </a>
                 <Button 
                   variant="outline" 
                   onClick={() => setLocation("/login")}
@@ -137,7 +169,7 @@ export default function LandingPage() {
                   Login
                 </Button>
                 <Button 
-                  onClick={() => setLocation("/login")}
+                  onClick={() => setLocation("/register")}
                   className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 w-full"
                 >
                   Get Started
@@ -170,7 +202,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button 
               size="lg"
-              onClick={() => setLocation("/login")}
+              onClick={() => setLocation("/register")}
               className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-8 py-6 text-lg"
             >
               Start Free Trial
@@ -179,6 +211,7 @@ export default function LandingPage() {
             <Button 
               variant="outline" 
               size="lg"
+              onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
               className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg"
             >
               Watch Demo
@@ -288,7 +321,7 @@ export default function LandingPage() {
                 </div>
                 <Button 
                   className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                  onClick={() => setLocation("/login")}
+                  onClick={() => setLocation("/register")}
                 >
                   Start 14-Day Free Trial
                 </Button>
@@ -347,7 +380,7 @@ export default function LandingPage() {
                 </div>
                 <Button 
                   className="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
-                  onClick={() => setLocation("/login")}
+                  onClick={() => setLocation("/register")}
                 >
                   Start 14-Day Free Trial
                 </Button>
@@ -401,7 +434,7 @@ export default function LandingPage() {
           </p>
           <Button 
             size="lg"
-            onClick={() => setLocation("/login")}
+            onClick={() => setLocation("/register")}
             className="bg-white text-purple-600 hover:bg-gray-50 px-8 py-6 text-lg"
           >
             Get Started Today - Free Trial
@@ -429,27 +462,42 @@ export default function LandingPage() {
             <div>
               <h3 className="text-white font-semibold mb-4">Product</h3>
               <div className="space-y-2">
-                <div className="text-gray-400 hover:text-white cursor-pointer">Features</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">Pricing</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">API</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/features")}
+                >
+                  Features
+                </div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/pricing")}
+                >
+                  Pricing
+                </div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">API</div>
               </div>
             </div>
             
             <div>
               <h3 className="text-white font-semibold mb-4">Support</h3>
               <div className="space-y-2">
-                <div className="text-gray-400 hover:text-white cursor-pointer">Help Center</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">Contact</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">Status</div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Help Center</div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Contact</div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Status</div>
               </div>
             </div>
             
             <div>
               <h3 className="text-white font-semibold mb-4">Company</h3>
               <div className="space-y-2">
-                <div className="text-gray-400 hover:text-white cursor-pointer">About</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">Privacy</div>
-                <div className="text-gray-400 hover:text-white cursor-pointer">Terms</div>
+                <div 
+                  className="text-gray-400 hover:text-white cursor-pointer transition-colors"
+                  onClick={() => setLocation("/about")}
+                >
+                  About
+                </div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Privacy</div>
+                <div className="text-gray-400 hover:text-white cursor-pointer transition-colors">Terms</div>
               </div>
             </div>
           </div>

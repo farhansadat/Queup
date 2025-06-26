@@ -9,12 +9,19 @@ import KioskDisplayPage from "@/pages/store/[slug]/display";
 import DashboardPage from "@/pages/dashboard";
 import LoginPage from "@/pages/login";
 import LandingPage from "@/pages/landing";
+import FeaturesPage from "@/pages/features";
+import PricingPage from "@/pages/pricing";
+import AboutPage from "@/pages/about";
 
 function Router() {
   return (
     <Switch>
       <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={LoginPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/features" component={FeaturesPage} />
+      <Route path="/pricing" component={PricingPage} />
+      <Route path="/about" component={AboutPage} />
       <Route path="/store/:slug/display" component={KioskDisplayPage} />
       <Route path="/store/:slug" component={CustomerQueuePage} />
       <Route path="/" component={LandingPage} />
