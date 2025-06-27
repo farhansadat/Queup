@@ -1,3 +1,9 @@
+import { Handler, HandlerEvent, HandlerContext, HandlerResponse } from '@netlify/functions';
+import { storage } from '../../server/storage';
+import { insertUserSchema, insertStoreSchema, insertStaffSchema, insertQueueSchema } from '../../shared/schema';
+import bcrypt from 'bcrypt';
+import { z } from 'zod';
+
 // Schema definitions
 const loginSchema = z.object({
   email: z.string().email(),
@@ -131,9 +137,12 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
             lastName: z.string().min(1),
             storeType: z.string().optional(),
             storeName: z.string().optional(),
+            storeDescription: z.string().optional(),
             storeAddress: z.string().optional(),
-            storePhone: z.string().optional(),
-            language: z.string().optional()
+            storePhoneNumber: z.string().optional(),
+            storeLogoUrl: z.string().optional(),
+            storeLanguage: z.string().optional(),
+            weeklySchedule: z.any().optional()
           });
 
           const userData = registerSchema.parse(requestBody);
@@ -152,6 +161,24 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
             lastName: userData.lastName
           });
 
+          // Create store if store data provided
+          if (userData.storeName) {
+            const storeSlug = `${userData.storeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now()}`;
+            
+            await storage.createStore({
+              userId: user.id,
+              name: userData.storeName,
+              slug: storeSlug,
+              description: userData.storeDescription || '',
+              address: userData.storeAddress || '',
+              phoneNumber: userData.storePhoneNumber || '',
+              logoUrl: userData.storeLogoUrl || '',
+              storeType: userData.storeType || 'barbershop',
+              language: userData.storeLanguage || 'en',
+              weeklySchedule: userData.weeklySchedule || {}
+            });
+          }
+
           const token = generateToken(user.id);
           
           return createResponse(200, {
@@ -164,7 +191,8 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
             token 
           });
         } catch (error) {
-          return createResponse(400, { message: "Registration failed" });
+          console.error('Registration error:', error);
+          return createResponse(400, { message: "Registration failed", error: error.message });
         }
 
       // Admin stores
@@ -206,7 +234,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
         }
 
       // Get queue by store
-      case httpMethod === 'GET' && apiPath.match(/^\/stores\/[^\/]+\/queue$/):
+      case httpMethod === 'GET' && apiPath.includes('/queue') && apiPath.split('/').length === 3:
         try {
           const storeId = apiPath.split('/')[2];
           const queue = await storage.getQueueByStoreId(storeId);
@@ -216,7 +244,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
         }
 
       // Add to queue
-      case httpMethod === 'POST' && apiPath.match(/^\/stores\/[^\/]+\/queue$/):
+      case httpMethod === 'POST' && apiPath.includes('/queue') && apiPath.split('/').length === 3:
         try {
           const storeId = apiPath.split('/')[2];
           const queueData = insertQueueSchema.parse(requestBody);
@@ -235,7 +263,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
         }
 
       // Get staff by store
-      case httpMethod === 'GET' && apiPath.match(/^\/stores\/[^\/]+\/staff$/):
+      case httpMethod === 'GET' && apiPath.includes('/staff') && apiPath.split('/').length === 3:
         try {
           const storeId = apiPath.split('/')[2];
           const staff = await storage.getStaffByStoreId(storeId);

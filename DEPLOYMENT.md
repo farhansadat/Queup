@@ -20,7 +20,7 @@
 
 1. Connect your GitHub repository to Netlify
 2. Set the following build settings:
-   - **Build command**: `npm run build`
+   - **Build command**: `node build-netlify.js`
    - **Publish directory**: `dist/public`
    - **Functions directory**: `netlify/functions`
 

@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "npm run build"
+  command = "node build-netlify.js"
   publish = "dist/public"
 
 [build.environment]
@@ -20,3 +20,4 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  external_node_modules = ["bcrypt", "postgres"]
