@@ -71,15 +71,34 @@ export default function DashboardPage() {
     theme: { primaryColor: "#7C3AED", accentColor: "#06B6D4", backgroundColor: "#F8FAFC" }
   });
 
-  // Check auth
-  const { data: user, isLoading: userLoading, error: userError } = useQuery<{ user: { id: string; email: string; firstName?: string; lastName?: string } }>({
-    queryKey: ["/api/auth/me"],
-    retry: false
-  });
+  // Get user from localStorage
+  const [user, setUser] = useState<{ id: string; email: string; firstName?: string; lastName?: string } | null>(null);
+  const [userLoading, setUserLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    const userData = localStorage.getItem('auth_user');
+    
+    if (!token || !userData) {
+      setLocation('/login');
+      return;
+    }
+    
+    try {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      setLocation('/login');
+      return;
+    }
+    
+    setUserLoading(false);
+  }, [setLocation]);
 
   const { data: stores = [], isLoading: storesLoading } = useQuery<Store[]>({
     queryKey: ["/api/stores"],
-    enabled: !!user
+    enabled: !!user && !userLoading
   });
 
   const currentStore = stores[0]; // For simplicity, use first store
@@ -211,13 +230,17 @@ export default function DashboardPage() {
     refetchInterval: 10000 // Refresh every 10 seconds
   });
 
-  // Logout mutation
+  // Logout functionality
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/auth/logout");
+      // Clear localStorage tokens
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      return Promise.resolve();
     },
     onSuccess: () => {
       queryClient.clear();
+      setUser(null);
       setLocation("/login");
     }
   });
@@ -282,12 +305,7 @@ export default function DashboardPage() {
     }
   });
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!userLoading && (userError || !user)) {
-      setLocation("/login");
-    }
-  }, [user, userLoading, userError, setLocation]);
+  // Authentication is handled in the main useEffect above
 
   if (userLoading || storesLoading) {
     return (
@@ -456,7 +474,7 @@ export default function DashboardPage() {
             <div className="flex items-center space-x-4">
               <div className="hidden md:flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
                 <User className="w-4 h-4 mr-2" />
-                {user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : user?.user?.email}
+                {user?.firstName ? `${user.firstName} ${user.lastName}` : user?.email}
               </div>
               
               <LanguageSelector variant="glassmorphism" />
@@ -477,8 +495,8 @@ export default function DashboardPage() {
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-3">
                         <User className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="font-semibold dark:text-white">{user?.user?.firstName ? `${user.user.firstName} ${user.user.lastName}` : 'User'}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">{user?.user?.email}</p>
+                      <h3 className="font-semibold dark:text-white">{user?.firstName ? `${user.firstName} ${user.lastName}` : 'User'}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{user?.email}</p>
                     </div>
 
                     {/* Language Settings */}
