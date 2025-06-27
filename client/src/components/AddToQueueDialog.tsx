@@ -26,7 +26,7 @@ export function AddToQueueDialog({ storeId, staff }: AddToQueueDialogProps) {
 
   const addToQueueMutation = useMutation({
     mutationFn: async (data: { storeId: string; customerName: string; contactInfo?: string; staffId?: string; position: number }) => {
-      const response = await apiRequest("POST", "/api/queue", data);
+      const response = await apiRequest("POST", `/api/stores/${data.storeId}/queue`, data);
       return response.json();
     },
     onSuccess: () => {

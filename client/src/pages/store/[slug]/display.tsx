@@ -88,7 +88,7 @@ export default function KioskDisplayPage() {
       staffId?: string;
       customerName?: string;
     }) => {
-      const response = await apiRequest("POST", "/api/queue", data);
+      const response = await apiRequest("POST", `/api/stores/${data.storeId}/queue`, data);
       return response.json();
     },
     onSuccess: () => {

@@ -118,8 +118,14 @@ export function DragDropQueue({ storeId }: DragDropQueueProps) {
 
   const updateQueueMutation = useMutation({
     mutationFn: async (data: { action: string; entryId?: string; newOrder?: { id: string; position: number }[] }) => {
-      const response = await apiRequest("PUT", `/api/queue/${storeId}`, data);
-      return response.json();
+      if (data.action === "reorder" && data.newOrder) {
+        const response = await apiRequest("PUT", `/api/stores/${storeId}/queue`, { reorder: true, newOrder: data.newOrder });
+        return response.json();
+      } else if (data.entryId) {
+        const response = await apiRequest("PUT", `/api/stores/${storeId}/queue/${data.entryId}`, data);
+        return response.json();
+      }
+      throw new Error("Invalid queue update data");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/stores/${storeId}/queue`] });
