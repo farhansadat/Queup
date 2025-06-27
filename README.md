@@ -40,7 +40,7 @@ QueueUp Pro is a smart, QR-based queue management system designed for businesses
 ## 🏗️ Tech Stack
 
 - **Frontend:** React + TailwindCSS  
-- **Backend:** Node.js (via  or Supabase)  
+- **Backend:** Node.js (via Supabase Backend)  
 - **Database:** Supabase (PostgreSQL)  
 - **Deployment:** Netlify (frontend) & Supabase (backend database and auth)  
 
