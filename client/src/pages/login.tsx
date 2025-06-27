@@ -84,8 +84,10 @@ export default function LoginPage() {
       toast({ title: "Account created!", description: "Welcome to QueueUp Pro." });
       setLocation("/dashboard");
     },
-    onError: () => {
-      toast({ title: "Registration failed", description: "Email may already be in use.", variant: "destructive" });
+    onError: (error: any) => {
+      console.error('Registration error:', error);
+      const errorMessage = error?.message || "Email may already be in use.";
+      toast({ title: "Registration failed", description: errorMessage, variant: "destructive" });
     }
   });
 
@@ -441,9 +443,8 @@ export default function LoginPage() {
                     <div className="flex space-x-3">
                       <Button 
                         type="button"
-                        variant="outline"
                         onClick={() => setRegistrationStep(2)}
-                        className="flex-1 h-11 rounded-xl text-white border-white border-opacity-30 hover:bg-white hover:bg-opacity-20"
+                        className="flex-1 h-11 rounded-xl bg-transparent border-2 border-white border-opacity-30 text-white hover:bg-white hover:bg-opacity-20 backdrop-filter backdrop-blur-sm transition-all duration-300"
                       >
                         Previous
                       </Button>
@@ -485,6 +486,16 @@ export default function LoginPage() {
                       <Button 
                         type="button"
                         onClick={() => {
+                          console.log('Registration data:', {
+                            ...registerData,
+                            storeName: storeData.name,
+                            storeDescription: storeData.description,
+                            storeAddress: storeData.address,
+                            storePhoneNumber: storeData.phoneNumber,
+                            storeLogoUrl: storeData.logoUrl,
+                            storeLanguage: storeData.language,
+                            weeklySchedule: weeklySchedule
+                          });
                           registerMutation.mutate({
                             ...registerData,
                             storeName: storeData.name,

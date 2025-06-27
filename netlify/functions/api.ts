@@ -130,30 +130,47 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
       // User registration
       case httpMethod === 'POST' && apiPath === '/auth/register':
         try {
+          console.log('Registration request body:', requestBody);
+          
           const registerSchema = z.object({
             email: z.string().email(),
             password: z.string().min(6),
             firstName: z.string().min(1),
             lastName: z.string().min(1),
-            storeType: z.string().optional(),
+            storeType: z.string().optional().default('barbershop'),
             storeName: z.string().optional(),
             storeDescription: z.string().optional(),
             storeAddress: z.string().optional(),
             storePhoneNumber: z.string().optional(),
             storeLogoUrl: z.string().optional(),
-            storeLanguage: z.string().optional(),
-            weeklySchedule: z.any().optional()
+            storeLanguage: z.string().optional().default('en'),
+            weeklySchedule: z.any().optional(),
+            workingHours: z.any().optional()
           });
 
-          const userData = registerSchema.parse(requestBody);
+          // Validate the request body
+          const parseResult = registerSchema.safeParse(requestBody);
           
+          if (!parseResult.success) {
+            console.error('Validation error:', parseResult.error);
+            return createResponse(400, { 
+              message: "Validation failed", 
+              errors: parseResult.error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`)
+            });
+          }
+          
+          const userData = parseResult.data;
+          
+          // Check if user already exists
           const existingUser = await storage.getUserByEmail(userData.email);
           if (existingUser) {
-            return createResponse(400, { message: "User already exists" });
+            return createResponse(400, { message: "User already exists with this email" });
           }
 
+          // Hash password
           const hashedPassword = await bcrypt.hash(userData.password, 10);
           
+          // Create user
           const user = await storage.createUser({
             email: userData.email,
             passwordHash: hashedPassword,
@@ -162,21 +179,26 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
           });
 
           // Create store if store data provided
-          if (userData.storeName) {
+          if (userData.storeName && userData.storeName.trim()) {
             const storeSlug = `${userData.storeName.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now()}`;
             
-            await storage.createStore({
-              userId: user.id,
-              name: userData.storeName,
-              slug: storeSlug,
-              description: userData.storeDescription || '',
-              address: userData.storeAddress || '',
-              phoneNumber: userData.storePhoneNumber || '',
-              logoUrl: userData.storeLogoUrl || '',
-              storeType: userData.storeType || 'barbershop',
-              language: userData.storeLanguage || 'en',
-              weeklySchedule: userData.weeklySchedule || {}
-            });
+            try {
+              await storage.createStore({
+                userId: user.id,
+                name: userData.storeName,
+                slug: storeSlug,
+                description: userData.storeDescription || '',
+                address: userData.storeAddress || '',
+                phoneNumber: userData.storePhoneNumber || '',
+                logoUrl: userData.storeLogoUrl || '',
+                storeType: userData.storeType,
+                language: userData.storeLanguage,
+                weeklySchedule: userData.weeklySchedule || userData.workingHours || {}
+              });
+            } catch (storeError) {
+              console.error('Store creation error:', storeError);
+              // Continue without failing registration if store creation fails
+            }
           }
 
           const token = generateToken(user.id);
@@ -192,7 +214,11 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
           });
         } catch (error) {
           console.error('Registration error:', error);
-          return createResponse(400, { message: "Registration failed", error: error.message });
+          return createResponse(400, { 
+            message: "Registration failed", 
+            error: error instanceof Error ? error.message : 'Unknown error',
+            details: error
+          });
         }
 
       // Admin stores
