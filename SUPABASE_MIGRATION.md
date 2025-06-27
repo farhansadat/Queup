@@ -38,7 +38,6 @@ npm run db:push
 ## QR Code Compatibility
 ✅ **QR codes are fully dynamic and will automatically work with any deployment domain:**
 - Development: localhost:5000
-- Replit: your-app.replit.app
 - Netlify: your-domain.netlify.app
 - Custom domain: your-custom-domain.com
 
