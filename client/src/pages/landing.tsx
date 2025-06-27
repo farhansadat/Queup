@@ -276,21 +276,21 @@ export default function LandingPage() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center animate-fadeInUp animation-delay-600">
-            <div className="animate-fadeInScale frosted-glass p-6 rounded-lg">
-              <div className="text-3xl font-bold text-purple-400 animate-textGlow">500+</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400">500+</div>
               <div className="text-gray-300">{t('landing.stats_businesses')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-200 frosted-glass p-6 rounded-lg">
-              <div className="text-3xl font-bold text-purple-400 animate-textGlow">50K+</div>
+            <div className="frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400">50K+</div>
               <div className="text-gray-300">{t('landing.stats_customers')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-400 frosted-glass p-6 rounded-lg">
-              <div className="text-3xl font-bold text-purple-400 animate-textGlow">2h</div>
+            <div className="frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400">2h</div>
               <div className="text-gray-300">{t('landing.stats_time_saved')}</div>
             </div>
-            <div className="animate-fadeInScale animation-delay-600 frosted-glass p-6 rounded-lg">
-              <div className="text-3xl font-bold text-purple-400 animate-textGlow">98%</div>
+            <div className="frosted-glass p-6 rounded-lg">
+              <div className="text-3xl font-bold text-purple-400">98%</div>
               <div className="text-gray-300">{t('landing.stats_satisfaction')}</div>
             </div>
           </div>
@@ -314,10 +314,10 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className={`frosted-glass frosted-glass-hover animate-fadeInUp animation-delay-${index * 200}`}>
+              <Card key={index} className="frosted-glass frosted-glass-hover">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center mb-4 icon-hover animate-pulseGlow">
-                    <feature.icon className="w-6 h-6 text-white animate-iconFloat" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                    <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <CardTitle className="text-white">{feature.title}</CardTitle>
                 </CardHeader>
@@ -347,13 +347,13 @@ export default function LandingPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Starter Plan */}
-            <Card className="frosted-glass frosted-glass-hover animate-fadeInUp">
+            <Card className="frosted-glass frosted-glass-hover">
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulseGlow">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl text-white">{t('landing.pricing_starter')}</CardTitle>
-                <div className="text-4xl font-bold text-purple-400 mt-4 animate-textGlow">
+                <div className="text-4xl font-bold text-purple-400 mt-4">
                   €29<span className="text-lg text-gray-300">/{t('landing.pricing_month')}</span>
                 </div>
                 <p className="text-gray-300 mt-2">
@@ -407,18 +407,18 @@ export default function LandingPage() {
             </Card>
 
             {/* Professional Plan */}
-            <Card className="frosted-glass frosted-glass-hover animate-fadeInUp animation-delay-200 relative border-purple-500/50">
+            <Card className="frosted-glass frosted-glass-hover relative border-purple-500/50">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <Badge className="btn-glow text-white px-4 py-1 animate-pulseGlow">
+                <Badge className="btn-glow text-white px-4 py-1">
                   {t('landing.pricing_most_popular')}
                 </Badge>
               </div>
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulseGlow">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <BarChart3 className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl text-white">{t('landing.pricing_professional')}</CardTitle>
-                <div className="text-4xl font-bold text-purple-400 mt-4 animate-textGlow">
+                <div className="text-4xl font-bold text-purple-400 mt-4">
                   €79<span className="text-lg text-gray-300">/{t('landing.pricing_month')}</span>
                 </div>
                 <p className="text-gray-300 mt-2">
@@ -523,22 +523,22 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="pt-2 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-0 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Floating gradient blobs */}
         <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
         <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-fadeInUp">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('landing.cta_title')}
           </h2>
-          <p className="text-xl text-gray-300 mb-8 animate-fadeInUp animation-delay-200">
+          <p className="text-xl text-gray-300 mb-8">
             {t('landing.cta_subtitle')}
           </p>
           <Button 
             size="lg"
             onClick={() => setLocation("/register")}
-            className="btn-glow text-white px-8 py-6 text-lg animate-pulseGlow animate-fadeInUp animation-delay-400"
+            className="btn-glow text-white px-8 py-6 text-lg animate-pulseGlow"
           >
             {t('landing.cta_start_trial')}
             <ArrowRight className="w-5 h-5 ml-2" />
