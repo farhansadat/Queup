@@ -1,5 +1,17 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+// Get token from localStorage
+const getToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('auth_token');
+};
+
+// Get admin token from localStorage
+const getAdminToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('admin_token');
+};
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
@@ -12,11 +24,26 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  const headers: Record<string, string> = {};
+  
+  if (data) {
+    headers["Content-Type"] = "application/json";
+  }
+
+  // Add authorization header if token exists
+  const token = getToken();
+  const adminToken = getAdminToken();
+  
+  if (url.includes('/admin/') && adminToken) {
+    headers["Authorization"] = `Bearer ${adminToken}`;
+  } else if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
   });
 
   await throwIfResNotOk(res);
@@ -29,8 +56,21 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
-      credentials: "include",
+    const headers: Record<string, string> = {};
+    
+    // Add authorization header if token exists
+    const token = getToken();
+    const adminToken = getAdminToken();
+    const url = queryKey[0] as string;
+    
+    if (url.includes('/admin/') && adminToken) {
+      headers["Authorization"] = `Bearer ${adminToken}`;
+    } else if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const res = await fetch(url, {
+      headers,
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {

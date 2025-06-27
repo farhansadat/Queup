@@ -8,8 +8,9 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  to = "/.netlify/functions/api"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/*"
@@ -18,3 +19,4 @@
 
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
