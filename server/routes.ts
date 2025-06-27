@@ -120,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await storage.createUser({ 
         email, 
-        password: hashedPassword, 
+        passwordHash: hashedPassword, 
         firstName, 
         lastName 
       });
@@ -172,7 +172,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      const valid = await bcrypt.compare(password, user.password);
+      const valid = await bcrypt.compare(password, user.passwordHash);
       if (!valid) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
