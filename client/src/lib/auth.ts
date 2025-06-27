@@ -75,7 +75,8 @@ export function useAuth() {
       setToken(data.token);
       setStoredUser(data.user);
       setUser(data.user);
-      queryClient.invalidateQueries();
+      // Clear cache but don't trigger auth queries
+      queryClient.clear();
     }
   });
 
@@ -110,7 +111,8 @@ export function useAuth() {
       setToken(data.token);
       setStoredUser(data.user);
       setUser(data.user);
-      queryClient.invalidateQueries();
+      // Clear cache but don't trigger auth queries
+      queryClient.clear();
     }
   });
 

@@ -49,15 +49,32 @@ export default function LoginPage() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
-      const response = await apiRequest("POST", "/api/auth/login", data);
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Login failed");
+      }
+
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Store authentication data
+      if (data.token && data.user) {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('auth_user', JSON.stringify(data.user));
+      }
       toast({ title: "Welcome back!", description: "Login successful." });
       setLocation("/dashboard");
     },
-    onError: () => {
-      toast({ title: "Login failed", description: "Invalid email or password.", variant: "destructive" });
+    onError: (error: any) => {
+      toast({ title: "Login failed", description: error.message || "Invalid email or password.", variant: "destructive" });
     }
   });
 
@@ -77,10 +94,27 @@ export default function LoginPage() {
       workingHours?: any;
       weeklySchedule?: any;
     }) => {
-      const response = await apiRequest("POST", "/api/auth/register", data);
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Registration failed");
+      }
+
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Store authentication data
+      if (data.token && data.user) {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('auth_user', JSON.stringify(data.user));
+      }
       toast({ title: "Account created!", description: "Welcome to QueueUp Pro." });
       setLocation("/dashboard");
     },
