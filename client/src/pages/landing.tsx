@@ -522,30 +522,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="pt-0 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Floating gradient blobs */}
-        <div className="blob w-72 h-72 bg-gradient-to-r from-purple-400/30 to-violet-600/30 top-10 left-20 z-0"></div>
-        <div className="blob w-96 h-96 bg-gradient-to-r from-indigo-400/20 to-purple-500/20 bottom-10 right-10 z-0 animation-delay-2000"></div>
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('landing.cta_title')}
-          </h2>
-          <p className="text-xl text-gray-300 mb-8">
-            {t('landing.cta_subtitle')}
-          </p>
-          <Button 
-            size="lg"
-            onClick={() => setLocation("/register")}
-            className="btn-glow text-white px-8 py-6 text-lg animate-pulseGlow"
-          >
-            {t('landing.cta_start_trial')}
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="pt-8 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
