@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { execSync } from 'child_process';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { existsSync } from 'fs';
 
 console.log('🚀 Starting Netlify build process...');
 
@@ -11,7 +11,7 @@ try {
 
   // Build the Netlify functions with better error handling
   console.log('⚡ Building Netlify functions...');
-  execSync('esbuild netlify/functions/api.ts --platform=node --packages=external --bundle --format=esm --outfile=netlify/functions/api.js --target=node18', { stdio: 'inherit' });
+  execSync('esbuild netlify/functions/api.ts --platform=node --packages=external --bundle --format=esm --outfile=netlify/functions/api.js --target=node20 --external:postgres --external:bcrypt', { stdio: 'inherit' });
 
   // Verify files were created
   if (!existsSync('dist/public/index.html')) {

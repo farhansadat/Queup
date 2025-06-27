@@ -1,6 +1,5 @@
 [build]
-  base = "."
-  command = "node build-netlify.js"
+  command = "npm run build && npx esbuild netlify/functions/api.ts --platform=node --packages=external --bundle --format=esm --outfile=netlify/functions/api.js --target=node20"
   publish = "dist/public"
 
 [build.environment]
