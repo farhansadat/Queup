@@ -1,36 +1,15 @@
+// WebSocket functionality disabled for Netlify serverless deployment
+// Using polling-based updates instead for real-time functionality
+
 let ws: WebSocket | null = null;
 
-export function connectWebSocket(): WebSocket {
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    return ws;
-  }
-
-  const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-  const wsUrl = `${protocol}//${window.location.hostname}:5002`;
-  
-  ws = new WebSocket(wsUrl);
-  
-  ws.onopen = () => {
-    console.log("WebSocket connected");
-  };
-
-  ws.onclose = () => {
-    console.log("WebSocket disconnected");
-    // Attempt to reconnect after 3 seconds
-    setTimeout(() => {
-      if (ws?.readyState !== WebSocket.OPEN) {
-        connectWebSocket();
-      }
-    }, 3000);
-  };
-
-  ws.onerror = (error) => {
-    console.error("WebSocket error:", error);
-  };
-
-  return ws;
+export function connectWebSocket(): WebSocket | null {
+  // WebSocket not supported in serverless environment
+  // Real-time updates handled via polling in useRealTimeQueue hook
+  console.log("WebSocket disabled - using polling for real-time updates");
+  return null;
 }
 
 export function getWebSocket(): WebSocket | null {
-  return ws;
+  return null;
 }
