@@ -259,8 +259,28 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
           return createResponse(500, { message: "Failed to fetch store" });
         }
 
+      // Get store stats
+      case httpMethod === 'GET' && apiPath.includes('/stats'):
+        try {
+          const storeId = apiPath.split('/')[2];
+          const stats = await storage.getQueueStats(storeId);
+          return createResponse(200, stats);
+        } catch (error) {
+          return createResponse(500, { message: "Failed to fetch stats" });
+        }
+
+      // Get served customers
+      case httpMethod === 'GET' && apiPath.includes('/served'):
+        try {
+          const storeId = apiPath.split('/')[2];
+          const served = await storage.getServedCustomers(storeId);
+          return createResponse(200, served);
+        } catch (error) {
+          return createResponse(500, { message: "Failed to fetch served customers" });
+        }
+
       // Get queue by store
-      case httpMethod === 'GET' && apiPath.includes('/queue') && apiPath.split('/').length === 3:
+      case httpMethod === 'GET' && apiPath.includes('/queue') && !apiPath.includes('/stats') && !apiPath.includes('/served'):
         try {
           const storeId = apiPath.split('/')[2];
           const queue = await storage.getQueueByStoreId(storeId);
@@ -288,8 +308,37 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
           return createResponse(400, { message: "Invalid queue data" });
         }
 
+      // Create store
+      case httpMethod === 'POST' && apiPath === '/stores':
+        const createUserId = getUserId();
+        if (!createUserId) {
+          return createResponse(401, { message: "Authentication required" });
+        }
+        try {
+          const storeData = insertStoreSchema.parse(requestBody);
+          const store = await storage.createStore({ ...storeData, userId: createUserId });
+          return createResponse(200, store);
+        } catch (error) {
+          return createResponse(400, { message: "Invalid store data" });
+        }
+
+      // Update store
+      case httpMethod === 'PUT' && apiPath.startsWith('/stores/') && !apiPath.includes('/queue') && !apiPath.includes('/staff'):
+        const updateUserId = getUserId();
+        if (!updateUserId) {
+          return createResponse(401, { message: "Authentication required" });
+        }
+        try {
+          const storeId = apiPath.split('/')[2];
+          const updates = requestBody;
+          const store = await storage.updateStore(storeId, updates);
+          return createResponse(200, store);
+        } catch (error) {
+          return createResponse(400, { message: "Failed to update store" });
+        }
+
       // Get staff by store
-      case httpMethod === 'GET' && apiPath.includes('/staff') && apiPath.split('/').length === 3:
+      case httpMethod === 'GET' && apiPath.includes('/staff'):
         try {
           const storeId = apiPath.split('/')[2];
           const staff = await storage.getStaffByStoreId(storeId);
@@ -298,8 +347,72 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
           return createResponse(500, { message: "Failed to fetch staff" });
         }
 
+      // Create staff member
+      case httpMethod === 'POST' && apiPath.includes('/staff'):
+        try {
+          const storeId = apiPath.split('/')[2];
+          const staffData = insertStaffSchema.parse({ ...requestBody, storeId });
+          const staff = await storage.createStaff(staffData);
+          return createResponse(200, staff);
+        } catch (error) {
+          return createResponse(400, { message: "Invalid staff data" });
+        }
+
+      // Update staff member
+      case httpMethod === 'PUT' && apiPath.includes('/staff/'):
+        try {
+          const staffId = apiPath.split('/')[4]; // /stores/:storeId/staff/:staffId
+          const updates = requestBody;
+          const staff = await storage.updateStaff(staffId, updates);
+          return createResponse(200, staff);
+        } catch (error) {
+          return createResponse(400, { message: "Failed to update staff" });
+        }
+
+      // Delete staff member
+      case httpMethod === 'DELETE' && apiPath.includes('/staff/'):
+        try {
+          const staffId = apiPath.split('/')[4]; // /stores/:storeId/staff/:staffId
+          await storage.deleteStaff(staffId);
+          return createResponse(200, { message: "Staff member deleted" });
+        } catch (error) {
+          return createResponse(400, { message: "Failed to delete staff" });
+        }
+
+      // Update queue entry
+      case httpMethod === 'PUT' && apiPath.includes('/queue/'):
+        try {
+          const entryId = apiPath.split('/')[4]; // /stores/:storeId/queue/:entryId
+          const updates = requestBody;
+          const entry = await storage.updateQueueEntry(entryId, updates);
+          return createResponse(200, entry);
+        } catch (error) {
+          return createResponse(400, { message: "Failed to update queue entry" });
+        }
+
+      // Delete queue entry
+      case httpMethod === 'DELETE' && apiPath.includes('/queue/'):
+        try {
+          const entryId = apiPath.split('/')[4]; // /stores/:storeId/queue/:entryId
+          await storage.deleteQueueEntry(entryId);
+          return createResponse(200, { message: "Queue entry deleted" });
+        } catch (error) {
+          return createResponse(400, { message: "Failed to delete queue entry" });
+        }
+
+      // Reorder queue
+      case httpMethod === 'PUT' && apiPath.includes('/queue') && requestBody.reorder:
+        try {
+          const storeId = apiPath.split('/')[2];
+          const { newOrder } = requestBody;
+          await storage.reorderQueue(storeId, newOrder);
+          return createResponse(200, { message: "Queue reordered" });
+        } catch (error) {
+          return createResponse(400, { message: "Failed to reorder queue" });
+        }
+
       default:
-        return createResponse(404, { message: "Not found" });
+        return createResponse(404, { message: "Not found", path: apiPath, method: httpMethod });
     }
   } catch (error) {
     console.error('Handler error:', error);
